@@ -1,0 +1,36 @@
+# Secrets / env
+.env
+.env.*
+!.env.example
+
+# Node / frontend
+node_modules/
+.next/
+out/
+dist/
+*.tsbuildinfo
+
+# Python / backend
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+
+# Data / caches
+*.sqlite
+*.db
+.cache/
+data/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# Vercel
+.vercel
