@@ -2,6 +2,26 @@
 
 Architecture and product decisions, newest first.
 
+## 2026-06-06 — Goal 02 extraction stack
+
+- **OpenAI for LLM extraction (`gpt-4o-mini`).** Chosen because an
+  `OPENAI_API_KEY` was available in the environment and no Anthropic key was;
+  confirmed with the user. The engine is provider-shaped (single call site in
+  `extract.py`) so swapping providers later is contained.
+- **Structured Outputs (strict `json_schema`) + local validator.** The model is
+  forced to return schema-conforming JSON; a dependency-free validator re-checks
+  every payload so schema stability never relies on trusting the provider.
+- **`temperature=0`.** Repeatable, defensible outputs — aligns with the ABI
+  principle that results be repeatable.
+- **Schema beyond the 5 required fields.** Added `business_name` and a distinct
+  `service_areas` (cities/regions served vs. physical `locations`), both in the
+  PRD extraction list and useful for ABI scoring.
+- **Crawl failure ≠ schema failure.** No-markdown sites return a schema-valid
+  empty payload with an error flag; validation measures schema stability only
+  over successfully-crawled sites.
+- **Cached extractions (`reuse`).** `extraction.json` is reused on re-runs to
+  keep iteration fast and cost near-zero; `--fresh` forces re-extraction.
+
 ## 2026-06-06 — Goal 01 crawler stack
 
 - **JS rendering with Playwright (Chromium, headless).** Most HVAC/service

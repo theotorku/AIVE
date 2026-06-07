@@ -12,6 +12,9 @@ Per entry: tokens, model, duration, estimated spend.
 | 2026-06-06 | Goal 01 | Build | ~250k (est.) | claude-opus-4-8 | single session | ~$5–8 (est.) | Crawler design, implementation, tests, validation. Token figure estimated, not metered. |
 | 2026-06-06 | Goal 01 | Runtime (validation) | n/a | n/a (local) | ~8.2 min wall (11 sites) | ~$0.00 | Playwright + trafilatura run locally; no paid API. Compute/bandwidth only. |
 | 2026-06-06 | Goal 01 | E2E processing | n/a | n/a (local) | ~49 s/site avg | ~$0.00 / site | Goal 01 (crawl + markdown) has no LLM cost. Extraction/scoring costs arrive in Goal 02/03. |
+| 2026-06-06 | Goal 02 | Build | ~300k (est.) | claude-opus-4-8 | single session | ~$6–9 (est.) | Extraction engine design, schema, tests, two validation runs. Token figure estimated, not metered. |
+| 2026-06-06 | Goal 02 | Runtime (validation) | 137,095 (full run: 127,421 in + 9,674 out) | gpt-4o-mini | ~8 min wall (20 extracted; crawl reused) | ~$0.025 | First full run extracting 20 sites. Re-run with cache reuse cost ~$0.0014. |
+| 2026-06-06 | Goal 02 | E2E processing | ~6,855 tokens/site avg | gpt-4o-mini | ~6 s/site extract (crawl extra) | ~$0.0012 / site | LLM extraction only; crawl cost from Goal 01 (~$0). Combined crawl+extract ≈ $0.0012/site. |
 
 ## Notes
 

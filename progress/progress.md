@@ -45,6 +45,62 @@ Summary: `backend/validation/validation_summary.json`
 
 ---
 
-## Goal 02 — Extraction  ⏳ NOT STARTED
+## Goal 02 — Extraction  ✅ COMPLETE (2026-06-06)
+
+Build semantic extraction engine.
+
+### Success criteria (extract)
+- [x] Services
+- [x] Locations  (+ service_areas as a distinct field)
+- [x] FAQs
+- [x] Contact Information (phone, email, address, hours, booking_url)
+- [x] Offers
+- [x] business_name (bonus, per PRD)
+
+### Validation
+- [x] Run against 20 websites — **20/20 passed**
+- [x] Outputs are accurate — coverage tracked per field; spot-checked
+      (e.g. morrisjenkins.com: correct services, Charlotte NC, phone, offer)
+- [x] JSON schema is stable — **21/21 crawled sites schema-valid (STABLE)**
+
+Report: `backend/validation/extraction_validation_report.md`
+Summary: `backend/validation/extraction_validation_summary.json`
+
+### Approach
+- LLM extraction via OpenAI (`gpt-4o-mini`) using **Structured Outputs**
+  (strict `json_schema`) so the model is forced to emit conforming JSON,
+  `temperature=0` for repeatability.
+- Stable schema defined once in `backend/extraction/schema.py` and enforced
+  again by a dependency-free local validator (provider-independent guarantee).
+- Engine reads Goal 01 crawl markdown -> `extraction.json`; `reuse` flag caches
+  results so re-runs are fast/cheap; crawl failures yield a schema-valid empty
+  payload (counted as crawl failure, never as schema instability).
+
+### Completed work
+- `backend/extraction/` package: `schema`, `extract` (OpenAI call + token
+  accounting), `engine` (crawl->extract orchestration).
+- `backend/extract_cli.py` single-site entrypoint; `run_extraction_validation.py`
+  harness with crawl/schema/accuracy reporting.
+- 10 offline extraction tests (schema contract + guards); **15 tests total**.
+
+### Open issues
+- 4 sites were crawl-blocked (hellerphc, jacksonsfourseasons, hauke,
+  comfortexperts, estesservices) — bot protection / no rendered content. Not
+  blocking (target met with spares). Logged in `progress/blockers.md`.
+- FAQ coverage is uneven: depends on whether the crawler's page budget hit an
+  FAQ page. Future: bias discovery toward `/faq` when present.
+
+### Lessons learned
+- Structured Outputs + a local validator gives genuinely stable schema across
+  20+ varied sites with zero post-processing.
+- Schema stability must be measured over *successfully crawled* sites; mixing in
+  crawl failures falsely reads as schema instability.
+- Per-site extraction is cheap (~6.9k tokens, ~$0.0012 on gpt-4o-mini).
+
+### Next
+- Goal 03 — ABI scoring. Inputs (extraction.json) are now available per site.
+
+---
+
 ## Goal 03 — ABI  ⏳ NOT STARTED
 ## Goal 04 — Dashboard  ⏳ NOT STARTED
