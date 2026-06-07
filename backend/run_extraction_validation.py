@@ -64,7 +64,7 @@ def _coverage(data: dict) -> dict:
 
 
 def run(target: int, max_pages: int, model: str, sites_file: Path,
-        output_root: Path) -> int:
+        output_root: Path, reuse: bool) -> int:
     sites = load_sites(sites_file)
     client = OpenAI()
     rows = []
@@ -82,9 +82,13 @@ def run(target: int, max_pages: int, model: str, sites_file: Path,
                 crawl_site(url, output_root=str(output_root), max_pages=max_pages)
 
             site = extract_site_from_output(domain, output_root=str(output_root),
-                                            client=client, model=model)
+                                            client=client, model=model, reuse=reuse)
             r = site.result
             elapsed = time.monotonic() - t0
+
+            # A site is "crawl_ok" when markdown was available to extract from;
+            # crawl blocks must not count against schema stability.
+            crawl_ok = site.source_markdown is not None and r.error != "no crawl markdown found"
 
             schema_valid = False
             schema_err = None
@@ -98,33 +102,35 @@ def run(target: int, max_pages: int, model: str, sites_file: Path,
             # Accuracy signal: a real HVAC site should yield services and/or a
             # phone number. Schema validity is the hard requirement.
             accurate = bool(cov) and (cov["services"] > 0 or cov["has_phone"])
-            ok = (r.error is None) and schema_valid and accurate
+            ok = (r.error is None) and crawl_ok and schema_valid and accurate
 
             total_prompt += r.prompt_tokens
             total_completion += r.completion_tokens
             rows.append({
-                "url": url, "domain": domain, "schema_valid": schema_valid,
-                "accurate": accurate, "passed": ok,
+                "url": url, "domain": domain, "crawl_ok": crawl_ok,
+                "schema_valid": schema_valid, "accurate": accurate, "passed": ok,
                 "coverage": cov,
                 "prompt_tokens": r.prompt_tokens,
                 "completion_tokens": r.completion_tokens,
                 "truncated": r.truncated, "elapsed_s": round(elapsed, 1),
-                "error": r.error or schema_err,
+                "error": (None if ok else (r.error or schema_err
+                          or ("low coverage" if crawl_ok else "crawl failed"))),
             })
             if ok:
                 passed += 1
             status = "PASS" if ok else "FAIL"
-            print(f"    {status}  schema={'ok' if schema_valid else 'BAD'}  "
+            print(f"    {status}  crawl={'ok' if crawl_ok else 'FAIL'} "
+                  f"schema={'ok' if schema_valid else 'BAD'}  "
                   f"services={cov.get('services','-')} faqs={cov.get('faqs','-')} "
                   f"phone={cov.get('has_phone','-')} tokens={r.total_tokens} "
                   f"{elapsed:.1f}s", flush=True)
         except Exception as exc:  # noqa: BLE001
             elapsed = time.monotonic() - t0
             rows.append({
-                "url": url, "domain": domain, "schema_valid": False,
-                "accurate": False, "passed": False, "coverage": {},
-                "prompt_tokens": 0, "completion_tokens": 0, "truncated": False,
-                "elapsed_s": round(elapsed, 1),
+                "url": url, "domain": domain, "crawl_ok": False,
+                "schema_valid": False, "accurate": False, "passed": False,
+                "coverage": {}, "prompt_tokens": 0, "completion_tokens": 0,
+                "truncated": False, "elapsed_s": round(elapsed, 1),
                 "error": f"{type(exc).__name__}: {exc}",
             })
             print(f"    ERROR {exc}", flush=True)
@@ -132,14 +138,17 @@ def run(target: int, max_pages: int, model: str, sites_file: Path,
         if passed >= target:
             break
 
-    schema_valid_count = sum(1 for r in rows if r["schema_valid"])
+    crawled = [r for r in rows if r["crawl_ok"]]
+    schema_valid_count = sum(1 for r in crawled if r["schema_valid"])
     summary = {
         "target": target,
         "model": model,
         "attempted": len(rows),
+        "crawl_ok": len(crawled),
         "passed": passed,
+        # Schema stability is measured over sites we could actually crawl.
         "schema_valid": schema_valid_count,
-        "schema_stable": schema_valid_count == len(rows),
+        "schema_stable": schema_valid_count == len(crawled) and len(crawled) > 0,
         "met_target": passed >= target,
         "total_prompt_tokens": total_prompt,
         "total_completion_tokens": total_completion,
@@ -152,10 +161,11 @@ def run(target: int, max_pages: int, model: str, sites_file: Path,
     _write_report(summary, REPORT_DIR / "extraction_validation_report.md")
 
     print(f"\nResult: {passed}/{target} passed | "
-          f"schema valid {schema_valid_count}/{len(rows)} | "
+          f"schema valid {schema_valid_count}/{len(crawled)} crawled "
+          f"({'STABLE' if summary['schema_stable'] else 'UNSTABLE'}) | "
           f"tokens {total_prompt + total_completion} | "
           f"{'TARGET MET' if summary['met_target'] else 'TARGET NOT MET'}")
-    return 0 if summary["met_target"] else 1
+    return 0 if (summary["met_target"] and summary["schema_stable"]) else 1
 
 
 def _write_report(summary: dict, path: Path) -> None:
@@ -170,8 +180,9 @@ def _write_report(summary: dict, path: Path) -> None:
         f"- Model: {summary['model']}",
         f"- Target: {summary['target']} websites",
         f"- Attempted: {summary['attempted']}",
+        f"- Crawled OK: {summary['crawl_ok']}",
         f"- Passed: {summary['passed']}",
-        f"- Schema valid: {summary['schema_valid']}/{summary['attempted']} "
+        f"- Schema valid: {summary['schema_valid']}/{summary['crawl_ok']} crawled "
         f"({'STABLE' if summary['schema_stable'] else 'UNSTABLE'})",
         f"- Target met: {'yes' if summary['met_target'] else 'no'}",
         f"- Tokens: {summary['total_prompt_tokens']} prompt + "
@@ -201,8 +212,11 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--model", default="gpt-4o-mini")
     parser.add_argument("--sites", type=Path, default=DEFAULT_SITES)
     parser.add_argument("--output", type=Path, default=HERE / "output")
+    parser.add_argument("--fresh", action="store_true",
+                        help="Re-extract even if a cached extraction.json exists")
     args = parser.parse_args(argv)
-    return run(args.target, args.max_pages, args.model, args.sites, args.output)
+    return run(args.target, args.max_pages, args.model, args.sites, args.output,
+               reuse=not args.fresh)
 
 
 if __name__ == "__main__":

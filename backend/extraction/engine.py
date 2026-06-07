@@ -17,6 +17,7 @@ from backend.crawler import crawl_site
 from backend.crawler.crawl import _domain_slug, _normalize_url
 
 from .extract import DEFAULT_MODEL, ExtractionResult, extract_from_markdown
+from .schema import empty_extraction, validate_extraction
 
 
 @dataclass
@@ -48,17 +49,39 @@ def extract_site_from_output(
     output_root: str | Path = "output",
     client: OpenAI | None = None,
     model: str = DEFAULT_MODEL,
+    reuse: bool = False,
 ) -> SiteExtraction:
-    """Extract from already-crawled markdown for a domain under output_root."""
+    """Extract from already-crawled markdown for a domain under output_root.
+
+    With reuse=True, a previously written, schema-valid extraction.json is
+    returned without calling the API (keeps re-runs fast and cheap).
+    A crawl failure (no markdown) yields a schema-valid empty payload with an
+    error set, so schema stability is never confused with crawl coverage.
+    """
     site_dir = Path(output_root) / domain
+    out_file = site_dir / "extraction.json"
+
+    if reuse and out_file.exists():
+        try:
+            cached = validate_extraction(json.loads(out_file.read_text(encoding="utf-8")))
+            return SiteExtraction(
+                domain=domain, source_markdown=str(site_dir / "_site.md"),
+                extraction_file=str(out_file),
+                result=ExtractionResult(
+                    data=cached, model=f"{model} (cached)", prompt_tokens=0,
+                    completion_tokens=0, input_chars=0, truncated=False),
+            )
+        except Exception:  # noqa: BLE001 - fall through to a fresh extraction
+            pass
+
     markdown = _load_site_markdown(site_dir)
     if not markdown:
-        from .extract import ExtractionResult as _ER
         return SiteExtraction(
             domain=domain, source_markdown=None, extraction_file=None,
-            result=_ER(data={}, model=model, prompt_tokens=0, completion_tokens=0,
-                       input_chars=0, truncated=False,
-                       error="no crawl markdown found"),
+            result=ExtractionResult(
+                data=empty_extraction(), model=model, prompt_tokens=0,
+                completion_tokens=0, input_chars=0, truncated=False,
+                error="no crawl markdown found"),
         )
 
     result = extract_from_markdown(markdown, client=client, model=model,
