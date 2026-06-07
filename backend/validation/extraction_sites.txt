@@ -1,0 +1,27 @@
+# HVAC sites for Goal 02 extraction validation (one URL per line; # comments ok).
+# Target: 20 sites with stable schema + accurate outputs.
+# Extras included so the run can reach 20 if some sites are down/blocked.
+https://www.goettl.com
+https://www.parkerandsons.com
+https://www.onehourairftworth.com
+https://www.aireserv.com
+https://www.bakerbrothersplumbing.com
+https://www.michaelandson.com
+https://www.serviceexperts.com
+https://www.arsservice.com
+https://www.morrisjenkins.com
+https://www.fixmyhome.com
+https://www.coolray.com
+https://www.hellerphc.com
+https://www.bgehome.com
+https://www.donnellymech.com
+https://www.snellheatingandair.com
+https://www.brennanheating.com
+https://www.fhfurr.com
+https://www.jacksonsfourseasons.com
+https://www.airprosusa.com
+https://www.servicechampions.com
+https://www.gogreenair.com
+https://www.reliablehomecomfort.com
+https://www.haukeheatingandair.com
+https://www.comfortexperts.com
