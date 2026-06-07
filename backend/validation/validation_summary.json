@@ -1,0 +1,119 @@
+{
+  "target": 10,
+  "attempted": 11,
+  "passed": 10,
+  "met_target": true,
+  "min_readable_chars": 600,
+  "results": [
+    {
+      "url": "https://www.goettl.com",
+      "domain": "goettl.com",
+      "pages_crawled": 6,
+      "pages_ok": 6,
+      "markdown_chars": 82006,
+      "elapsed_s": 87.8,
+      "passed": true,
+      "error": null
+    },
+    {
+      "url": "https://www.parkerandsons.com",
+      "domain": "parkerandsons.com",
+      "pages_crawled": 6,
+      "pages_ok": 6,
+      "markdown_chars": 8403,
+      "elapsed_s": 37.0,
+      "passed": true,
+      "error": null
+    },
+    {
+      "url": "https://www.hortonservices.com",
+      "domain": "hortonservices.com",
+      "pages_crawled": 1,
+      "pages_ok": 0,
+      "markdown_chars": 0,
+      "elapsed_s": 5.2,
+      "passed": false,
+      "error": "insufficient readable markdown"
+    },
+    {
+      "url": "https://www.onehourairftworth.com",
+      "domain": "onehourairftworth.com",
+      "pages_crawled": 6,
+      "pages_ok": 6,
+      "markdown_chars": 104465,
+      "elapsed_s": 30.4,
+      "passed": true,
+      "error": null
+    },
+    {
+      "url": "https://www.aireserv.com",
+      "domain": "aireserv.com",
+      "pages_crawled": 6,
+      "pages_ok": 6,
+      "markdown_chars": 22146,
+      "elapsed_s": 76.3,
+      "passed": true,
+      "error": null
+    },
+    {
+      "url": "https://www.bakerbrothersplumbing.com",
+      "domain": "bakerbrothersplumbing.com",
+      "pages_crawled": 6,
+      "pages_ok": 6,
+      "markdown_chars": 27664,
+      "elapsed_s": 52.1,
+      "passed": true,
+      "error": null
+    },
+    {
+      "url": "https://www.michaelandson.com",
+      "domain": "michaelandson.com",
+      "pages_crawled": 6,
+      "pages_ok": 6,
+      "markdown_chars": 6467,
+      "elapsed_s": 41.9,
+      "passed": true,
+      "error": null
+    },
+    {
+      "url": "https://www.serviceexperts.com",
+      "domain": "serviceexperts.com",
+      "pages_crawled": 6,
+      "pages_ok": 6,
+      "markdown_chars": 41022,
+      "elapsed_s": 41.5,
+      "passed": true,
+      "error": null
+    },
+    {
+      "url": "https://www.arsservice.com",
+      "domain": "arsservice.com",
+      "pages_crawled": 6,
+      "pages_ok": 6,
+      "markdown_chars": 35131,
+      "elapsed_s": 25.6,
+      "passed": true,
+      "error": null
+    },
+    {
+      "url": "https://www.morrisjenkins.com",
+      "domain": "morrisjenkins.com",
+      "pages_crawled": 6,
+      "pages_ok": 6,
+      "markdown_chars": 24432,
+      "elapsed_s": 55.0,
+      "passed": true,
+      "error": null
+    },
+    {
+      "url": "https://www.fixmyhome.com",
+      "domain": "fixmyhome.com",
+      "pages_crawled": 6,
+      "pages_ok": 6,
+      "markdown_chars": 37123,
+      "elapsed_s": 41.6,
+      "passed": true,
+      "error": null
+    }
+  ]
+}
