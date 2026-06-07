@@ -2,7 +2,39 @@
 
 Architecture and product decisions, newest first.
 
-## 2026-06-06 — Goal 02 extraction stack
+## 2026-06-06 — Goal 02 redesign: staged extraction pipeline
+
+Superseded the v1 single-pass LLM extractor with a staged pipeline (per the
+agreed design). Core principle: **the LLM is one component inside a structured
+system, not the engine.**
+
+- **Pipeline:** crawl → clean → markdown → classify → rule extract → llm extract
+  → normalize → confidence → merge profile → ABI evidence
+  (`backend/app/services/`, orchestrated by `app/pipeline.py`).
+- **Rules before AI.** Deterministic extraction (phone/email/address regex,
+  schema.org JSON-LD, headings, service slugs, FAQ blocks) runs first — cheap,
+  reliable, and used to ground the LLM and the confidence engine.
+- **Per-page LLM pass.** Each page is sent separately (not the whole site) under
+  a strict per-page schema; every item carries an `evidence` snippet and a
+  self-`confidence`.
+- **Confidence is computed, not trusted.** The confidence engine combines
+  signals (headings, navigation, schema.org support, cross-page repetition,
+  page category) into a score + human-readable reason; the LLM's self-estimate
+  is only one input.
+- **Normalization + conflict-aware merge.** Variants collapse into canonical
+  entities with aliases; page-level results merge into a site profile that keeps
+  every value with its evidence and source pages (conflicts preserved, not
+  dropped).
+- **ABI-ready evidence, not scores.** The engine emits qualitative evidence
+  across the 5 PRD dimensions so Goal 03 scoring is explainable. Scoring stays
+  in Goal 03.
+- **Caching.** Rich crawl cached as `page_documents.json` (skips Playwright on
+  re-run); `profile.json` reuse skips the LLM. Keeps iteration fast/cheap.
+- **Layout.** Adopted the recommended `backend/app/services/` structure; the
+  crawl/clean/markdown modules wrap the Goal 01 crawler rather than duplicating
+  it.
+
+## 2026-06-06 — Goal 02 extraction stack (v1, superseded)
 
 - **OpenAI for LLM extraction (`gpt-4o-mini`).** Chosen because an
   `OPENAI_API_KEY` was available in the environment and no Anthropic key was;

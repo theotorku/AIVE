@@ -57,48 +57,65 @@ Build semantic extraction engine.
 - [x] Offers
 - [x] business_name (bonus, per PRD)
 
-### Validation
+Also extracted (per the redesign): industry, trust_signals, ctas, and
+per-fact evidence + confidence + source provenance.
+
+### Validation (staged pipeline)
 - [x] Run against 20 websites — **20/20 passed**
-- [x] Outputs are accurate — coverage tracked per field; spot-checked
-      (e.g. morrisjenkins.com: correct services, Charlotte NC, phone, offer)
-- [x] JSON schema is stable — **21/21 crawled sites schema-valid (STABLE)**
+- [x] Outputs are accurate — per-field coverage tracked + spot-checked (e.g.
+      morrisjenkins.com: Morris-Jenkins / HVAC, 9 services, Charlotte NC, phone
+      from rules, trust signals, CTAs, ABI evidence)
+- [x] JSON schema is stable — **21/21 crawled sites profile-valid (STABLE)**
 
 Report: `backend/validation/extraction_validation_report.md`
 Summary: `backend/validation/extraction_validation_summary.json`
 
-### Approach
-- LLM extraction via OpenAI (`gpt-4o-mini`) using **Structured Outputs**
-  (strict `json_schema`) so the model is forced to emit conforming JSON,
-  `temperature=0` for repeatability.
-- Stable schema defined once in `backend/extraction/schema.py` and enforced
-  again by a dependency-free local validator (provider-independent guarantee).
-- Engine reads Goal 01 crawl markdown -> `extraction.json`; `reuse` flag caches
-  results so re-runs are fast/cheap; crawl failures yield a schema-valid empty
-  payload (counted as crawl failure, never as schema instability).
+### Architecture (redesigned per spec — LLM is one component, not the engine)
+Staged pipeline in `backend/app/services/`, orchestrated by `app/pipeline.py`:
+crawl → clean → markdown → classify → rule extract → llm extract → normalize →
+confidence → merge profile → ABI evidence.
+- **Rules before AI:** deterministic facts (phone/email/address regex,
+  schema.org JSON-LD, headings, slugs, FAQ blocks) ground the LLM.
+- **Per-page LLM pass:** strict per-page schema; each item carries an evidence
+  snippet + self-confidence.
+- **Confidence engine:** reconciles LLM self-confidence with structural signals
+  (headings, nav, schema.org, cross-page repetition, page category) → score +
+  reason.
+- **Normalizer + conflict-aware merge:** canonical services/areas with aliases;
+  site profile keeps every value with evidence + source pages.
+- **ABI evidence:** qualitative observations across the 5 PRD dimensions
+  (scores remain Goal 03).
+- **Caching:** rich crawl (`page_documents.json`) + profile reuse for fast/cheap
+  re-runs.
 
 ### Completed work
-- `backend/extraction/` package: `schema`, `extract` (OpenAI call + token
-  accounting), `engine` (crawl->extract orchestration).
-- `backend/extract_cli.py` single-site entrypoint; `run_extraction_validation.py`
-  harness with crawl/schema/accuracy reporting.
-- 10 offline extraction tests (schema contract + guards); **15 tests total**.
+- `backend/app/schema.py` (data shapes, per-page LLM schema, profile contract +
+  validator) and 10 `app/services/` modules.
+- `app/pipeline.py` orchestration; `extract_cli.py` + `run_extraction_validation.py`
+  repointed to the pipeline.
+- 10 offline pipeline tests (classify/rules/normalize/confidence/merge);
+  **15 tests total**. Removed the superseded v1 single-pass extractor.
 
 ### Open issues
-- 4 sites were crawl-blocked (hellerphc, jacksonsfourseasons, hauke,
+- 5 sites were crawl-blocked (hellerphc, jacksonsfourseasons, hauke,
   comfortexperts, estesservices) — bot protection / no rendered content. Not
   blocking (target met with spares). Logged in `progress/blockers.md`.
-- FAQ coverage is uneven: depends on whether the crawler's page budget hit an
-  FAQ page. Future: bias discovery toward `/faq` when present.
+- FAQ coverage is uneven (depends on whether the page budget hit an FAQ page);
+  the rule extractor's markdown FAQ heuristic helps but a `/faq` discovery bias
+  would help more.
 
 ### Lessons learned
-- Structured Outputs + a local validator gives genuinely stable schema across
-  20+ varied sites with zero post-processing.
-- Schema stability must be measured over *successfully crawled* sites; mixing in
-  crawl failures falsely reads as schema instability.
-- Per-site extraction is cheap (~6.9k tokens, ~$0.0012 on gpt-4o-mini).
+- Combining deterministic rules + a per-page LLM + a structural confidence
+  engine yields far richer, more defensible output than single-pass extraction,
+  while keeping the schema stable across 21 varied sites.
+- Rule-derived contact facts (phone/email) are more reliable than LLM guesses;
+  using them as grounding hints improved contact accuracy.
+- The rich pipeline costs more than v1 (~$0.0036/site vs ~$0.0012) but produces
+  evidence + confidence + normalization that Goal 03 needs.
 
 ### Next
-- Goal 03 — ABI scoring. Inputs (extraction.json) are now available per site.
+- Goal 03 — ABI scoring. Each site now has a `profile.json` with `abi_evidence`
+  ready to score.
 
 ---
 
