@@ -1,0 +1,15 @@
+# HVAC validation set for Goal 01 (one URL per line; # comments allowed).
+# Target: successfully process 10 HVAC websites with readable markdown.
+# A few extras are listed so the run can still reach 10 if some sites are down.
+https://www.goettl.com
+https://www.parkerandsons.com
+https://www.hortonservices.com
+https://www.onehourairftworth.com
+https://www.aireserv.com
+https://www.bakerbrothersplumbing.com
+https://www.michaelandson.com
+https://www.serviceexperts.com
+https://www.arsservice.com
+https://www.morrisjenkins.com
+https://www.fixmyhome.com
+https://www.coolray.com

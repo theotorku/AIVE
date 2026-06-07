@@ -25,6 +25,9 @@ venv/
 .cache/
 data/
 
+# Crawler output (generated markdown; reports under validation/ are kept)
+backend/output/
+
 # OS / editor
 .DS_Store
 Thumbs.db
