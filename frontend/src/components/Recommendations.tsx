@@ -2,19 +2,20 @@ import { Box, Heading, Flex, Text, VStack } from "@chakra-ui/react";
 import type { Recommendation } from "../api";
 
 export function Recommendations({ recs }: { recs: Recommendation[] }) {
+  const top3 = recs.slice(0, 3);
   return (
     <Box bg="white" borderWidth="1px" borderColor="gray.200" rounded="xl" p={5} shadow="sm">
       <Heading size="md" mb={1}>
-        Priority recommendations
+        Your top 3 fixes
       </Heading>
       <Text color="gray.500" fontSize="sm" mb={4}>
-        Ranked by ABI impact — the highest-leverage fixes first.
+        Do these first — they raise your ABI score the most.
       </Text>
-      {recs.length === 0 ? (
+      {top3.length === 0 ? (
         <Text color="gray.500">No high-impact gaps remain. 🎉</Text>
       ) : (
         <VStack align="stretch" spacing={3}>
-          {recs.map((r) => (
+          {top3.map((r) => (
             <Flex key={r.priority} gap={3} align="flex-start">
               <Flex
                 flex="0 0 28px"
@@ -30,14 +31,11 @@ export function Recommendations({ recs }: { recs: Recommendation[] }) {
                 {r.priority}
               </Flex>
               <Box>
-                <Text fontWeight="semibold" fontSize="sm">
-                  {r.dimension_label} · {r.criterion}
-                </Text>
-                <Text fontSize="sm" color="gray.700">
+                <Text fontSize="sm" color="gray.800">
                   {r.recommendation}
                 </Text>
                 <Text fontSize="xs" color="green.600" fontWeight="semibold" mt={1}>
-                  ABI impact +{r.impact}
+                  +{r.impact} ABI points
                 </Text>
               </Box>
             </Flex>

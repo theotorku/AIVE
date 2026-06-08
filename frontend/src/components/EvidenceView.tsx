@@ -1,15 +1,19 @@
 import { Box, Heading, Flex, Text, Badge, VStack, UnorderedList, ListItem } from "@chakra-ui/react";
-import { GRADE_COLOR, type Dimension } from "../api";
+import { GRADE_COLOR, DIMENSION_PLAIN, type Dimension } from "../api";
 
-export function EvidenceView({ dimension }: { dimension: Dimension }) {
+export function EvidenceView({ dimension, dimKey }: { dimension: Dimension; dimKey?: string }) {
+  const plain = dimKey ? DIMENSION_PLAIN[dimKey] : undefined;
   return (
     <Box bg="white" borderWidth="1px" borderColor="gray.200" rounded="xl" p={5} shadow="sm">
-      <Flex justify="space-between" align="baseline" mb={3}>
-        <Heading size="md">{dimension.label} — evidence & rationale</Heading>
+      <Flex justify="space-between" align="baseline" mb={1}>
+        <Heading size="md">{plain?.short ?? dimension.label} — the proof</Heading>
         <Text fontWeight="bold" color={GRADE_COLOR[dimension.grade] ?? "gray.600"}>
           {dimension.score}/100 · {dimension.grade}
         </Text>
       </Flex>
+      <Text fontSize="sm" color="gray.500" mb={3}>
+        {plain?.question ?? "What the score is based on, with the evidence we found."}
+      </Text>
       <VStack align="stretch" spacing={0} divider={<Box borderTopWidth="1px" borderColor="gray.100" />}>
         {dimension.criteria.map((c) => {
           const full = c.ratio >= 1;

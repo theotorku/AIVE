@@ -1,5 +1,23 @@
 import { Box, Flex, Heading, Text, Badge, Button, HStack, Stat, StatLabel, StatNumber } from "@chakra-ui/react";
-import { GRADE_COLOR, type SiteDetail } from "../api";
+import { GRADE_COLOR, GRADE_MEANING, type SiteDetail } from "../api";
+
+function CrawlStatus({ site }: { site: SiteDetail }) {
+  const cov = site.coverage;
+  const pages = cov?.final_page_count ?? cov?.meaningful_pages_found ?? site.profile.source_pages?.length ?? 0;
+  const incomplete = !!cov?.low_coverage;
+  return (
+    <Badge
+      colorScheme={incomplete ? "orange" : "green"}
+      variant="subtle"
+      fontSize="sm"
+      px={2}
+      py={1}
+      rounded="md"
+    >
+      {incomplete ? "⚠ Partial crawl" : "✓ Full crawl"} · {pages} page{pages === 1 ? "" : "s"} analyzed
+    </Badge>
+  );
+}
 
 export function ScoreHero({ site, reportHref }: { site: SiteDetail; reportHref: string }) {
   const score = site.abi_score;
@@ -16,12 +34,15 @@ export function ScoreHero({ site, reportHref }: { site: SiteDetail; reportHref: 
           <Text color="gray.500" mt={1}>
             {site.domain} · {profile.industry || "industry n/a"}
           </Text>
-          <Text mt={3} fontSize="md" color="gray.700">
-            {score.summary}
+          <Text mt={3} fontSize="md" fontWeight="medium" color="gray.800">
+            {GRADE_MEANING[score.grade] ?? score.grade_label}
           </Text>
-          <Button as="a" href={reportHref} mt={4} colorScheme="blue" size="sm">
-            Download report
-          </Button>
+          <HStack mt={3} spacing={3} wrap="wrap">
+            <CrawlStatus site={site} />
+            <Button as="a" href={reportHref} colorScheme="blue" size="sm">
+              Download report
+            </Button>
+          </HStack>
         </Box>
 
         <Flex direction="column" align="center" bg={color} color="white" rounded="lg" px={8} py={5} minW="150px">

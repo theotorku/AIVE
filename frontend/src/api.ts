@@ -143,3 +143,23 @@ export const GRADE_COLOR: Record<string, string> = {
   D: "orange.500",
   F: "red.500",
 };
+
+// Plain-language layer (UI only — does not touch the frozen ABI framework).
+// Translates the five dimension keys into something a non-technical business
+// owner understands at a glance.
+export const DIMENSION_PLAIN: Record<string, { short: string; question: string }> = {
+  ai_understanding: { short: "Understanding", question: "Can AI tell what your business does?" },
+  ai_retrieval: { short: "Findability", question: "Can AI find and pull up your content?" },
+  ai_recommendation: { short: "Trust", question: "Will AI feel confident recommending you?" },
+  agent_readiness: { short: "Action-ready", question: "Can an AI assistant book or contact you?" },
+  semantic_authority: { short: "Authority", question: "Does AI see you as a credible source?" },
+};
+
+// What the headline grade means, in one plain sentence.
+export const GRADE_MEANING: Record<string, string> = {
+  A: "AI understands your business very well and is likely to surface it.",
+  B: "AI understands your business well, with a few gaps to close.",
+  C: "AI only partially understands your business.",
+  D: "AI struggles to understand your business — important details are missing.",
+  F: "AI can barely understand your business right now.",
+};
