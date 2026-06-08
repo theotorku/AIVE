@@ -12,10 +12,18 @@ import { Recommendations } from "./components/Recommendations";
 import { EvidenceView } from "./components/EvidenceView";
 import { BenchmarkBar } from "./components/BenchmarkBar";
 
-export default function App() {
+export default function App({
+  initialUrl,
+  initialDomain,
+  onHome,
+}: {
+  initialUrl?: string;
+  initialDomain?: string;
+  onHome?: () => void;
+} = {}) {
   const [sites, setSites] = useState<SiteSummary[]>([]);
   const [benchmark, setBenchmark] = useState<Benchmark | null>(null);
-  const [selected, setSelected] = useState<string | null>(null);
+  const [selected, setSelected] = useState<string | null>(initialDomain ?? null);
   const [detail, setDetail] = useState<SiteDetail | null>(null);
   const [activeDim, setActiveDim] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -56,10 +64,32 @@ export default function App() {
     <Box minH="100vh">
       <Box bg="gray.900" color="white" py={5} px={6} mb={6}>
         <Container maxW="7xl">
-          <Heading size="lg">Agent Business Index</Heading>
-          <Text color="gray.300" fontSize="sm">
-            How understandable is a business to AI? Enter a URL or pick a scored site.
-          </Text>
+          <Flex justify="space-between" align="center" gap={4}>
+            <Box>
+              <Heading
+                size="lg"
+                cursor={onHome ? "pointer" : undefined}
+                onClick={onHome}
+              >
+                AIVE · Agent Business Index
+              </Heading>
+              <Text color="gray.300" fontSize="sm">
+                How understandable is a business to AI? Enter a URL or pick a scored site.
+              </Text>
+            </Box>
+            {onHome && (
+              <Box
+                as="button"
+                onClick={onHome}
+                color="gray.300"
+                fontSize="sm"
+                _hover={{ color: "white" }}
+                whiteSpace="nowrap"
+              >
+                ← Back to home
+              </Box>
+            )}
+          </Flex>
         </Container>
       </Box>
 
@@ -67,7 +97,7 @@ export default function App() {
         <Grid templateColumns={{ base: "1fr", lg: "320px 1fr" }} gap={6}>
           <GridItem>
             <VStack align="stretch" spacing={4}>
-              <RunPanel onComplete={onRunComplete} />
+              <RunPanel onComplete={onRunComplete} initialUrl={initialUrl} />
               <SitesGallery sites={sites} selected={selected} onSelect={setSelected} />
             </VStack>
           </GridItem>
@@ -124,7 +154,7 @@ export default function App() {
                   <Grid templateColumns={{ base: "1fr", xl: "1fr 1fr" }} gap={5}>
                     <Recommendations recs={detail.abi_score.top_recommendations} />
                     {activeDim && detail.abi_score.dimensions[activeDim] && (
-                      <EvidenceView dimension={detail.abi_score.dimensions[activeDim]} />
+                      <EvidenceView dimension={detail.abi_score.dimensions[activeDim]} dimKey={activeDim} />
                     )}
                   </Grid>
                 </>

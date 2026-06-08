@@ -16,8 +16,14 @@ const STAGE_LABEL: Record<string, string> = {
   error: "Failed",
 };
 
-export function RunPanel({ onComplete }: { onComplete: (domain: string) => void }) {
-  const [url, setUrl] = useState("");
+export function RunPanel({
+  onComplete,
+  initialUrl,
+}: {
+  onComplete: (domain: string) => void;
+  initialUrl?: string;
+}) {
+  const [url, setUrl] = useState(initialUrl ?? "");
   const [job, setJob] = useState<Job | null>(null);
   const [err, setErr] = useState<string | null>(null);
   const timer = useRef<number | null>(null);
