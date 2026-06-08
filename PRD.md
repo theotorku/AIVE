@@ -2,10 +2,10 @@
 
 # Product Name
 
-ProPlan AI Visibility Platform
+AI Visibility Audit
 
 Core Product:
-Agent Business Index (ABI)
+AI Visibility Audit powered by Agent Business Index (ABI)
 
 ---
 
@@ -26,9 +26,9 @@ The next era requires businesses to optimize for:
 
 Most businesses are not machine-readable.
 
-ProPlan AI Visibility Platform measures and improves how effectively AI systems can understand, retrieve, recommend, and interact with a business.
+The AI Visibility Audit measures and improves how effectively AI systems can understand, retrieve, recommend, and interact with a business.
 
-The first product is the Agent Business Index (ABI).
+The market-facing product is the AI Visibility Audit. The Agent Business Index (ABI) is the scoring methodology inside the audit.
 
 ---
 
@@ -113,9 +113,9 @@ Phase 3:
 
 # Primary Product
 
-Agent Business Index (ABI)
+AI Visibility Audit
 
-ABI measures the likelihood that AI systems can:
+The AI Visibility Audit uses ABI to measure the likelihood that AI systems can:
 
 1. Understand
 2. Retrieve
