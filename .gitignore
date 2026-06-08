@@ -35,6 +35,9 @@ memory/
 backend/validation/_*.log
 .playwright-mcp/
 *-dashboard-detail.png
+e2e-*.png
+aive-*.png
+.e2e/
 
 # OS / editor
 .DS_Store
