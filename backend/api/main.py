@@ -6,12 +6,19 @@ Run from repo root:
 
 from __future__ import annotations
 
+import os
+
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from pydantic import BaseModel
 
 from backend.api import jobs, report, store
+
+# Live audits crawl an arbitrary site and call the (paid) LLM, so the endpoint is
+# an abuse/cost vector if left open publicly. Off by default; set
+# ALLOW_PUBLIC_RUNS=true on a trusted/internal instance to enable. See DEPLOYMENT.md §4.
+ALLOW_PUBLIC_RUNS = os.getenv("ALLOW_PUBLIC_RUNS", "false").lower() == "true"
 
 app = FastAPI(title="ABI Dashboard API", version="1.0")
 
@@ -67,6 +74,10 @@ def get_report(domain: str):
 
 @app.post("/api/runs")
 def create_run(req: RunRequest) -> dict:
+    if not ALLOW_PUBLIC_RUNS:
+        raise HTTPException(
+            403, "Live audits are disabled on this instance. "
+            "Browse the scored sites, or enable ALLOW_PUBLIC_RUNS on a trusted deployment.")
     if not req.url or not req.url.strip():
         raise HTTPException(400, "url is required")
     job = jobs.manager.submit(req.url.strip())
