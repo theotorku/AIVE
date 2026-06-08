@@ -119,5 +119,345 @@ confidence → merge profile → ABI evidence.
 
 ---
 
-## Goal 03 — ABI  ⏳ NOT STARTED
-## Goal 04 — Dashboard  ⏳ NOT STARTED
+## Goal 03 — ABI  ✅ COMPLETE (2026-06-07)
+
+Build the ABI scoring system. Split into two validation bars (per agreed plan):
+**03A — Scoring Engine** (prove formulas/evidence/recs on the 20+ validated
+profiles) and **03B — Benchmark** (expand to 50 sites, distribution + averages).
+
+### Success criteria
+- [x] Overall ABI score per site
+- [x] 5 component scores (AI Understanding, AI Retrieval, AI Recommendation,
+      Agent Readiness, Semantic Authority)
+- [x] Each score carries rationale + supporting evidence + recommendation
+- [x] Scores are explainable, repeatable, defensible, actionable
+- [x] 03B — expanded dataset to 50 passed sites, re-scored, benchmark locked
+
+### 03B validation (benchmark) — PASS
+Expanded the extraction set and re-scored the **50** sites that passed
+extraction (`run_abi_validation.py --min 50 --passed-only`): **50/50
+explainable, repeatable, schema-valid**.
+
+Extraction expansion economics (gpt-4o-mini, new sites only — 21 prior profiles
+reused at $0):
+- Attempted **70**, successful crawls **52**, passed extractions **50**,
+  failed **20**; schema stable (52/52).
+- Tokens **374,774** (282,150 prompt + 92,624 completion); est. **$0.098**
+  (~$0.0034 per newly-extracted site); ~**55.7 min** wall.
+
+### 03C — hardening pass (post-review) — DONE
+A code review flagged five issues; all fixed before the dashboard, then the 50
+profiles were re-extracted (reuse cached crawl; ~$0.18, ~42 min) to apply the
+merge-stage fixes, and re-scored:
+- **FAQ merge:** deterministic schema.org FAQPage + markdown Q/A pairs now seed
+  the profile FAQ list (previously FAQs came only from the LLM), so FAQ content
+  the model missed still counts. (`semantic_profile._rule_faq_mentions`)
+- **schema.org signal:** profile-level `structured_data` block (built from
+  rule_facts) feeds the ABI authority criterion, which now gives graduated
+  credit (business schema 20 + FAQPage 15). Fixes undercounting where valid
+  LocalBusiness/Organization schema wasn't attached to an extracted fact.
+- **Weights aligned to PRD** (Retrieval 25%, Agent Readiness 15%); weights +
+  grade bands single-sourced in `schema.py` so the validator enforces them.
+- **Validator tightened:** `validate_abi_score` now checks weight sum = 1,
+  weights match the contract, criterion bounds, grade↔score, and overall =
+  weighted average — bad/stale score blocks fail loudly.
+- **Artifact freshness:** a shared `_persist` writes all artifacts on every
+  path; `reuse_profile` refreshes them; new `reuse_extraction` mode re-merges +
+  re-scores from cached crawl + cached LLM outputs for free (extractions are now
+  cached in `extractions.json`).
+- **Robustness:** list/dict-valued schema.org fields no longer crash extraction
+  (resolved blocker).
+
+Benchmark (50 sites, after hardening): avg ABI **68.2**, range **3.8–87.0**,
+grades **B:16 C:26 D:6 F:2**.
+- Component averages: Understanding **86.0**, Recommendation **71.4**, Retrieval
+  **64.8** (was 51.3 — FAQ merge), Semantic Authority **62.7** (was 47.7 —
+  schema.org now detected), Agent Readiness **45.4** (unchanged signal; weight
+  20→15%).
+- Top 5: snell (87.0), fhfurr (85.7), mauzy (83.9), petriplumbing (81.5),
+  fixmyhome (81.4). Bottom 5: cmcservice (3.8), goodberlet (19.0),
+  allproplumbing (48.1), donnellymech (54.0), petro (58.3).
+- Most common missing criteria: **FAQ coverage** (19), heading structure (14),
+  schema.org (5). Core finding holds and is now better-calibrated: the industry
+  describes itself well (Understanding 86) but is weakest on agent-actionability
+  (Agent Readiness 45).
+
+Reports: `backend/validation/goal_03b_benchmark.md`,
+`backend/validation/abi_validation_report.md`
+Summary: `backend/validation/abi_validation_summary.json`
+Tests: 36 passing (12 ABI scoring + validator + FAQ/schema merge).
+
+### 03A validation (scoring engine) — PASS
+Scored all **21** cached, extraction-valid profiles (no crawl, no LLM — free,
+instant, deterministic):
+- **21/21 explainable** (overall + 5 components + per-criterion rationale +
+  prioritized recommendations),
+- **21/21 repeatable** (identical on re-score),
+- **21/21 score-block schema-valid**.
+
+Benchmark (21 sites): avg ABI **65.5**, range **0.6–83.6**, grades B:5 C:11 D:4 F:1.
+- Component averages: Understanding **85.1**, Recommendation **74.0**, Retrieval
+  **55.8**, Agent Readiness **52.1**, Semantic Authority **52.1**.
+- Industry-wide weaknesses: missing **FAQ** content (top fix on 9 sites) and
+  **schema.org** structured data (7 sites).
+
+Report: `backend/validation/abi_validation_report.md`
+Summary: `backend/validation/abi_validation_summary.json`
+
+### Architecture
+- `backend/app/services/abi_score.py` — deterministic scoring engine. Five
+  dimensions, each a set of named, weighted criteria; every criterion emits
+  earned/max points + rationale + evidence + (when short) a recommendation.
+  Overall = weighted average → letter grade band. Recommendations are ranked by
+  **ABI impact** (points left × dimension weight) so fixes are prioritized.
+- `backend/app/schema.py` — `validate_abi_score()` contract.
+- `app/pipeline.py` — stage 9 (`score_abi`) added; `abi_score` written into
+  `profile.json` + standalone `abi_score.json` artifact; `pipeline.json` carries
+  `abi_overall`/`abi_grade`. Deterministic, so the cached-profile fast path
+  recomputes it for free.
+- `backend/run_abi_validation.py` — Goal 03 harness (`--min 20` = 03A, `--min 50`
+  = 03B). Scores cached profiles; checks explainable/repeatable/schema; emits a
+  benchmark (avg/low/high, component averages, grade distribution, common
+  weaknesses).
+- 10 offline scoring tests; **25 tests total**, all passing.
+
+### Score-quality review (before locking formulas)
+- The B-grade ceiling is real, not a bug: 7/21 sites have schema.org, 11/21 have
+  FAQ — top sites genuinely miss schema/booking/reputation breadth, so they
+  legitimately top out in the low 80s. Supports the ABI thesis that most
+  businesses are not yet AI-optimized.
+- Spot-checked outliers (morrisjenkins 54 D, reliablehomecomfort 0.6 F) — scores
+  and recommendations are defensible. The lone F is a near-empty extraction
+  (homepage only); kept in the benchmark as a genuine "invisible to AI" case.
+
+### Open issues
+- `rotorooter.com` crashed extraction (`'list' object has no attribute 'lower'`)
+  — a Goal 02 schema.org coercion bug, logged in `progress/blockers.md`. Dropped
+  from the pool; did not block reaching 50.
+- Several 03B candidate domains failed to crawl ("no pages crawled" — bot
+  protection or bad/fabricated domains); two crawled single-page only
+  (cmcservice, goodberlet) and legitimately score F. Non-blocking — 50 reached.
+- Goal 02 extraction occasionally files value-props ("upfront pricing") under
+  `trust_signals`; ABI's reputation-diversity criterion handles this gracefully
+  (flags weak proof) but cleaner extraction would sharpen recommendation scores.
+
+### Lessons learned
+- Deterministic scoring paid off: re-scoring 50 profiles is instant and free, and
+  the cached-profile reuse meant 03B's $0.098 was spent only on the 29 new sites.
+- A bigger sample (21→50) didn't move the shape of the story: Understanding stays
+  high (~86), Agent Readiness + Semantic Authority stay low (~45–48). The
+  industry-wide FAQ/schema.org gap is the core sellable ABI finding.
+- Crawl depth matters for ABI: single-page crawls (cmcservice, goodberlet) score
+  F not because the business is weak but because little was retrieved — a crawler
+  discovery limitation, not a scoring flaw.
+
+### Next
+- Goal 04 — Dashboard. Each of the 50 sites has `profile.json` (with `abi_score`)
+  + `abi_score.json` ready to render.
+
+## Goal 04 — Dashboard  ✅ COMPLETE (2026-06-07)
+
+Build the user-facing dashboard that makes ABI understandable to a business
+owner. Presentation + workflow only — no scoring/extraction logic changed; every
+value is read straight from the real artifacts.
+
+### Success criteria
+- [x] Enter a URL (live pipeline run) — `RunPanel` → `POST /api/runs`
+- [x] View run status — background job + polling, live stages
+      (crawling → extracting → scoring → done)
+- [x] View ABI score + grade — `ScoreHero`
+- [x] Five dimension cards — `DimensionCards` (PRD weights 25/25/20/15/15)
+- [x] Top prioritized recommendations — `Recommendations` (ranked by ABI impact)
+- [x] Evidence / rationale view — `EvidenceView` (click a dimension)
+- [x] Download report — self-contained HTML (`GET /api/sites/{d}/report`)
+- [x] Browse the 50 scored sites + industry benchmark strip
+
+### Validation — complete end-to-end workflow (verified live in-browser)
+Drove the running app with Playwright: loaded the gallery (53 scored sites,
+benchmark avg 68.2), opened a site (Snell, ABI 87 B — all cards/recs/evidence
+bound to real data), then **submitted a live URL (coolray.com)** and watched the
+status go crawling → extracting → scoring → done, after which the detail loaded
+(ABI 73.9 C) with a working report download. No mocked data anywhere.
+
+### Architecture
+- **Backend** `backend/api/` (FastAPI): `store.py` reads the real artifacts;
+  `jobs.py` runs the pipeline on worker threads with status polling; `report.py`
+  renders the self-contained HTML report; `main.py` exposes
+  `/api/sites`, `/api/sites/{d}`, `/api/sites/{d}/report`, `/api/benchmark`,
+  `POST /api/runs`, `GET /api/runs/{id}`. The pipeline gained an optional
+  `progress` hook (orchestration only — no contract change) for live stages.
+- **Frontend** `frontend/` (React + Vite + TS + Chakra UI): typed API client,
+  components (RunPanel, SitesGallery, ScoreHero, DimensionCards, Recommendations,
+  EvidenceView, BenchmarkBar). Vite proxies `/api` to the backend. `npm run build`
+  is clean.
+
+### Run it
+```
+uvicorn backend.api.main:app --port 8000      # backend (needs OPENAI_API_KEY for live runs)
+cd frontend && npm install && npm run dev      # http://localhost:5173
+```
+
+### Open issues
+- Jobs are in-memory (single process); fine for the MVP/local use, not
+  horizontally scalable. A durable queue is a future concern, not MVP.
+- Live runs depend on the crawler; bot-blocked sites surface as a run error in
+  the UI (handled gracefully), same as the Goal 01/02 behaviour.
+
+### Lessons learned
+- Keeping scoring deterministic + artifact-first made the dashboard thin: the UI
+  is pure presentation over JSON the pipeline already wrote, so there was nothing
+  to mock and no risk of the UI and the score diverging.
+
+---
+
+## Crawl coverage hardening — 2026-06-07
+
+Triggered by an inaccurate ABI report for **proplansolutions.io** (a shallow
+crawl). ABI scoring left unchanged.
+
+### Problem
+Only 6 of ~10 meaningful pages were crawled — the product page and most blog
+posts were missed. Discovery was homepage-only (single hop), `max_pages=6`, the
+sitemap was ignored, and priority keywords were HVAC-specific (no signal on a
+SaaS site).
+
+### Fix
+- Sitemap.xml + robots.txt discovery (recurses a sitemap index); canonical-host
+  normalization (www/non-www/http/https/#frag collapse); generalized priority
+  keywords; `max_pages` 6→12 + `max_depth=2` BFS fallback.
+- First-class crawl diagnostics in `crawl_coverage.json`: `discovered_urls`,
+  `skipped_urls` (+reason), `crawled_urls` (+`link_source`/`depth`), canonical
+  host, robots/sitemap facts, `final_page_count`, `low_coverage` + `warning`.
+  Kept out of `profile.json` (extraction contract untouched).
+- HTML report + dashboard show a "Low Crawl Coverage Warning" when fewer pages
+  are crawled than the site advertises.
+
+### Result
+proplansolutions.io: **10/10 meaningful pages** crawled (privacy/terms skipped),
+profile now has business name, industry, 44 services, 5 FAQs; no false warning.
+46 tests passing (8 new for discovery/coverage). Files: `backend/crawler/
+discover.py`, `backend/app/services/crawler.py`, `backend/app/pipeline.py`,
+`backend/api/{store,report}.py`, `frontend/src/App.tsx`.
+
+---
+
+## Goal 03D — ABI Calibration Hardening  ✅ COMPLETE (2026-06-08)
+
+Refined score *correctness* without touching the ABI framework (same 5
+dimensions, weights, grade bands, criteria). Three engine defects fixed; cached
+profiles re-scored for free (no LLM).
+
+### Completed work
+- **Pillar 1 — FAQ validity gate.** New `faq_validator.py`; Layer A restricts the
+  markdown FAQ heuristic to FAQ-context pages (`rule_extractor._has_faq_context`);
+  Layer B validates every FAQ candidate at the merge choke point in
+  `semantic_profile.build_profile` (schema-sourced FAQs trusted, all else hard-
+  validated). Fake "?"-fragment + CTA-answer FAQs no longer count.
+- **Pillar 2 — Confidence-aware scoring.** `abi_score` now earns
+  `points × evidence × conf_factor`, `conf_factor = min(1, conf/FULL_CONF)`,
+  `FULL_CONF=0.7` (saturating — high-confidence facts unaffected). Count criteria
+  use a confidence-weighted effective count; Location presence is confidence-
+  gated (the Austin, TX @ 0.15 → 20/20 bug).
+- **Pillar 3 — Booking/actionability.** New `actionability.py` detects tiered
+  booking (T3 scheduler/`potentialAction`/`booking_url` → T2 form → T1 intent CTA
+  → T0) from the already-crawled link graph + schema + CTAs. The binary *Online
+  booking* criterion is now graduated (T3 20 / T2 12 / T1 6 / T0 0), evidence-
+  bearing. `abi_evidence` booking line made actionability-aware.
+
+### Result
+- **ProPlan 59.7 → 42.0 (D)** — down for the right reasons: 0 FAQs (fakes gone),
+  Location 20→4.3 (conf-gated), Booking 0→20 (Calendly T3). Retrieval 67→18,
+  Authority 38.6→20.9, Agent Readiness 15→34.1.
+- **Corpus:** booking credit now fires on **42/54** sites (T3 4 · T2 16 · T1 22)
+  vs the old 3. Benchmark: 54 sites, avg ABI 61.7, all explainable/repeatable/
+  schema-valid (PASS).
+- **Tests:** 90 passing (68 → 90; +22 across `test_faq_validator`,
+  `test_confidence_aware_scoring`, `test_actionability` + pipeline integration).
+  `validate_abi_score` unchanged and green for all 54.
+
+### Lessons learned
+- The ProPlan fakes are caught by fragment-question + CTA-answer detection, not
+  the answer-length floor — so length thresholds could be relaxed (15 chars / 3
+  words) to keep legitimately terse real FAQs without readmitting fakes.
+- `FULL_CONF=0.7` saturation is what makes confidence-aware scoring safe: the
+  high-confidence HVAC fixture is unaffected (still ≥85), only weak evidence is
+  discounted. Left at 0.7 per plan — to be tuned only after distribution review.
+- Two existing fixtures encoded behavior the gate deliberately changes (a
+  markdown FAQ on a non-FAQ page; a trivial `"Yes."` schema answer) and were
+  updated to realistic inputs.
+
+---
+
+## Goal 03E — Extraction Hygiene  ✅ COMPLETE (2026-06-08)
+
+Labelled every fact's provenance and routed non-first-party facts out of the
+scored lists so counts are believable and trust is attributable. **No ABI
+scoring/dimension/weight/grade-band change** — ABI moves only because the scorer
+receives cleaner inputs.
+
+### Completed work
+- New `provenance.py`: `classify_service` / `classify_trust` / `classify_offer`
+  (pure, deterministic, no LLM). Six labels: first_party_service, blog_example,
+  case_study, testimonial, offer, pricing_tier (+ residual trust_signal).
+- **Conservative bias (per instruction):** a service is `blog_example` only when
+  sourced *exclusively* from an actual blog page and uncorroborated elsewhere;
+  ambiguous → first_party. case_study/testimonial/pricing_tier require a clear
+  positive pattern, else the item stays first-party.
+- `normalizer._token_key`: strip leading marketing qualifiers (Custom/Advanced/
+  AI-Powered/…) while keeping core domain nouns, so near-duplicates collapse
+  without over-merging distinct offerings. HVAC canon table untouched.
+- `semantic_profile.build_profile`: partition services/trust/offers at the merge
+  choke point; tag `provenance` on every item; add non-scored sibling fields
+  `blog_examples` / `case_studies` / `testimonials` / `pricing_tiers`. Routing is
+  loss-less (scored + sibling = all facts).
+
+### Result (cached re-merge + re-score, free)
+- **ProPlan:** services **44 → 14** (believable; 29 → blog_examples), trust
+  **12 → 4** (8 → case_studies), offers **4 → 1** (3 → pricing_tiers), ABI
+  **42.0 → 39.0** — down purely from cleaner extraction.
+- **Corpus (54):** services 1001→963, trust 490→482, offers 152→129; separated
+  37 blog_examples · 8 case_studies · 23 pricing_tiers; avg ABI 61.7→61.5.
+- **No regression:** 0 sites lost all services; HVAC benchmark service counts
+  unchanged (real local-service offerings preserved). Diff:
+  `backend/validation/extraction_hygiene_diff.md`.
+- **Scoring untouched:** `abi_score.py` not edited; a guard test confirms the
+  scorer ignores the new sibling fields. 119 tests pass (+29 since 03D).
+
+### Lessons learned
+- Provenance is fully derivable at merge from already-cached signals (page
+  category, evidence text) — no LLM re-extraction, so the whole goal re-runs free.
+- The conservative bias is what protects the HVAC benchmark: requiring an actual
+  `blog` page (not merely `unknown`) before reclassifying keeps real services in.
+- One borderline case study ("satisfaction increased from 3.2/5 to 4.7/5") stays
+  in trust because the outcome regex doesn't match ratio "/5" deltas — a safe
+  false-negative (keeps first-party), acceptable under the stated bias.
+
+---
+
+## ABI v0.1.1 — FROZEN release  🔒 (2026-06-08)
+
+Froze the ABI measurement instrument and shifted the project into its UX/report
+phase. **No code path that computes a score changed** — this release is a freeze,
+a version stamp, enforcement, and documentation.
+
+### What was frozen (no change without a benchmark review)
+Scoring dimensions, scoring weights, grade bands, extraction contracts, and the
+provenance taxonomy. Authoritative spec: `abi_spec_v0.1.1.md`; change policy in
+its §6.
+
+### Delivered
+- `schema.ABI_VERSION = "0.1.1"` (single source of truth) and
+  `provenance.PROVENANCE_LABELS` (frozen 7-label set).
+- `backend/tests/test_abi_freeze.py` — pins dimensions, weights, bands,
+  extraction-contract field lists, provenance labels, per-dimension criterion
+  names, and the 100-point-per-dimension invariant. Changing any frozen value
+  fails this test on purpose (the enforcement teeth).
+- Version stamped onto release artifacts (`abi_score.json`, `pipeline.json`) for
+  traceability — the score block/logic is untouched (stamp is metadata).
+- `CHANGELOG.md` (v0.1.1 history) + ROADMAP freeze banner + Phase 2 focus
+  (UX / report generation / workflow / explainability).
+
+### Verification
+130 backend tests pass (+8 freeze guards). All 54 cached artifacts re-stamped to
+v0.1.1 (free, $0); benchmark unchanged (54 sites, avg ABI 61.5, all
+explainable/repeatable/schema-valid). ProPlan 39.0 (deterministic, unchanged).
