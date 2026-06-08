@@ -31,12 +31,18 @@ SCHEDULER_HOSTS = (
     "10to8.com", "appointlet.com", "tidycal.com", "savvycal.com",
 )
 
-# Booking/quote/contact form paths on the site's own domain (T2 — fillable).
+# Booking/quote *action* form paths on the site's own domain (T2 — a fillable
+# form whose path itself signals booking/quote intent). NOTE: a bare "/contact"
+# is deliberately NOT here — a generic contact page is weak intent (T1), not a
+# booking form, and crediting it T2 over-states actionability.
 BOOKING_PATHS = (
     "/book", "/book-online", "/booking", "/schedule", "/appointment",
     "/request-service", "/request-estimate", "/request-a-quote", "/get-a-quote",
-    "/free-estimate", "/request-appointment", "/contact",
+    "/free-estimate", "/request-appointment",
 )
+
+# Generic contact paths — reachable channel but not a booking/quote form: T1.
+CONTACT_PATHS = ("/contact", "/contact-us")
 
 # schema.org actions that imply a bookable/orderable surface.
 ACTION_TYPES = {"reserveaction", "scheduleaction", "orderaction",
@@ -61,10 +67,18 @@ def _scheduler_in(href: str) -> str | None:
     return None
 
 
-def _is_booking_path(href: str) -> bool:
+def _path_matches(href: str, paths: tuple[str, ...]) -> bool:
     path = urlparse(href).path.lower().rstrip("/")
     return any(path == p or path.startswith(p + "/") or path.endswith(p)
-               for p in BOOKING_PATHS)
+               for p in paths)
+
+
+def _is_booking_path(href: str) -> bool:
+    return _path_matches(href, BOOKING_PATHS)
+
+
+def _is_contact_path(href: str) -> bool:
+    return _path_matches(href, CONTACT_PATHS)
 
 
 def _potential_action(docs) -> str | None:
@@ -116,7 +130,8 @@ def detect_actionability(docs, profile: dict) -> dict:
     if contact.get("booking_url"):
         booking = _better(booking, "T3", "booking_url", contact["booking_url"])
 
-    # Outbound link graph: scheduler host (T3) or booking/form path (T2).
+    # Outbound link graph: scheduler host (T3) > booking/quote form path (T2) >
+    # generic contact path (T1 intent — reachable, but not a booking form).
     for d in docs:
         for link in d.links:
             sched = _scheduler_in(link.href)
@@ -124,6 +139,8 @@ def detect_actionability(docs, profile: dict) -> dict:
                 booking = _better(booking, "T3", sched, link.href)
             elif _is_booking_path(link.href):
                 booking = _better(booking, "T2", "form", link.href)
+            elif _is_contact_path(link.href):
+                booking = _better(booking, "T1", "contact", link.href)
 
     # T1 — booking-intent CTA (text proves intent; no resolvable destination).
     for c in ctas:

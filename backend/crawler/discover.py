@@ -241,6 +241,13 @@ def plan_crawl(
     pool: dict[str, tuple[str, str]] = {}  # norm_url -> (source, anchor_text)
 
     for loc in sitemap_urls or []:
+        # Reject offsite sitemap entries BEFORE normalize_url forces the host on —
+        # otherwise https://other.com/foo would be rewritten to the target host
+        # and slip past the (post-normalization) offsite check as a bogus page.
+        netloc = urlparse(loc).netloc
+        if netloc and not _same_registrable_host(netloc, host):
+            plan.skipped.append({"url": loc, "reason": "offsite", "source": "sitemap"})
+            continue
         norm = normalize_url(loc, host)
         if norm not in pool:
             pool[norm] = ("sitemap", "")

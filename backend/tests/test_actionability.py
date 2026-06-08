@@ -82,6 +82,20 @@ def test_generic_path_does_not_false_positive_to_t3():
     assert result["booking"]["tier"] != "T3"
 
 
+def test_plain_contact_link_is_t1_not_t2():
+    # A generic /contact link is weak intent (T1), not a booking form (T2).
+    docs = [_doc(links=[("Contact us", "https://x.com/contact")])]
+    result = detect_actionability(docs, _profile())
+    assert result["booking"]["tier"] == "T1"
+    assert result["booking"]["mechanism"] == "contact"
+
+
+def test_real_booking_form_path_still_t2():
+    docs = [_doc(links=[("Request a quote", "https://x.com/request-a-quote")])]
+    result = detect_actionability(docs, _profile())
+    assert result["booking"]["tier"] == "T2"
+
+
 # --- graduated booking criterion in the scorer ---
 @pytest.mark.parametrize("tier,expected", [("T3", 20), ("T2", 12),
                                            ("T1", 6), ("T0", 0)])

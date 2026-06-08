@@ -106,6 +106,21 @@ def test_plan_crawl_merges_sitemap_and_prioritizes():
     assert reasons.get("https://www.x.com/privacy") == "path-hint"
 
 
+def test_plan_crawl_rejects_offsite_sitemap_loc():
+    # An offsite sitemap entry must be rejected as 'offsite', not rewritten onto
+    # the target host and crawled as a bogus page.
+    plan = plan_crawl(
+        "https://www.x.com/", "<html></html>", max_pages=8, host="www.x.com",
+        robots={"disallow": [], "sitemaps": []},
+        sitemap_urls=["https://www.x.com/about", "https://other.com/foo"])
+    urls = [c.url for c in plan.crawl]
+    assert "https://www.x.com/about" in urls
+    assert "https://www.x.com/foo" not in urls          # not rewritten + crawled
+    assert all("other.com" not in u for u in urls)
+    reasons = {s["url"]: s["reason"] for s in plan.skipped}
+    assert reasons.get("https://other.com/foo") == "offsite"
+
+
 def test_plan_crawl_respects_max_pages_and_records_overflow():
     html = "<html><body>" + "".join(
         f'<a href="/s/{i}">S{i}</a>' for i in range(20)) + "</body></html>"
