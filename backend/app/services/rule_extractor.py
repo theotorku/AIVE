@@ -81,25 +81,47 @@ def _normalize_phone(p: str) -> str:
     return p.strip()
 
 
+def _as_text(value) -> str:
+    """Coerce a JSON-LD value to a string. schema.org fields are frequently
+    list- or object-valued (e.g. name/telephone as a list, address as an
+    object), and downstream code calls .lower() on them — so normalize at the
+    source rather than crashing on `'list' object has no attribute 'lower'`."""
+    if value is None:
+        return ""
+    if isinstance(value, str):
+        return value.strip()
+    if isinstance(value, (int, float)):
+        return str(value)
+    if isinstance(value, dict):
+        return _as_text(value.get("name") or value.get("@value")
+                        or value.get("value") or "")
+    if isinstance(value, list):
+        return ", ".join(t for t in (_as_text(v) for v in value) if t)
+    return ""
+
+
 def _schema_org_facts(json_ld: list[dict]) -> dict:
     facts: dict = {}
     faqs: list[dict] = []
     for block in json_ld:
+        if not isinstance(block, dict):
+            continue
         types = block.get("@type", "")
         types = [types] if isinstance(types, str) else (types or [])
         types_l = {str(t).lower() for t in types}
 
         if types_l & _BUSINESS_TYPES:
-            facts.setdefault("name", block.get("name"))
+            if block.get("name"):
+                facts.setdefault("name", _as_text(block.get("name")))
             if block.get("telephone"):
-                facts.setdefault("telephone", block["telephone"])
+                facts.setdefault("telephone", _as_text(block["telephone"]))
             addr = block.get("address")
             if isinstance(addr, dict):
                 parts = [addr.get(k) for k in
                          ("streetAddress", "addressLocality", "addressRegion", "postalCode")]
-                facts.setdefault("address", ", ".join(p for p in parts if p))
-            elif isinstance(addr, str):
-                facts.setdefault("address", addr)
+                facts.setdefault("address", ", ".join(_as_text(p) for p in parts if p))
+            elif addr:
+                facts.setdefault("address", _as_text(addr))
             area = block.get("areaServed")
             if area:
                 facts.setdefault("area_served", _flatten_area(area))
@@ -110,8 +132,9 @@ def _schema_org_facts(json_ld: list[dict]) -> dict:
                     continue
                 ans = q.get("acceptedAnswer") or {}
                 text = ans.get("text") if isinstance(ans, dict) else None
-                if q.get("name") and text:
-                    faqs.append({"question": q["name"], "answer": _strip_html(text)})
+                question = _as_text(q.get("name"))
+                if question and text:
+                    faqs.append({"question": question, "answer": _strip_html(_as_text(text))})
 
     if faqs:
         facts["faqs"] = faqs
@@ -120,9 +143,10 @@ def _schema_org_facts(json_ld: list[dict]) -> dict:
 
 def _flatten_area(area) -> list[str]:
     if isinstance(area, str):
-        return [area]
+        return [area.strip()] if area.strip() else []
     if isinstance(area, dict):
-        return [area.get("name")] if area.get("name") else []
+        name = _as_text(area.get("name"))  # name can itself be list/dict-valued
+        return [name] if name else []
     if isinstance(area, list):
         out = []
         for a in area:
@@ -133,6 +157,24 @@ def _flatten_area(area) -> list[str]:
 
 def _strip_html(text: str) -> str:
     return re.sub(r"<[^>]+>", "", text or "").strip()
+
+
+_FAQ_MARKER = re.compile(r"frequently\s+asked\s+questions|\bFAQs?\b", re.I)
+
+
+def _has_faq_context(doc: PageDocument) -> bool:
+    """Is this page genuinely FAQ-context? (Goal 03D, Pillar 1 — Layer A.)
+
+    The markdown Q/A heuristic is loose enough to turn marketing copy into fake
+    FAQs, so we only run it where an FAQ actually lives: a page classified `faq`,
+    or one whose headings/markdown carry an explicit FAQ marker. (`page_classifier`
+    runs before rule extraction, so `doc.category` is populated.)
+    """
+    if getattr(doc, "category", "") == "faq":
+        return True
+    if any(_FAQ_MARKER.search(h) for h in doc.heading_texts()):
+        return True
+    return bool(_FAQ_MARKER.search(doc.markdown or ""))
 
 
 def _faq_from_markdown(markdown: str) -> list[dict]:
@@ -171,7 +213,9 @@ def extract_rules(doc: PageDocument) -> RuleFacts:
     facts.service_slugs = _dedupe(slugs)[:40]
 
     facts.schema_org = _schema_org_facts(doc.metadata.get("json_ld", []))
-    # Prefer structured FAQs; fall back to markdown heuristic.
-    facts.faq_pairs = facts.schema_org.get("faqs") or _faq_from_markdown(text)
+    # Prefer structured FAQs; fall back to the markdown heuristic only on
+    # genuine FAQ-context pages (Pillar 1 — Layer A keeps marketing copy out).
+    facts.faq_pairs = facts.schema_org.get("faqs") or (
+        _faq_from_markdown(text) if _has_faq_context(doc) else [])
 
     return facts

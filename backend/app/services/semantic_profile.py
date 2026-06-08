@@ -12,8 +12,12 @@ from collections import Counter
 
 from backend.app.schema import EvidenceItem, PageDocument
 from backend.app.services import normalizer
+from backend.app.services.actionability import detect_actionability
 from backend.app.services.confidence import RELEVANT_CATEGORIES, Signals, score
+from backend.app.services.faq_validator import validate_faq
 from backend.app.services.llm_extractor import PageExtraction
+from backend.app.services.provenance import (
+    classify_offer, classify_service, classify_trust)
 from backend.app.services.rule_extractor import RuleFacts
 
 
@@ -40,6 +44,67 @@ def _mentions(extractions: list[PageExtraction], field: str) -> list[dict]:
     return out
 
 
+def _rule_faq_mentions(rule_facts: list[RuleFacts],
+                       url_category: dict[str, str]) -> list[dict]:
+    """Deterministic FAQ pairs (schema.org FAQPage + markdown Q/A) as mentions.
+
+    The LLM pass can miss FAQ content, and FAQ JSON-LD can live outside visible
+    markdown, so we seed FAQs from RuleFacts directly. Schema-derived pairs get
+    high confidence; markdown-heuristic pairs get moderate confidence.
+    """
+    out: list[dict] = []
+    for rf in rule_facts:
+        schema_faqs = rf.schema_org.get("faqs") or []
+        schema_qs = {q.get("question", "").strip().lower() for q in schema_faqs}
+        # Union schema FAQPage pairs with rf.faq_pairs (markdown/heuristic),
+        # deduped by question — schema pairs count even if faq_pairs is empty.
+        pairs = list(schema_faqs) + [
+            p for p in rf.faq_pairs
+            if (p.get("question") or "").strip().lower() not in schema_qs]
+        for pair in pairs:
+            q = (pair.get("question") or "").strip()
+            if not q:
+                continue
+            from_schema = q.lower() in schema_qs
+            out.append({
+                "value": q,
+                "evidence": (pair.get("answer") or "")[:300],
+                "llm_confidence": 0.85 if from_schema else 0.6,
+                "source_url": rf.url,
+                "category": url_category.get(rf.url, "unknown"),
+                "answer": pair.get("answer"),
+                "faq_source": "schema" if from_schema else "markdown",
+            })
+    return out
+
+
+def _structured_data(rule_facts: list[RuleFacts]) -> dict:
+    """Profile-level schema.org signal, independent of which facts it backed.
+
+    A site can carry valid LocalBusiness/Organization schema (name/phone/address)
+    without it attaching to any extracted service/area/faq, so we surface a
+    standalone signal the ABI authority criterion can read directly.
+    """
+    has_name = has_phone = has_addr = has_area = has_faq = False
+    for rf in rule_facts:
+        s = rf.schema_org or {}
+        has_name = has_name or bool(s.get("name"))
+        has_phone = has_phone or bool(s.get("telephone"))
+        has_addr = has_addr or bool(s.get("address"))
+        has_area = has_area or bool(s.get("area_served"))
+        has_faq = has_faq or bool(s.get("faqs"))
+    has_business = has_name or has_phone or has_addr
+    return {
+        "schema_org_detected": bool(has_business or has_area or has_faq),
+        "has_business": has_business,
+        "has_faq_schema": has_faq,
+        "has_name": has_name,
+        "has_phone": has_phone,
+        "has_address": has_addr,
+        "has_area_served": has_area,
+    }
+
+
 def _schema_facts(rule_facts: list[RuleFacts]) -> dict:
     names, phones, addresses, areas, faqs = [], [], [], [], []
     for rf in rule_facts:
@@ -54,8 +119,9 @@ def _schema_facts(rule_facts: list[RuleFacts]) -> dict:
         faqs.extend(q.get("question", "") for q in (s.get("faqs") or []))
     return {
         "names": names, "phones": phones, "addresses": addresses,
-        "areas_lower": {a.lower() for a in areas if a},
-        "faq_q_lower": {q.lower() for q in faqs if q},
+        # str() guards against any non-string schema value slipping through.
+        "areas_lower": {str(a).lower() for a in areas if a},
+        "faq_q_lower": {str(q).lower() for q in faqs if q},
     }
 
 
@@ -172,6 +238,46 @@ def _merge_contact(extractions: list[PageExtraction], rule_facts: list[RuleFacts
     }
 
 
+def _partition_services(services: list[EvidenceItem], url_category: dict[str, str]
+                        ) -> tuple[list[EvidenceItem], list[EvidenceItem]]:
+    """Split services into first-party vs blog-example (Goal 03E). Conservative:
+    a service is blog_example only when sourced exclusively from blog content."""
+    first_party, blog_examples = [], []
+    for it in services:
+        cats = {url_category.get(u) for u in it.extras.get("source_pages", [])}
+        label = classify_service(it.value, it.evidence, cats)
+        it.extras["provenance"] = label
+        (blog_examples if label == "blog_example" else first_party).append(it)
+    return first_party, blog_examples
+
+
+def _partition_trust(trust: list[EvidenceItem]
+                     ) -> tuple[list[EvidenceItem], list[EvidenceItem], list[EvidenceItem]]:
+    """Split trust signals into first-party trust vs case_study vs testimonial."""
+    keep, case_studies, testimonials = [], [], []
+    for it in trust:
+        label = classify_trust(it.value, it.evidence)
+        it.extras["provenance"] = label
+        if label == "case_study":
+            case_studies.append(it)
+        elif label == "testimonial":
+            testimonials.append(it)
+        else:
+            keep.append(it)
+    return keep, case_studies, testimonials
+
+
+def _partition_offers(offers: list[EvidenceItem]
+                      ) -> tuple[list[EvidenceItem], list[EvidenceItem]]:
+    """Split offers into genuine promotions vs pricing tiers."""
+    keep, tiers = [], []
+    for it in offers:
+        label = classify_offer(it.value, it.extras.get("details", ""))
+        it.extras["provenance"] = label
+        (tiers if label == "pricing_tier" else keep).append(it)
+    return keep, tiers
+
+
 def build_profile(
     docs: list[PageDocument],
     extractions: list[PageExtraction],
@@ -207,7 +313,22 @@ def build_profile(
     locations = _simple_evidence(loc_mentions, heading_blob=heading_blob,
                                  extra_keys=("city", "state", "address"))
 
-    faqs = _simple_evidence(_mentions(extractions, "faqs"), heading_blob=heading_blob,
+    # FAQs: union of LLM-extracted mentions and deterministic rule FAQ pairs
+    # (schema.org FAQPage + markdown Q/A), so FAQ content the LLM missed still
+    # counts. _simple_evidence dedupes by question text.
+    url_category = {d.url: d.category for d in docs}
+    llm_faq_mentions = _mentions(extractions, "faqs")
+    for m in llm_faq_mentions:
+        m["faq_source"] = "faq_section" if m.get("category") == "faq" else "llm"
+    faq_mentions = llm_faq_mentions + _rule_faq_mentions(rule_facts, url_category)
+    # Pillar 1 — Layer B: reject marketing fragments / CTA-only "answers" at the
+    # single merge choke point; schema-sourced FAQs are trusted (length-only).
+    faq_mentions = [
+        m for m in faq_mentions
+        if validate_faq(m["value"], m.get("answer") or "",
+                        source=m.get("faq_source", "unknown"))[0]
+    ]
+    faqs = _simple_evidence(faq_mentions, heading_blob=heading_blob,
                             schema_q_lower=schema["faq_q_lower"], extra_keys=("answer",))
     offers = _simple_evidence(_mentions(extractions, "offers"),
                               heading_blob=heading_blob, extra_keys=("details",))
@@ -218,7 +339,16 @@ def build_profile(
 
     contact = _merge_contact(extractions, rule_facts, schema)
 
-    return {
+    # Extraction hygiene (Goal 03E): label every fact's provenance and route
+    # non-first-party facts OUT of the scored lists. Scoring is unchanged; it
+    # just sees believable services / attributable trust / real offers. Nothing
+    # is discarded — separated facts move to sibling fields (kept for ABI
+    # Profiles), so scored + sibling is loss-less.
+    services, blog_examples = _partition_services(services, url_category)
+    trust_signals, case_studies, testimonials = _partition_trust(trust_signals)
+    offers, pricing_tiers = _partition_offers(offers)
+
+    profile = {
         "schema_version": "2.0",
         "business_name": business_name,
         "industry": industry,
@@ -230,5 +360,16 @@ def build_profile(
         "trust_signals": [i.to_dict() for i in trust_signals],
         "ctas": [i.to_dict() for i in ctas],
         "contact_information": contact,
+        "structured_data": _structured_data(rule_facts),
+        # Provenance-separated, non-scored sibling fields (like structured_data).
+        "blog_examples": [i.to_dict() for i in blog_examples],
+        "case_studies": [i.to_dict() for i in case_studies],
+        "testimonials": [i.to_dict() for i in testimonials],
+        "pricing_tiers": [i.to_dict() for i in pricing_tiers],
         "source_pages": [{"url": d.url, "category": d.category} for d in docs],
     }
+    # Agent-actionability (Pillar 3): tiered booking detection from the already-
+    # crawled link graph + schema potentialAction + CTAs. Kept out of the
+    # extraction contract, like structured_data.
+    profile["actionability"] = detect_actionability(docs, profile)
+    return profile
