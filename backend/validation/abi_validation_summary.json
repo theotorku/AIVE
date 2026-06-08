@@ -1,0 +1,977 @@
+{
+  "minimum": 50,
+  "sites_scored": 54,
+  "met_minimum": true,
+  "all_explainable": true,
+  "all_repeatable": true,
+  "all_schema_valid": true,
+  "benchmark": {
+    "sites_scored": 54,
+    "average_abi": 61.5,
+    "lowest_abi": 0.8,
+    "highest_abi": 85.7,
+    "component_averages": {
+      "ai_understanding": 80.7,
+      "ai_retrieval": 53.3,
+      "ai_recommendation": 61.9,
+      "agent_readiness": 48.4,
+      "semantic_authority": 55.6
+    },
+    "grade_distribution": {
+      "B": 11,
+      "C": 26,
+      "D": 10,
+      "F": 7
+    },
+    "common_weaknesses": [
+      [
+        "FAQ coverage",
+        30
+      ],
+      [
+        "Heading structure",
+        11
+      ],
+      [
+        "Geographic specificity",
+        4
+      ],
+      [
+        "Location presence",
+        3
+      ],
+      [
+        "Structured data (schema.org)",
+        3
+      ],
+      [
+        "Reputation diversity",
+        2
+      ],
+      [
+        "Service coverage",
+        1
+      ]
+    ]
+  },
+  "results": [
+    {
+      "domain": "fhfurr.com",
+      "overall": 85.7,
+      "grade": "B",
+      "grade_label": "AI-Ready",
+      "components": {
+        "ai_understanding": 90.9,
+        "ai_retrieval": 82.9,
+        "ai_recommendation": 82.0,
+        "agent_readiness": 100.0,
+        "semantic_authority": 72.5
+      },
+      "top_recommendation": "Use descriptive H1/H2 headings that name each service so retrieval engines can locate and lift them.",
+      "explainable": true,
+      "repeatable": true,
+      "schema_valid": true
+    },
+    {
+      "domain": "mauzy.com",
+      "overall": 84.8,
+      "grade": "B",
+      "grade_label": "AI-Ready",
+      "components": {
+        "ai_understanding": 92.6,
+        "ai_retrieval": 96.0,
+        "ai_recommendation": 82.2,
+        "agent_readiness": 71.0,
+        "semantic_authority": 70.5
+      },
+      "top_recommendation": "Add the missing kinds of proof: awards, reviews.",
+      "explainable": true,
+      "repeatable": true,
+      "schema_valid": true
+    },
+    {
+      "domain": "servicechampions.com",
+      "overall": 82.2,
+      "grade": "B",
+      "grade_label": "AI-Ready",
+      "components": {
+        "ai_understanding": 92.6,
+        "ai_retrieval": 85.7,
+        "ai_recommendation": 88.2,
+        "agent_readiness": 56.0,
+        "semantic_authority": 77.1
+      },
+      "top_recommendation": "Use descriptive H1/H2 headings that name each service so retrieval engines can locate and lift them.",
+      "explainable": true,
+      "repeatable": true,
+      "schema_valid": true
+    },
+    {
+      "domain": "snellheatingandair.com",
+      "overall": 82.1,
+      "grade": "B",
+      "grade_label": "AI-Ready",
+      "components": {
+        "ai_understanding": 92.4,
+        "ai_retrieval": 78.9,
+        "ai_recommendation": 70.5,
+        "agent_readiness": 85.0,
+        "semantic_authority": 83.1
+      },
+      "top_recommendation": "Add the missing kinds of proof: guarantee, awards, reviews.",
+      "explainable": true,
+      "repeatable": true,
+      "schema_valid": true
+    },
+    {
+      "domain": "fixmyhome.com",
+      "overall": 82.0,
+      "grade": "B",
+      "grade_label": "AI-Ready",
+      "components": {
+        "ai_understanding": 90.1,
+        "ai_retrieval": 85.0,
+        "ai_recommendation": 93.3,
+        "agent_readiness": 56.0,
+        "semantic_authority": 74.4
+      },
+      "top_recommendation": "Use descriptive H1/H2 headings that name each service so retrieval engines can locate and lift them.",
+      "explainable": true,
+      "repeatable": true,
+      "schema_valid": true
+    },
+    {
+      "domain": "petriplumbing.com",
+      "overall": 80.9,
+      "grade": "B",
+      "grade_label": "AI-Ready",
+      "components": {
+        "ai_understanding": 90.6,
+        "ai_retrieval": 84.1,
+        "ai_recommendation": 77.9,
+        "agent_readiness": 56.0,
+        "semantic_authority": 88.2
+      },
+      "top_recommendation": "Use descriptive H1/H2 headings that name each service so retrieval engines can locate and lift them.",
+      "explainable": true,
+      "repeatable": true,
+      "schema_valid": true
+    },
+    {
+      "domain": "hobaica.com",
+      "overall": 80.5,
+      "grade": "B",
+      "grade_label": "AI-Ready",
+      "components": {
+        "ai_understanding": 89.7,
+        "ai_retrieval": 85.0,
+        "ai_recommendation": 77.2,
+        "agent_readiness": 56.0,
+        "semantic_authority": 86.9
+      },
+      "top_recommendation": "Use descriptive H1/H2 headings that name each service so retrieval engines can locate and lift them.",
+      "explainable": true,
+      "repeatable": true,
+      "schema_valid": true
+    },
+    {
+      "domain": "lentheplumber.com",
+      "overall": 79.0,
+      "grade": "B",
+      "grade_label": "AI-Ready",
+      "components": {
+        "ai_understanding": 92.5,
+        "ai_retrieval": 86.7,
+        "ai_recommendation": 73.8,
+        "agent_readiness": 56.0,
+        "semantic_authority": 73.3
+      },
+      "top_recommendation": "Use descriptive H1/H2 headings that name each service so retrieval engines can locate and lift them.",
+      "explainable": true,
+      "repeatable": true,
+      "schema_valid": true
+    },
+    {
+      "domain": "abacusplumbing.net",
+      "overall": 78.5,
+      "grade": "B",
+      "grade_label": "AI-Ready",
+      "components": {
+        "ai_understanding": 89.0,
+        "ai_retrieval": 80.0,
+        "ai_recommendation": 71.0,
+        "agent_readiness": 56.0,
+        "semantic_authority": 91.1
+      },
+      "top_recommendation": "Use descriptive H1/H2 headings that name each service so retrieval engines can locate and lift them.",
+      "explainable": true,
+      "repeatable": true,
+      "schema_valid": true
+    },
+    {
+      "domain": "goettl.com",
+      "overall": 78.4,
+      "grade": "B",
+      "grade_label": "AI-Ready",
+      "components": {
+        "ai_understanding": 88.1,
+        "ai_retrieval": 80.0,
+        "ai_recommendation": 75.9,
+        "agent_readiness": 49.9,
+        "semantic_authority": 91.3
+      },
+      "top_recommendation": "Use descriptive H1/H2 headings that name each service so retrieval engines can locate and lift them.",
+      "explainable": true,
+      "repeatable": true,
+      "schema_valid": true
+    },
+    {
+      "domain": "hallerent.com",
+      "overall": 76.8,
+      "grade": "B",
+      "grade_label": "AI-Ready",
+      "components": {
+        "ai_understanding": 89.0,
+        "ai_retrieval": 73.0,
+        "ai_recommendation": 77.0,
+        "agent_readiness": 56.0,
+        "semantic_authority": 83.2
+      },
+      "top_recommendation": "Use descriptive H1/H2 headings that name each service so retrieval engines can locate and lift them.",
+      "explainable": true,
+      "repeatable": true,
+      "schema_valid": true
+    },
+    {
+      "domain": "serviceexperts.com",
+      "overall": 73.9,
+      "grade": "C",
+      "grade_label": "Partially Visible",
+      "components": {
+        "ai_understanding": 90.9,
+        "ai_retrieval": 67.3,
+        "ai_recommendation": 88.6,
+        "agent_readiness": 55.1,
+        "semantic_authority": 55.5
+      },
+      "top_recommendation": "Name the cities/regions you serve so location-based queries can retrieve you.",
+      "explainable": true,
+      "repeatable": true,
+      "schema_valid": true
+    },
+    {
+      "domain": "brennanheating.com",
+      "overall": 72.9,
+      "grade": "C",
+      "grade_label": "Partially Visible",
+      "components": {
+        "ai_understanding": 92.0,
+        "ai_retrieval": 66.3,
+        "ai_recommendation": 75.7,
+        "agent_readiness": 56.0,
+        "semantic_authority": 65.0
+      },
+      "top_recommendation": "Add an FAQ section with real question-and-answer pairs; this is the highest-leverage change for answer-engine visibility.",
+      "explainable": true,
+      "repeatable": true,
+      "schema_valid": true
+    },
+    {
+      "domain": "coolray.com",
+      "overall": 72.7,
+      "grade": "C",
+      "grade_label": "Partially Visible",
+      "components": {
+        "ai_understanding": 78.5,
+        "ai_retrieval": 80.0,
+        "ai_recommendation": 81.5,
+        "agent_readiness": 41.0,
+        "semantic_authority": 70.5
+      },
+      "top_recommendation": "Use descriptive H1/H2 headings that name each service so retrieval engines can locate and lift them.",
+      "explainable": true,
+      "repeatable": true,
+      "schema_valid": true
+    },
+    {
+      "domain": "onehourairftworth.com",
+      "overall": 72.5,
+      "grade": "C",
+      "grade_label": "Partially Visible",
+      "components": {
+        "ai_understanding": 91.9,
+        "ai_retrieval": 71.0,
+        "ai_recommendation": 68.0,
+        "agent_readiness": 55.3,
+        "semantic_authority": 65.6
+      },
+      "top_recommendation": "Add an FAQ section with real question-and-answer pairs; this is the highest-leverage change for answer-engine visibility.",
+      "explainable": true,
+      "repeatable": true,
+      "schema_valid": true
+    },
+    {
+      "domain": "lindstromair.com",
+      "overall": 70.9,
+      "grade": "C",
+      "grade_label": "Partially Visible",
+      "components": {
+        "ai_understanding": 89.5,
+        "ai_retrieval": 57.0,
+        "ai_recommendation": 66.0,
+        "agent_readiness": 77.0,
+        "semantic_authority": 63.2
+      },
+      "top_recommendation": "Add an FAQ section with real question-and-answer pairs; this is the highest-leverage change for answer-engine visibility.",
+      "explainable": true,
+      "repeatable": true,
+      "schema_valid": true
+    },
+    {
+      "domain": "horizonservices.com",
+      "overall": 70.8,
+      "grade": "C",
+      "grade_label": "Partially Visible",
+      "components": {
+        "ai_understanding": 90.5,
+        "ai_retrieval": 54.9,
+        "ai_recommendation": 79.8,
+        "agent_readiness": 62.0,
+        "semantic_authority": 61.6
+      },
+      "top_recommendation": "Add an FAQ section with real question-and-answer pairs; this is the highest-leverage change for answer-engine visibility.",
+      "explainable": true,
+      "repeatable": true,
+      "schema_valid": true
+    },
+    {
+      "domain": "larryandsons.com",
+      "overall": 70.7,
+      "grade": "C",
+      "grade_label": "Partially Visible",
+      "components": {
+        "ai_understanding": 83.7,
+        "ai_retrieval": 59.0,
+        "ai_recommendation": 74.8,
+        "agent_readiness": 47.0,
+        "semantic_authority": 86.7
+      },
+      "top_recommendation": "Add an FAQ section with real question-and-answer pairs; this is the highest-leverage change for answer-engine visibility.",
+      "explainable": true,
+      "repeatable": true,
+      "schema_valid": true
+    },
+    {
+      "domain": "bgehome.com",
+      "overall": 70.0,
+      "grade": "C",
+      "grade_label": "Partially Visible",
+      "components": {
+        "ai_understanding": 92.1,
+        "ai_retrieval": 48.9,
+        "ai_recommendation": 82.3,
+        "agent_readiness": 85.0,
+        "semantic_authority": 36.6
+      },
+      "top_recommendation": "Add an FAQ section with real question-and-answer pairs; this is the highest-leverage change for answer-engine visibility.",
+      "explainable": true,
+      "repeatable": true,
+      "schema_valid": true
+    },
+    {
+      "domain": "happyhiller.com",
+      "overall": 69.6,
+      "grade": "C",
+      "grade_label": "Partially Visible",
+      "components": {
+        "ai_understanding": 88.3,
+        "ai_retrieval": 84.0,
+        "ai_recommendation": 62.7,
+        "agent_readiness": 46.1,
+        "semantic_authority": 47.3
+      },
+      "top_recommendation": "Add JSON-LD schema.org markup (LocalBusiness/Organization, FAQPage) \u2014 the highest-impact authority signal.",
+      "explainable": true,
+      "repeatable": true,
+      "schema_valid": true
+    },
+    {
+      "domain": "hillerplumbing.com",
+      "overall": 69.4,
+      "grade": "C",
+      "grade_label": "Partially Visible",
+      "components": {
+        "ai_understanding": 88.0,
+        "ai_retrieval": 83.0,
+        "ai_recommendation": 62.6,
+        "agent_readiness": 47.0,
+        "semantic_authority": 47.3
+      },
+      "top_recommendation": "Add JSON-LD schema.org markup (LocalBusiness/Organization, FAQPage) \u2014 the highest-impact authority signal.",
+      "explainable": true,
+      "repeatable": true,
+      "schema_valid": true
+    },
+    {
+      "domain": "mistersparky.com",
+      "overall": 68.5,
+      "grade": "C",
+      "grade_label": "Partially Visible",
+      "components": {
+        "ai_understanding": 87.1,
+        "ai_retrieval": 67.7,
+        "ai_recommendation": 65.9,
+        "agent_readiness": 41.0,
+        "semantic_authority": 70.0
+      },
+      "top_recommendation": "Name the cities/regions you serve so location-based queries can retrieve you.",
+      "explainable": true,
+      "repeatable": true,
+      "schema_valid": true
+    },
+    {
+      "domain": "michaelandson.com",
+      "overall": 68.0,
+      "grade": "C",
+      "grade_label": "Partially Visible",
+      "components": {
+        "ai_understanding": 92.3,
+        "ai_retrieval": 47.3,
+        "ai_recommendation": 76.2,
+        "agent_readiness": 61.3,
+        "semantic_authority": 57.8
+      },
+      "top_recommendation": "Add an FAQ section with real question-and-answer pairs; this is the highest-leverage change for answer-engine visibility.",
+      "explainable": true,
+      "repeatable": true,
+      "schema_valid": true
+    },
+    {
+      "domain": "arsservice.com",
+      "overall": 67.2,
+      "grade": "C",
+      "grade_label": "Partially Visible",
+      "components": {
+        "ai_understanding": 86.9,
+        "ai_retrieval": 53.9,
+        "ai_recommendation": 79.1,
+        "agent_readiness": 80.0,
+        "semantic_authority": 28.1
+      },
+      "top_recommendation": "Add JSON-LD schema.org markup (LocalBusiness/Organization, FAQPage) \u2014 the highest-impact authority signal.",
+      "explainable": true,
+      "repeatable": true,
+      "schema_valid": true
+    },
+    {
+      "domain": "berkeys.com",
+      "overall": 66.8,
+      "grade": "C",
+      "grade_label": "Partially Visible",
+      "components": {
+        "ai_understanding": 89.8,
+        "ai_retrieval": 35.0,
+        "ai_recommendation": 93.7,
+        "agent_readiness": 56.0,
+        "semantic_authority": 56.7
+      },
+      "top_recommendation": "Add an FAQ section with real question-and-answer pairs; this is the highest-leverage change for answer-engine visibility.",
+      "explainable": true,
+      "repeatable": true,
+      "schema_valid": true
+    },
+    {
+      "domain": "sobieskiinc.com",
+      "overall": 66.2,
+      "grade": "C",
+      "grade_label": "Partially Visible",
+      "components": {
+        "ai_understanding": 89.1,
+        "ai_retrieval": 33.3,
+        "ai_recommendation": 74.0,
+        "agent_readiness": 86.0,
+        "semantic_authority": 52.9
+      },
+      "top_recommendation": "Add an FAQ section with real question-and-answer pairs; this is the highest-leverage change for answer-engine visibility.",
+      "explainable": true,
+      "repeatable": true,
+      "schema_valid": true
+    },
+    {
+      "domain": "benjaminfranklinplumbing.com",
+      "overall": 66.1,
+      "grade": "C",
+      "grade_label": "Partially Visible",
+      "components": {
+        "ai_understanding": 84.0,
+        "ai_retrieval": 68.0,
+        "ai_recommendation": 56.2,
+        "agent_readiness": 41.0,
+        "semantic_authority": 71.2
+      },
+      "top_recommendation": "Name the cities/regions you serve so location-based queries can retrieve you.",
+      "explainable": true,
+      "repeatable": true,
+      "schema_valid": true
+    },
+    {
+      "domain": "mrrooter.com",
+      "overall": 65.9,
+      "grade": "C",
+      "grade_label": "Partially Visible",
+      "components": {
+        "ai_understanding": 89.7,
+        "ai_retrieval": 76.9,
+        "ai_recommendation": 50.9,
+        "agent_readiness": 21.0,
+        "semantic_authority": 72.5
+      },
+      "top_recommendation": "Name the cities/regions you serve so location-based queries can retrieve you.",
+      "explainable": true,
+      "repeatable": true,
+      "schema_valid": true
+    },
+    {
+      "domain": "parkerandsons.com",
+      "overall": 65.9,
+      "grade": "C",
+      "grade_label": "Partially Visible",
+      "components": {
+        "ai_understanding": 89.1,
+        "ai_retrieval": 35.0,
+        "ai_recommendation": 85.6,
+        "agent_readiness": 63.1,
+        "semantic_authority": 55.0
+      },
+      "top_recommendation": "Add an FAQ section with real question-and-answer pairs; this is the highest-leverage change for answer-engine visibility.",
+      "explainable": true,
+      "repeatable": true,
+      "schema_valid": true
+    },
+    {
+      "domain": "griffithenergyservices.com",
+      "overall": 64.9,
+      "grade": "C",
+      "grade_label": "Partially Visible",
+      "components": {
+        "ai_understanding": 90.6,
+        "ai_retrieval": 49.0,
+        "ai_recommendation": 63.0,
+        "agent_readiness": 48.1,
+        "semantic_authority": 68.2
+      },
+      "top_recommendation": "Add an FAQ section with real question-and-answer pairs; this is the highest-leverage change for answer-engine visibility.",
+      "explainable": true,
+      "repeatable": true,
+      "schema_valid": true
+    },
+    {
+      "domain": "airprosusa.com",
+      "overall": 64.7,
+      "grade": "C",
+      "grade_label": "Partially Visible",
+      "components": {
+        "ai_understanding": 90.9,
+        "ai_retrieval": 35.0,
+        "ai_recommendation": 82.1,
+        "agent_readiness": 53.9,
+        "semantic_authority": 57.9
+      },
+      "top_recommendation": "Add an FAQ section with real question-and-answer pairs; this is the highest-leverage change for answer-engine visibility.",
+      "explainable": true,
+      "repeatable": true,
+      "schema_valid": true
+    },
+    {
+      "domain": "comfortmasters.com",
+      "overall": 64.5,
+      "grade": "C",
+      "grade_label": "Partially Visible",
+      "components": {
+        "ai_understanding": 90.1,
+        "ai_retrieval": 34.3,
+        "ai_recommendation": 82.6,
+        "agent_readiness": 56.0,
+        "semantic_authority": 56.8
+      },
+      "top_recommendation": "Add an FAQ section with real question-and-answer pairs; this is the highest-leverage change for answer-engine visibility.",
+      "explainable": true,
+      "repeatable": true,
+      "schema_valid": true
+    },
+    {
+      "domain": "acbyj.com",
+      "overall": 63.8,
+      "grade": "C",
+      "grade_label": "Partially Visible",
+      "components": {
+        "ai_understanding": 92.3,
+        "ai_retrieval": 46.7,
+        "ai_recommendation": 61.6,
+        "agent_readiness": 54.6,
+        "semantic_authority": 57.2
+      },
+      "top_recommendation": "Add an FAQ section with real question-and-answer pairs; this is the highest-leverage change for answer-engine visibility.",
+      "explainable": true,
+      "repeatable": true,
+      "schema_valid": true
+    },
+    {
+      "domain": "aireserv.com",
+      "overall": 63.3,
+      "grade": "C",
+      "grade_label": "Partially Visible",
+      "components": {
+        "ai_understanding": 71.8,
+        "ai_retrieval": 75.0,
+        "ai_recommendation": 65.2,
+        "agent_readiness": 21.4,
+        "semantic_authority": 68.7
+      },
+      "top_recommendation": "Publish your address and service locations (ideally in LocalBusiness schema) so agents can place you.",
+      "explainable": true,
+      "repeatable": true,
+      "schema_valid": true
+    },
+    {
+      "domain": "mrhandyman.com",
+      "overall": 60.9,
+      "grade": "C",
+      "grade_label": "Partially Visible",
+      "components": {
+        "ai_understanding": 73.4,
+        "ai_retrieval": 77.0,
+        "ai_recommendation": 44.3,
+        "agent_readiness": 25.1,
+        "semantic_authority": 70.9
+      },
+      "top_recommendation": "Publish your address and service locations (ideally in LocalBusiness schema) so agents can place you.",
+      "explainable": true,
+      "repeatable": true,
+      "schema_valid": true
+    },
+    {
+      "domain": "bakerbrothersplumbing.com",
+      "overall": 60.7,
+      "grade": "C",
+      "grade_label": "Partially Visible",
+      "components": {
+        "ai_understanding": 89.2,
+        "ai_retrieval": 35.0,
+        "ai_recommendation": 55.6,
+        "agent_readiness": 62.0,
+        "semantic_authority": 61.3
+      },
+      "top_recommendation": "Add an FAQ section with real question-and-answer pairs; this is the highest-leverage change for answer-engine visibility.",
+      "explainable": true,
+      "repeatable": true,
+      "schema_valid": true
+    },
+    {
+      "domain": "onehourheatandair.com",
+      "overall": 60.1,
+      "grade": "C",
+      "grade_label": "Partially Visible",
+      "components": {
+        "ai_understanding": 78.2,
+        "ai_retrieval": 60.0,
+        "ai_recommendation": 44.5,
+        "agent_readiness": 41.0,
+        "semantic_authority": 70.3
+      },
+      "top_recommendation": "Use descriptive H1/H2 headings that name each service so retrieval engines can locate and lift them.",
+      "explainable": true,
+      "repeatable": true,
+      "schema_valid": true
+    },
+    {
+      "domain": "thomasgalbraith.com",
+      "overall": 59.1,
+      "grade": "D",
+      "grade_label": "Low Visibility",
+      "components": {
+        "ai_understanding": 88.0,
+        "ai_retrieval": 27.5,
+        "ai_recommendation": 94.3,
+        "agent_readiness": 41.0,
+        "semantic_authority": 34.6
+      },
+      "top_recommendation": "Add an FAQ section with real question-and-answer pairs; this is the highest-leverage change for answer-engine visibility.",
+      "explainable": true,
+      "repeatable": true,
+      "schema_valid": true
+    },
+    {
+      "domain": "totalcomfortmechanical.com",
+      "overall": 59.1,
+      "grade": "D",
+      "grade_label": "Low Visibility",
+      "components": {
+        "ai_understanding": 68.4,
+        "ai_retrieval": 65.9,
+        "ai_recommendation": 56.1,
+        "agent_readiness": 16.7,
+        "semantic_authority": 78.9
+      },
+      "top_recommendation": "Publish your address and service locations (ideally in LocalBusiness schema) so agents can place you.",
+      "explainable": true,
+      "repeatable": true,
+      "schema_valid": true
+    },
+    {
+      "domain": "gogreenair.com",
+      "overall": 58.4,
+      "grade": "D",
+      "grade_label": "Low Visibility",
+      "components": {
+        "ai_understanding": 89.2,
+        "ai_retrieval": 20.0,
+        "ai_recommendation": 68.7,
+        "agent_readiness": 70.0,
+        "semantic_authority": 45.6
+      },
+      "top_recommendation": "Add an FAQ section with real question-and-answer pairs; this is the highest-leverage change for answer-engine visibility.",
+      "explainable": true,
+      "repeatable": true,
+      "schema_valid": true
+    },
+    {
+      "domain": "ranshaw.com",
+      "overall": 58.3,
+      "grade": "D",
+      "grade_label": "Low Visibility",
+      "components": {
+        "ai_understanding": 91.2,
+        "ai_retrieval": 51.0,
+        "ai_recommendation": 63.6,
+        "agent_readiness": 21.6,
+        "semantic_authority": 45.2
+      },
+      "top_recommendation": "Add an FAQ section with real question-and-answer pairs; this is the highest-leverage change for answer-engine visibility.",
+      "explainable": true,
+      "repeatable": true,
+      "schema_valid": true
+    },
+    {
+      "domain": "wmhenderson.com",
+      "overall": 56.3,
+      "grade": "D",
+      "grade_label": "Low Visibility",
+      "components": {
+        "ai_understanding": 90.3,
+        "ai_retrieval": 43.3,
+        "ai_recommendation": 28.0,
+        "agent_readiness": 56.0,
+        "semantic_authority": 59.2
+      },
+      "top_recommendation": "Add an FAQ section with real question-and-answer pairs; this is the highest-leverage change for answer-engine visibility.",
+      "explainable": true,
+      "repeatable": true,
+      "schema_valid": true
+    },
+    {
+      "domain": "coolingunlimited.com",
+      "overall": 54.5,
+      "grade": "D",
+      "grade_label": "Low Visibility",
+      "components": {
+        "ai_understanding": 89.6,
+        "ai_retrieval": 42.7,
+        "ai_recommendation": 62.7,
+        "agent_readiness": 21.0,
+        "semantic_authority": 37.9
+      },
+      "top_recommendation": "Add an FAQ section with real question-and-answer pairs; this is the highest-leverage change for answer-engine visibility.",
+      "explainable": true,
+      "repeatable": true,
+      "schema_valid": true
+    },
+    {
+      "domain": "donnellymech.com",
+      "overall": 53.2,
+      "grade": "D",
+      "grade_label": "Low Visibility",
+      "components": {
+        "ai_understanding": 88.4,
+        "ai_retrieval": 22.1,
+        "ai_recommendation": 55.7,
+        "agent_readiness": 50.3,
+        "semantic_authority": 46.1
+      },
+      "top_recommendation": "Add an FAQ section with real question-and-answer pairs; this is the highest-leverage change for answer-engine visibility.",
+      "explainable": true,
+      "repeatable": true,
+      "schema_valid": true
+    },
+    {
+      "domain": "airassurance.com",
+      "overall": 51.9,
+      "grade": "D",
+      "grade_label": "Low Visibility",
+      "components": {
+        "ai_understanding": 81.7,
+        "ai_retrieval": 19.6,
+        "ai_recommendation": 67.9,
+        "agent_readiness": 46.0,
+        "semantic_authority": 40.4
+      },
+      "top_recommendation": "Add an FAQ section with real question-and-answer pairs; this is the highest-leverage change for answer-engine visibility.",
+      "explainable": true,
+      "repeatable": true,
+      "schema_valid": true
+    },
+    {
+      "domain": "petro.com",
+      "overall": 51.7,
+      "grade": "D",
+      "grade_label": "Low Visibility",
+      "components": {
+        "ai_understanding": 89.2,
+        "ai_retrieval": 18.0,
+        "ai_recommendation": 51.9,
+        "agent_readiness": 56.0,
+        "semantic_authority": 40.8
+      },
+      "top_recommendation": "Add an FAQ section with real question-and-answer pairs; this is the highest-leverage change for answer-engine visibility.",
+      "explainable": true,
+      "repeatable": true,
+      "schema_valid": true
+    },
+    {
+      "domain": "morrisjenkins.com",
+      "overall": 48.0,
+      "grade": "D",
+      "grade_label": "Low Visibility",
+      "components": {
+        "ai_understanding": 81.9,
+        "ai_retrieval": 31.4,
+        "ai_recommendation": 44.0,
+        "agent_readiness": 47.0,
+        "semantic_authority": 25.7
+      },
+      "top_recommendation": "Add an FAQ section with real question-and-answer pairs; this is the highest-leverage change for answer-engine visibility.",
+      "explainable": true,
+      "repeatable": true,
+      "schema_valid": true
+    },
+    {
+      "domain": "proplansolutions.io",
+      "overall": 39.0,
+      "grade": "F",
+      "grade_label": "Invisible to AI",
+      "components": {
+        "ai_understanding": 74.7,
+        "ai_retrieval": 25.9,
+        "ai_recommendation": 27.3,
+        "agent_readiness": 34.1,
+        "semantic_authority": 21.5
+      },
+      "top_recommendation": "Add an FAQ section with real question-and-answer pairs; this is the highest-leverage change for answer-engine visibility.",
+      "explainable": true,
+      "repeatable": true,
+      "schema_valid": true
+    },
+    {
+      "domain": "rotorooter.com",
+      "overall": 36.9,
+      "grade": "F",
+      "grade_label": "Invisible to AI",
+      "components": {
+        "ai_understanding": 71.9,
+        "ai_retrieval": 30.0,
+        "ai_recommendation": 0.0,
+        "agent_readiness": 43.9,
+        "semantic_authority": 32.4
+      },
+      "top_recommendation": "Add an FAQ section with real question-and-answer pairs; this is the highest-leverage change for answer-engine visibility.",
+      "explainable": true,
+      "repeatable": true,
+      "schema_valid": true
+    },
+    {
+      "domain": "allproplumbing.com",
+      "overall": 34.5,
+      "grade": "F",
+      "grade_label": "Invisible to AI",
+      "components": {
+        "ai_understanding": 44.3,
+        "ai_retrieval": 53.0,
+        "ai_recommendation": 32.6,
+        "agent_readiness": 6.8,
+        "semantic_authority": 17.3
+      },
+      "top_recommendation": "List more of your services as distinct, named offerings so AI can understand your full scope.",
+      "explainable": true,
+      "repeatable": true,
+      "schema_valid": true
+    },
+    {
+      "domain": "goodberlet.com",
+      "overall": 12.5,
+      "grade": "F",
+      "grade_label": "Invisible to AI",
+      "components": {
+        "ai_understanding": 40.1,
+        "ai_retrieval": 3.0,
+        "ai_recommendation": 0.0,
+        "agent_readiness": 2.9,
+        "semantic_authority": 8.6
+      },
+      "top_recommendation": "Add an FAQ section with real question-and-answer pairs; this is the highest-leverage change for answer-engine visibility.",
+      "explainable": true,
+      "repeatable": true,
+      "schema_valid": true
+    },
+    {
+      "domain": "cmcservice.com",
+      "overall": 3.8,
+      "grade": "F",
+      "grade_label": "Invisible to AI",
+      "components": {
+        "ai_understanding": 0.0,
+        "ai_retrieval": 3.0,
+        "ai_recommendation": 0.0,
+        "agent_readiness": 20.0,
+        "semantic_authority": 0.0
+      },
+      "top_recommendation": "Add an FAQ section with real question-and-answer pairs; this is the highest-leverage change for answer-engine visibility.",
+      "explainable": true,
+      "repeatable": true,
+      "schema_valid": true
+    },
+    {
+      "domain": "johnmooreservices.com",
+      "overall": 0.8,
+      "grade": "F",
+      "grade_label": "Invisible to AI",
+      "components": {
+        "ai_understanding": 0.0,
+        "ai_retrieval": 3.0,
+        "ai_recommendation": 0.0,
+        "agent_readiness": 0.0,
+        "semantic_authority": 0.0
+      },
+      "top_recommendation": "Add an FAQ section with real question-and-answer pairs; this is the highest-leverage change for answer-engine visibility.",
+      "explainable": true,
+      "repeatable": true,
+      "schema_valid": true
+    },
+    {
+      "domain": "reliablehomecomfort.com",
+      "overall": 0.8,
+      "grade": "F",
+      "grade_label": "Invisible to AI",
+      "components": {
+        "ai_understanding": 0.0,
+        "ai_retrieval": 3.0,
+        "ai_recommendation": 0.0,
+        "agent_readiness": 0.0,
+        "semantic_authority": 0.0
+      },
+      "top_recommendation": "Add an FAQ section with real question-and-answer pairs; this is the highest-leverage change for answer-engine visibility.",
+      "explainable": true,
+      "repeatable": true,
+      "schema_valid": true
+    }
+  ]
+}

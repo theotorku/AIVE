@@ -70,3 +70,26 @@ def label(confidence: float) -> str:
     if confidence >= 0.5:
         return "medium"
     return "low"
+
+
+# Profile fields whose items carry a per-fact confidence score.
+_SCORED_FIELDS = ("services", "service_areas", "locations", "faqs",
+                  "offers", "trust_signals", "ctas")
+
+
+def average_confidence(profile: dict) -> float | None:
+    """Extraction Confidence Score: mean confidence over all scored facts.
+
+    A single site-level number summarizing how reliable the extracted profile
+    is. Returns None when the profile has no scored facts (nothing to average),
+    so callers can distinguish "low confidence" from "no extraction".
+    """
+    scores = [
+        item["confidence"]
+        for field_name in _SCORED_FIELDS
+        for item in (profile.get(field_name) or [])
+        if isinstance(item, dict) and isinstance(item.get("confidence"), (int, float))
+    ]
+    if not scores:
+        return None
+    return round(sum(scores) / len(scores), 2)

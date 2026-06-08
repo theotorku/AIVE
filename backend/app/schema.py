@@ -200,6 +200,137 @@ def validate_profile(data: object) -> dict:
     return data
 
 
+# --- ABI scoring contract (single source of truth) -------------------------
+# Weights follow the PRD's ABI Framework (Understanding 25 / Retrieval 25 /
+# Recommendation 20 / Agent Readiness 15 / Semantic Authority 15). They live
+# here, not in the scorer, so the validator can enforce them and the scorer
+# imports them — one definition, no drift.
+#
+# ABI_VERSION is the FROZEN measurement-instrument version. As of v0.1.1 the
+# scoring dimensions, weights, grade bands, extraction contracts, and provenance
+# taxonomy are frozen: no changes without a benchmark review (see
+# abi_spec_v0.1.1.md). `tests/test_abi_freeze.py` enforces this — bumping any
+# frozen value fails that test until ABI_VERSION and the spec are updated together.
+ABI_VERSION = "0.1.1"
+
+ABI_DIMENSIONS = [
+    "ai_understanding", "ai_retrieval", "ai_recommendation",
+    "agent_readiness", "semantic_authority",
+]
+
+ABI_DIMENSION_WEIGHTS = {
+    "ai_understanding": 0.25,
+    "ai_retrieval": 0.25,
+    "ai_recommendation": 0.20,
+    "agent_readiness": 0.15,
+    "semantic_authority": 0.15,
+}
+
+# (lower_bound, grade, label) — highest band first.
+ABI_GRADE_BANDS = [
+    (90, "A", "AI-Optimized"),
+    (75, "B", "AI-Ready"),
+    (60, "C", "Partially Visible"),
+    (40, "D", "Low Visibility"),
+    (0, "F", "Invisible to AI"),
+]
+
+
+def abi_grade_for(score: float) -> tuple[str, str]:
+    """Map a 0-100 score to its (letter, label) band. Contract-level so the
+    scorer and the validator agree on grade boundaries."""
+    for lower, letter, label in ABI_GRADE_BANDS:
+        if score >= lower:
+            return letter, label
+    return "F", "Invisible to AI"
+
+
+def validate_abi_score(data: object) -> dict:
+    """Validate an ABI score block against its contract; return unchanged.
+
+    A scoring contract must fail loudly on bad or stale output, so this checks
+    not just shape but arithmetic: dimension weights match the canonical set and
+    sum to 1, every criterion's earned/max are numeric and bounded, the grade
+    matches the overall score, and overall equals the weighted average of the
+    dimension scores. This is what lets the dashboard treat abi_score.json as a
+    stable product contract.
+    """
+    tol = 0.6  # rounding slack (dimension scores + overall are each rounded)
+    if not isinstance(data, dict):
+        raise SchemaError("abi_score must be an object")
+    for key in ("overall", "grade", "grade_label", "dimensions",
+                "top_recommendations", "summary"):
+        if key not in data:
+            raise SchemaError(f"abi_score missing '{key}'")
+    overall = data["overall"]
+    if not isinstance(overall, (int, float)) or not 0 <= overall <= 100:
+        raise SchemaError("abi_score.overall must be a number in [0, 100]")
+
+    # Grade must match the overall score per the canonical bands.
+    exp_letter, exp_label = abi_grade_for(overall)
+    if data["grade"] != exp_letter:
+        raise SchemaError(
+            f"grade {data['grade']!r} does not match overall {overall} "
+            f"(expected {exp_letter!r})")
+    if data["grade_label"] != exp_label:
+        raise SchemaError(
+            f"grade_label {data['grade_label']!r} does not match overall {overall}")
+
+    dims = data["dimensions"]
+    if not isinstance(dims, dict) or set(dims) != set(ABI_DIMENSIONS):
+        raise SchemaError(f"abi_score.dimensions must have exactly {ABI_DIMENSIONS}")
+
+    weighted_sum = 0.0
+    weight_total = 0.0
+    for name, dim in dims.items():
+        if not isinstance(dim, dict):
+            raise SchemaError(f"dimension {name} must be an object")
+        for key in ("score", "weight", "grade", "criteria"):
+            if key not in dim:
+                raise SchemaError(f"dimension {name} missing '{key}'")
+        if not isinstance(dim["score"], (int, float)) or not 0 <= dim["score"] <= 100:
+            raise SchemaError(f"dimension {name}.score must be in [0, 100]")
+        # Weight must match the canonical contract exactly.
+        if abs(dim["weight"] - ABI_DIMENSION_WEIGHTS[name]) > 1e-9:
+            raise SchemaError(
+                f"dimension {name}.weight {dim['weight']} != contract "
+                f"{ABI_DIMENSION_WEIGHTS[name]}")
+        if dim["grade"] != abi_grade_for(dim["score"])[0]:
+            raise SchemaError(f"dimension {name}.grade does not match its score")
+        if not isinstance(dim["criteria"], list) or not dim["criteria"]:
+            raise SchemaError(f"dimension {name}.criteria must be a non-empty list")
+        crit_max = crit_earned = 0.0
+        for c in dim["criteria"]:
+            for key in ("name", "earned", "max", "rationale"):
+                if key not in c:
+                    raise SchemaError(f"{name} criterion missing '{key}'")
+            if not isinstance(c["earned"], (int, float)) or not isinstance(c["max"], (int, float)):
+                raise SchemaError(f"{name} criterion earned/max must be numeric")
+            if c["max"] <= 0 or not -1e-6 <= c["earned"] <= c["max"] + 1e-6:
+                raise SchemaError(
+                    f"{name} criterion '{c['name']}' earned {c['earned']} "
+                    f"out of bounds [0, {c['max']}]")
+            crit_max += c["max"]
+            crit_earned += c["earned"]
+        # Dimension score must be the criteria's earned/max as a percentage.
+        exp_dim = round(crit_earned / crit_max * 100, 1) if crit_max else 0.0
+        if abs(dim["score"] - exp_dim) > tol:
+            raise SchemaError(
+                f"dimension {name}.score {dim['score']} != criteria %% {exp_dim}")
+        weighted_sum += dim["score"] * dim["weight"]
+        weight_total += dim["weight"]
+
+    if abs(weight_total - 1.0) > 1e-9:
+        raise SchemaError(f"dimension weights sum to {weight_total}, not 1.0")
+    if abs(overall - weighted_sum) > tol:
+        raise SchemaError(
+            f"overall {overall} != weighted average {round(weighted_sum, 1)}")
+
+    if not isinstance(data["top_recommendations"], list):
+        raise SchemaError("abi_score.top_recommendations must be a list")
+    return data
+
+
 def empty_page_extraction() -> dict:
     """A schema-valid empty per-page LLM payload (safe fallback)."""
     return {

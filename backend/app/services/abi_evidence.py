@@ -59,11 +59,22 @@ def build_abi_evidence(profile: dict) -> dict:
     if offers:
         recommendation.append(f"{len(offers)} promotional offers present.")
 
+    booking = (profile.get("actionability") or {}).get("booking") or {}
+    booking_tier = booking.get("tier") or ("T3" if contact.get("booking_url") else "T0")
+
     agent_readiness: list[str] = []
     agent_readiness.append("Phone number detected." if contact.get("phone")
                            else "No phone number detected.")
-    agent_readiness.append("Online booking link found." if contact.get("booking_url")
-                           else "No online booking link found.")
+    if booking_tier == "T3":
+        agent_readiness.append(
+            f"Direct online booking detected ({booking.get('mechanism') or 'scheduler'}).")
+    elif booking_tier == "T2":
+        agent_readiness.append("Form-based booking/quote detected.")
+    elif booking_tier == "T1":
+        agent_readiness.append("Booking intent detected (CTA/phone), but no "
+                               "deep-linkable scheduler.")
+    else:
+        agent_readiness.append("No online booking affordance detected.")
     agent_readiness.append("Contact email present." if contact.get("email")
                            else "No contact email detected.")
     if ctas:
