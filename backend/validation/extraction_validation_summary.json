@@ -1,14 +1,15 @@
 {
-  "target": 20,
+  "target": 50,
   "model": "gpt-4o-mini",
-  "attempted": 26,
-  "crawl_ok": 21,
-  "passed": 20,
-  "schema_valid": 21,
+  "attempted": 70,
+  "crawl_ok": 52,
+  "passed": 50,
+  "schema_valid": 52,
   "schema_stable": true,
   "met_target": true,
-  "total_prompt_tokens": 218035,
-  "total_completion_tokens": 70242,
+  "mean_confidence": 0.47,
+  "total_prompt_tokens": 282150,
+  "total_completion_tokens": 92624,
   "results": [
     {
       "url": "https://www.goettl.com",
@@ -33,9 +34,10 @@
         "has_phone": true,
         "business_name": true
       },
-      "prompt_tokens": 15529,
-      "completion_tokens": 6217,
-      "elapsed_s": 155.2,
+      "average_confidence": 0.45,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "elapsed_s": 0.0,
       "error": null
     },
     {
@@ -64,9 +66,10 @@
         "has_phone": true,
         "business_name": true
       },
-      "prompt_tokens": 6189,
-      "completion_tokens": 3457,
-      "elapsed_s": 82.2,
+      "average_confidence": 0.45,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "elapsed_s": 0.0,
       "error": null
     },
     {
@@ -92,9 +95,10 @@
         "has_phone": true,
         "business_name": true
       },
-      "prompt_tokens": 14291,
-      "completion_tokens": 1934,
-      "elapsed_s": 49.7,
+      "average_confidence": 0.52,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "elapsed_s": 0.0,
       "error": null
     },
     {
@@ -119,9 +123,10 @@
         "has_phone": false,
         "business_name": true
       },
-      "prompt_tokens": 8541,
-      "completion_tokens": 2194,
-      "elapsed_s": 85.6,
+      "average_confidence": 0.47,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "elapsed_s": 0.0,
       "error": null
     },
     {
@@ -149,9 +154,10 @@
         "has_phone": true,
         "business_name": true
       },
-      "prompt_tokens": 10677,
-      "completion_tokens": 6122,
-      "elapsed_s": 114.1,
+      "average_confidence": 0.45,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "elapsed_s": 0.0,
       "error": null
     },
     {
@@ -177,9 +183,10 @@
         "has_phone": true,
         "business_name": true
       },
-      "prompt_tokens": 5940,
-      "completion_tokens": 2950,
-      "elapsed_s": 67.4,
+      "average_confidence": 0.51,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "elapsed_s": 0.0,
       "error": null
     },
     {
@@ -206,9 +213,10 @@
         "has_phone": true,
         "business_name": true
       },
-      "prompt_tokens": 13291,
-      "completion_tokens": 4987,
-      "elapsed_s": 97.7,
+      "average_confidence": 0.49,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "elapsed_s": 0.0,
       "error": null
     },
     {
@@ -237,9 +245,10 @@
         "has_phone": true,
         "business_name": true
       },
-      "prompt_tokens": 12471,
-      "completion_tokens": 1896,
-      "elapsed_s": 48.1,
+      "average_confidence": 0.38,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "elapsed_s": 0.0,
       "error": null
     },
     {
@@ -264,9 +273,10 @@
         "has_phone": true,
         "business_name": true
       },
-      "prompt_tokens": 7907,
-      "completion_tokens": 1567,
-      "elapsed_s": 17.7,
+      "average_confidence": 0.44,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "elapsed_s": 0.0,
       "error": null
     },
     {
@@ -291,9 +301,10 @@
         "has_phone": true,
         "business_name": true
       },
-      "prompt_tokens": 11523,
-      "completion_tokens": 4823,
-      "elapsed_s": 93.3,
+      "average_confidence": 0.52,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "elapsed_s": 0.0,
       "error": null
     },
     {
@@ -321,9 +332,10 @@
         "has_phone": true,
         "business_name": true
       },
-      "prompt_tokens": 12142,
-      "completion_tokens": 4133,
-      "elapsed_s": 89.6,
+      "average_confidence": 0.4,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "elapsed_s": 0.0,
       "error": null
     },
     {
@@ -336,9 +348,10 @@
       "accurate": false,
       "passed": false,
       "coverage": {},
+      "average_confidence": null,
       "prompt_tokens": 0,
       "completion_tokens": 0,
-      "elapsed_s": 1.9,
+      "elapsed_s": 4.1,
       "error": "no pages crawled"
     },
     {
@@ -363,9 +376,10 @@
         "has_phone": true,
         "business_name": true
       },
-      "prompt_tokens": 9812,
-      "completion_tokens": 2851,
-      "elapsed_s": 158.6,
+      "average_confidence": 0.53,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "elapsed_s": 0.0,
       "error": null
     },
     {
@@ -392,9 +406,10 @@
         "has_phone": true,
         "business_name": true
       },
-      "prompt_tokens": 7540,
-      "completion_tokens": 2237,
-      "elapsed_s": 89.4,
+      "average_confidence": 0.4,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "elapsed_s": 0.0,
       "error": null
     },
     {
@@ -420,9 +435,10 @@
         "has_phone": true,
         "business_name": true
       },
-      "prompt_tokens": 13386,
-      "completion_tokens": 3740,
-      "elapsed_s": 84.5,
+      "average_confidence": 0.55,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "elapsed_s": 0.0,
       "error": null
     },
     {
@@ -449,9 +465,10 @@
         "has_phone": true,
         "business_name": true
       },
-      "prompt_tokens": 10485,
-      "completion_tokens": 2653,
-      "elapsed_s": 69.9,
+      "average_confidence": 0.56,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "elapsed_s": 0.0,
       "error": null
     },
     {
@@ -476,9 +493,10 @@
         "has_phone": true,
         "business_name": true
       },
-      "prompt_tokens": 8755,
-      "completion_tokens": 3545,
-      "elapsed_s": 59.6,
+      "average_confidence": 0.49,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "elapsed_s": 0.0,
       "error": null
     },
     {
@@ -491,9 +509,10 @@
       "accurate": false,
       "passed": false,
       "coverage": {},
+      "average_confidence": null,
       "prompt_tokens": 0,
       "completion_tokens": 0,
-      "elapsed_s": 1.4,
+      "elapsed_s": 1.1,
       "error": "no pages crawled"
     },
     {
@@ -519,9 +538,10 @@
         "has_phone": true,
         "business_name": true
       },
-      "prompt_tokens": 11417,
-      "completion_tokens": 4174,
-      "elapsed_s": 102.8,
+      "average_confidence": 0.51,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "elapsed_s": 0.0,
       "error": null
     },
     {
@@ -546,9 +566,10 @@
         "has_phone": true,
         "business_name": true
       },
-      "prompt_tokens": 19602,
-      "completion_tokens": 6481,
-      "elapsed_s": 118.9,
+      "average_confidence": 0.5,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "elapsed_s": 0.0,
       "error": null
     },
     {
@@ -575,9 +596,10 @@
         "has_phone": true,
         "business_name": true
       },
-      "prompt_tokens": 6405,
-      "completion_tokens": 1798,
-      "elapsed_s": 60.6,
+      "average_confidence": 0.45,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "elapsed_s": 0.0,
       "error": null
     },
     {
@@ -601,9 +623,10 @@
         "has_phone": false,
         "business_name": false
       },
-      "prompt_tokens": 762,
-      "completion_tokens": 61,
-      "elapsed_s": 5.5,
+      "average_confidence": null,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "elapsed_s": 0.0,
       "error": "low coverage"
     },
     {
@@ -616,9 +639,10 @@
       "accurate": false,
       "passed": false,
       "coverage": {},
+      "average_confidence": null,
       "prompt_tokens": 0,
       "completion_tokens": 0,
-      "elapsed_s": 2.7,
+      "elapsed_s": 1.0,
       "error": "no pages crawled"
     },
     {
@@ -631,9 +655,10 @@
       "accurate": false,
       "passed": false,
       "coverage": {},
+      "average_confidence": null,
       "prompt_tokens": 0,
       "completion_tokens": 0,
-      "elapsed_s": 2.9,
+      "elapsed_s": 1.5,
       "error": "no pages crawled"
     },
     {
@@ -646,9 +671,10 @@
       "accurate": false,
       "passed": false,
       "coverage": {},
+      "average_confidence": null,
       "prompt_tokens": 0,
       "completion_tokens": 0,
-      "elapsed_s": 5.1,
+      "elapsed_s": 17.5,
       "error": "no pages crawled"
     },
     {
@@ -674,9 +700,1121 @@
         "has_phone": true,
         "business_name": true
       },
-      "prompt_tokens": 11370,
-      "completion_tokens": 2422,
+      "average_confidence": 0.47,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "elapsed_s": 0.0,
+      "error": null
+    },
+    {
+      "url": "https://www.berkeys.com",
+      "domain": "berkeys.com",
+      "crawl_ok": true,
+      "pages": 6,
+      "page_categories": {
+        "home": 1,
+        "location": 2,
+        "service_detail": 2,
+        "reviews": 1
+      },
+      "schema_valid": true,
+      "accurate": true,
+      "passed": true,
+      "coverage": {
+        "services": 31,
+        "service_areas": 76,
+        "locations": 2,
+        "faqs": 0,
+        "offers": 3,
+        "trust_signals": 9,
+        "has_phone": true,
+        "business_name": true
+      },
+      "average_confidence": 0.43,
+      "prompt_tokens": 10456,
+      "completion_tokens": 7208,
+      "elapsed_s": 171.7,
+      "error": null
+    },
+    {
+      "url": "https://www.hobaica.com",
+      "domain": "hobaica.com",
+      "crawl_ok": true,
+      "pages": 6,
+      "page_categories": {
+        "home": 1,
+        "location": 1,
+        "reviews": 1,
+        "faq": 3
+      },
+      "schema_valid": true,
+      "accurate": true,
+      "passed": true,
+      "coverage": {
+        "services": 20,
+        "service_areas": 33,
+        "locations": 1,
+        "faqs": 4,
+        "offers": 3,
+        "trust_signals": 9,
+        "has_phone": true,
+        "business_name": true
+      },
+      "average_confidence": 0.42,
+      "prompt_tokens": 8181,
+      "completion_tokens": 4137,
+      "elapsed_s": 101.1,
+      "error": null
+    },
+    {
+      "url": "https://www.johnmooreservices.com",
+      "domain": "johnmooreservices.com",
+      "crawl_ok": true,
+      "pages": 1,
+      "page_categories": {
+        "home": 1
+      },
+      "schema_valid": true,
+      "accurate": false,
+      "passed": false,
+      "coverage": {
+        "services": 0,
+        "service_areas": 0,
+        "locations": 0,
+        "faqs": 0,
+        "offers": 0,
+        "trust_signals": 0,
+        "has_phone": false,
+        "business_name": false
+      },
+      "average_confidence": null,
+      "prompt_tokens": 710,
+      "completion_tokens": 61,
+      "elapsed_s": 5.0,
+      "error": "low coverage"
+    },
+    {
+      "url": "https://www.abacusplumbing.net",
+      "domain": "abacusplumbing.net",
+      "crawl_ok": true,
+      "pages": 6,
+      "page_categories": {
+        "home": 1,
+        "contact": 1,
+        "location": 1,
+        "service_detail": 2,
+        "faq": 1
+      },
+      "schema_valid": true,
+      "accurate": true,
+      "passed": true,
+      "coverage": {
+        "services": 30,
+        "service_areas": 37,
+        "locations": 3,
+        "faqs": 1,
+        "offers": 5,
+        "trust_signals": 11,
+        "has_phone": true,
+        "business_name": true
+      },
+      "average_confidence": 0.49,
+      "prompt_tokens": 11264,
+      "completion_tokens": 4963,
+      "elapsed_s": 141.8,
+      "error": null
+    },
+    {
+      "url": "https://www.horizonservices.com",
+      "domain": "horizonservices.com",
+      "crawl_ok": true,
+      "pages": 6,
+      "page_categories": {
+        "home": 1,
+        "service_detail": 3,
+        "about": 2
+      },
+      "schema_valid": true,
+      "accurate": true,
+      "passed": true,
+      "coverage": {
+        "services": 33,
+        "service_areas": 15,
+        "locations": 8,
+        "faqs": 1,
+        "offers": 1,
+        "trust_signals": 15,
+        "has_phone": true,
+        "business_name": true
+      },
+      "average_confidence": 0.5,
+      "prompt_tokens": 13819,
+      "completion_tokens": 4553,
+      "elapsed_s": 114.5,
+      "error": null
+    },
+    {
+      "url": "https://www.rotorooter.com",
+      "domain": "rotorooter.com",
+      "crawl_ok": false,
+      "pages": 0,
+      "page_categories": {},
+      "schema_valid": false,
+      "accurate": false,
+      "passed": false,
+      "coverage": {},
+      "average_confidence": null,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "elapsed_s": 57.5,
+      "error": "AttributeError: 'list' object has no attribute 'lower'"
+    },
+    {
+      "url": "https://www.mrrooter.com",
+      "domain": "mrrooter.com",
+      "crawl_ok": true,
+      "pages": 6,
+      "page_categories": {
+        "home": 1,
+        "service_detail": 5
+      },
+      "schema_valid": true,
+      "accurate": true,
+      "passed": true,
+      "coverage": {
+        "services": 14,
+        "service_areas": 0,
+        "locations": 1,
+        "faqs": 2,
+        "offers": 0,
+        "trust_signals": 4,
+        "has_phone": false,
+        "business_name": true
+      },
+      "average_confidence": 0.59,
+      "prompt_tokens": 9341,
+      "completion_tokens": 1786,
+      "elapsed_s": 100.6,
+      "error": null
+    },
+    {
+      "url": "https://www.benjaminfranklinplumbing.com",
+      "domain": "benjaminfranklinplumbing.com",
+      "crawl_ok": true,
+      "pages": 6,
+      "page_categories": {
+        "home": 1,
+        "service_detail": 4,
+        "faq": 1
+      },
+      "schema_valid": true,
+      "accurate": true,
+      "passed": true,
+      "coverage": {
+        "services": 15,
+        "service_areas": 0,
+        "locations": 1,
+        "faqs": 7,
+        "offers": 0,
+        "trust_signals": 16,
+        "has_phone": true,
+        "business_name": true
+      },
+      "average_confidence": 0.5,
+      "prompt_tokens": 9799,
+      "completion_tokens": 2579,
+      "elapsed_s": 73.0,
+      "error": null
+    },
+    {
+      "url": "https://www.onehourheatandair.com",
+      "domain": "onehourheatandair.com",
+      "crawl_ok": true,
+      "pages": 6,
+      "page_categories": {
+        "home": 1,
+        "service_detail": 2,
+        "faq": 3
+      },
+      "schema_valid": true,
+      "accurate": true,
+      "passed": true,
+      "coverage": {
+        "services": 18,
+        "service_areas": 0,
+        "locations": 1,
+        "faqs": 0,
+        "offers": 1,
+        "trust_signals": 4,
+        "has_phone": true,
+        "business_name": true
+      },
+      "average_confidence": 0.35,
+      "prompt_tokens": 8321,
+      "completion_tokens": 1791,
+      "elapsed_s": 59.0,
+      "error": null
+    },
+    {
+      "url": "https://www.mistersparky.com",
+      "domain": "mistersparky.com",
+      "crawl_ok": true,
+      "pages": 5,
+      "page_categories": {
+        "home": 1,
+        "service_detail": 3,
+        "faq": 1
+      },
+      "schema_valid": true,
+      "accurate": true,
+      "passed": true,
+      "coverage": {
+        "services": 13,
+        "service_areas": 0,
+        "locations": 1,
+        "faqs": 2,
+        "offers": 2,
+        "trust_signals": 8,
+        "has_phone": true,
+        "business_name": true
+      },
+      "average_confidence": 0.45,
+      "prompt_tokens": 10285,
+      "completion_tokens": 1856,
+      "elapsed_s": 82.1,
+      "error": null
+    },
+    {
+      "url": "https://www.mrhandyman.com",
+      "domain": "mrhandyman.com",
+      "crawl_ok": true,
+      "pages": 6,
+      "page_categories": {
+        "home": 1,
+        "faq": 5
+      },
+      "schema_valid": true,
+      "accurate": true,
+      "passed": true,
+      "coverage": {
+        "services": 20,
+        "service_areas": 0,
+        "locations": 0,
+        "faqs": 7,
+        "offers": 0,
+        "trust_signals": 7,
+        "has_phone": false,
+        "business_name": true
+      },
+      "average_confidence": 0.5,
+      "prompt_tokens": 8502,
+      "completion_tokens": 2619,
+      "elapsed_s": 108.4,
+      "error": null
+    },
+    {
+      "url": "https://www.lentheplumber.com",
+      "domain": "lentheplumber.com",
+      "crawl_ok": true,
+      "pages": 6,
+      "page_categories": {
+        "home": 1,
+        "location": 1,
+        "service_detail": 2,
+        "contact": 1,
+        "faq": 1
+      },
+      "schema_valid": true,
+      "accurate": true,
+      "passed": true,
+      "coverage": {
+        "services": 16,
+        "service_areas": 39,
+        "locations": 0,
+        "faqs": 3,
+        "offers": 1,
+        "trust_signals": 12,
+        "has_phone": true,
+        "business_name": true
+      },
+      "average_confidence": 0.51,
+      "prompt_tokens": 8372,
+      "completion_tokens": 3554,
       "elapsed_s": 90.1,
+      "error": null
+    },
+    {
+      "url": "https://www.petriplumbing.com",
+      "domain": "petriplumbing.com",
+      "crawl_ok": true,
+      "pages": 6,
+      "page_categories": {
+        "home": 1,
+        "faq": 4,
+        "about": 1
+      },
+      "schema_valid": true,
+      "accurate": true,
+      "passed": true,
+      "coverage": {
+        "services": 18,
+        "service_areas": 4,
+        "locations": 2,
+        "faqs": 0,
+        "offers": 2,
+        "trust_signals": 9,
+        "has_phone": true,
+        "business_name": true
+      },
+      "average_confidence": 0.53,
+      "prompt_tokens": 13603,
+      "completion_tokens": 2977,
+      "elapsed_s": 95.7,
+      "error": null
+    },
+    {
+      "url": "https://www.wmhenderson.com",
+      "domain": "wmhenderson.com",
+      "crawl_ok": true,
+      "pages": 6,
+      "page_categories": {
+        "home": 1,
+        "service_detail": 5
+      },
+      "schema_valid": true,
+      "accurate": true,
+      "passed": true,
+      "coverage": {
+        "services": 36,
+        "service_areas": 16,
+        "locations": 1,
+        "faqs": 0,
+        "offers": 0,
+        "trust_signals": 3,
+        "has_phone": true,
+        "business_name": true
+      },
+      "average_confidence": 0.53,
+      "prompt_tokens": 9305,
+      "completion_tokens": 3617,
+      "elapsed_s": 90.3,
+      "error": null
+    },
+    {
+      "url": "https://www.hallerent.com",
+      "domain": "hallerent.com",
+      "crawl_ok": true,
+      "pages": 6,
+      "page_categories": {
+        "home": 1,
+        "location": 4,
+        "faq": 1
+      },
+      "schema_valid": true,
+      "accurate": true,
+      "passed": true,
+      "coverage": {
+        "services": 27,
+        "service_areas": 70,
+        "locations": 4,
+        "faqs": 0,
+        "offers": 7,
+        "trust_signals": 8,
+        "has_phone": true,
+        "business_name": true
+      },
+      "average_confidence": 0.5,
+      "prompt_tokens": 14102,
+      "completion_tokens": 4439,
+      "elapsed_s": 113.2,
+      "error": null
+    },
+    {
+      "url": "https://www.petro.com",
+      "domain": "petro.com",
+      "crawl_ok": true,
+      "pages": 6,
+      "page_categories": {
+        "home": 1,
+        "service_detail": 4,
+        "pricing": 1
+      },
+      "schema_valid": true,
+      "accurate": true,
+      "passed": true,
+      "coverage": {
+        "services": 21,
+        "service_areas": 0,
+        "locations": 0,
+        "faqs": 0,
+        "offers": 1,
+        "trust_signals": 5,
+        "has_phone": true,
+        "business_name": true
+      },
+      "average_confidence": 0.42,
+      "prompt_tokens": 10835,
+      "completion_tokens": 1924,
+      "elapsed_s": 64.5,
+      "error": null
+    },
+    {
+      "url": "https://www.thomasgalbraith.com",
+      "domain": "thomasgalbraith.com",
+      "crawl_ok": true,
+      "pages": 6,
+      "page_categories": {
+        "home": 1,
+        "service_detail": 3,
+        "services": 1,
+        "contact": 1
+      },
+      "schema_valid": true,
+      "accurate": true,
+      "passed": true,
+      "coverage": {
+        "services": 15,
+        "service_areas": 3,
+        "locations": 2,
+        "faqs": 0,
+        "offers": 4,
+        "trust_signals": 13,
+        "has_phone": true,
+        "business_name": true
+      },
+      "average_confidence": 0.47,
+      "prompt_tokens": 12302,
+      "completion_tokens": 2349,
+      "elapsed_s": 73.1,
+      "error": null
+    },
+    {
+      "url": "https://www.gemplumbing.com",
+      "domain": "gemplumbing.com",
+      "crawl_ok": false,
+      "pages": 0,
+      "page_categories": {},
+      "schema_valid": false,
+      "accurate": false,
+      "passed": false,
+      "coverage": {},
+      "average_confidence": null,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "elapsed_s": 1.7,
+      "error": "no pages crawled"
+    },
+    {
+      "url": "https://www.lindstromair.com",
+      "domain": "lindstromair.com",
+      "crawl_ok": true,
+      "pages": 6,
+      "page_categories": {
+        "home": 1,
+        "services": 1,
+        "location": 1,
+        "contact": 1,
+        "service_detail": 1,
+        "unknown": 1
+      },
+      "schema_valid": true,
+      "accurate": true,
+      "passed": true,
+      "coverage": {
+        "services": 12,
+        "service_areas": 20,
+        "locations": 4,
+        "faqs": 3,
+        "offers": 2,
+        "trust_signals": 11,
+        "has_phone": true,
+        "business_name": true
+      },
+      "average_confidence": 0.46,
+      "prompt_tokens": 9295,
+      "completion_tokens": 3067,
+      "elapsed_s": 95.1,
+      "error": null
+    },
+    {
+      "url": "https://www.sobieskiinc.com",
+      "domain": "sobieskiinc.com",
+      "crawl_ok": true,
+      "pages": 6,
+      "page_categories": {
+        "home": 1,
+        "contact": 1,
+        "about": 2,
+        "service_detail": 2
+      },
+      "schema_valid": true,
+      "accurate": true,
+      "passed": true,
+      "coverage": {
+        "services": 30,
+        "service_areas": 4,
+        "locations": 1,
+        "faqs": 0,
+        "offers": 4,
+        "trust_signals": 12,
+        "has_phone": true,
+        "business_name": true
+      },
+      "average_confidence": 0.45,
+      "prompt_tokens": 7639,
+      "completion_tokens": 2953,
+      "elapsed_s": 69.9,
+      "error": null
+    },
+    {
+      "url": "https://www.griffithenergyservices.com",
+      "domain": "griffithenergyservices.com",
+      "crawl_ok": true,
+      "pages": 6,
+      "page_categories": {
+        "home": 1,
+        "service_detail": 4,
+        "contact": 1
+      },
+      "schema_valid": true,
+      "accurate": true,
+      "passed": true,
+      "coverage": {
+        "services": 11,
+        "service_areas": 17,
+        "locations": 18,
+        "faqs": 1,
+        "offers": 3,
+        "trust_signals": 5,
+        "has_phone": true,
+        "business_name": true
+      },
+      "average_confidence": 0.55,
+      "prompt_tokens": 12647,
+      "completion_tokens": 7504,
+      "elapsed_s": 825.7,
+      "error": null
+    },
+    {
+      "url": "https://www.ranshaw.com",
+      "domain": "ranshaw.com",
+      "crawl_ok": true,
+      "pages": 6,
+      "page_categories": {
+        "home": 1,
+        "about": 5
+      },
+      "schema_valid": true,
+      "accurate": true,
+      "passed": true,
+      "coverage": {
+        "services": 10,
+        "service_areas": 15,
+        "locations": 3,
+        "faqs": 0,
+        "offers": 0,
+        "trust_signals": 5,
+        "has_phone": false,
+        "business_name": true
+      },
+      "average_confidence": 0.68,
+      "prompt_tokens": 10010,
+      "completion_tokens": 4149,
+      "elapsed_s": 85.2,
+      "error": null
+    },
+    {
+      "url": "https://www.hillerplumbing.com",
+      "domain": "hillerplumbing.com",
+      "crawl_ok": true,
+      "pages": 6,
+      "page_categories": {
+        "home": 1,
+        "blog": 2,
+        "service_detail": 3
+      },
+      "schema_valid": true,
+      "accurate": true,
+      "passed": true,
+      "coverage": {
+        "services": 21,
+        "service_areas": 5,
+        "locations": 2,
+        "faqs": 8,
+        "offers": 0,
+        "trust_signals": 7,
+        "has_phone": true,
+        "business_name": true
+      },
+      "average_confidence": 0.47,
+      "prompt_tokens": 11370,
+      "completion_tokens": 2383,
+      "elapsed_s": 66.0,
+      "error": null
+    },
+    {
+      "url": "https://www.mauzy.com",
+      "domain": "mauzy.com",
+      "crawl_ok": true,
+      "pages": 6,
+      "page_categories": {
+        "home": 1,
+        "service_detail": 5
+      },
+      "schema_valid": true,
+      "accurate": true,
+      "passed": true,
+      "coverage": {
+        "services": 11,
+        "service_areas": 25,
+        "locations": 3,
+        "faqs": 12,
+        "offers": 5,
+        "trust_signals": 11,
+        "has_phone": true,
+        "business_name": true
+      },
+      "average_confidence": 0.53,
+      "prompt_tokens": 12961,
+      "completion_tokens": 4224,
+      "elapsed_s": 104.0,
+      "error": null
+    },
+    {
+      "url": "https://www.goodberlet.com",
+      "domain": "goodberlet.com",
+      "crawl_ok": true,
+      "pages": 1,
+      "page_categories": {
+        "home": 1
+      },
+      "schema_valid": true,
+      "accurate": true,
+      "passed": true,
+      "coverage": {
+        "services": 6,
+        "service_areas": 0,
+        "locations": 0,
+        "faqs": 0,
+        "offers": 1,
+        "trust_signals": 0,
+        "has_phone": false,
+        "business_name": false
+      },
+      "average_confidence": 0.4,
+      "prompt_tokens": 887,
+      "completion_tokens": 263,
+      "elapsed_s": 8.0,
+      "error": null
+    },
+    {
+      "url": "https://www.larryandsons.com",
+      "domain": "larryandsons.com",
+      "crawl_ok": true,
+      "pages": 6,
+      "page_categories": {
+        "home": 1,
+        "faq": 5
+      },
+      "schema_valid": true,
+      "accurate": true,
+      "passed": true,
+      "coverage": {
+        "services": 43,
+        "service_areas": 11,
+        "locations": 1,
+        "faqs": 0,
+        "offers": 5,
+        "trust_signals": 7,
+        "has_phone": true,
+        "business_name": true
+      },
+      "average_confidence": 0.41,
+      "prompt_tokens": 9025,
+      "completion_tokens": 3662,
+      "elapsed_s": 100.1,
+      "error": null
+    },
+    {
+      "url": "https://www.michaelbonsby.com",
+      "domain": "michaelbonsby.com",
+      "crawl_ok": false,
+      "pages": 0,
+      "page_categories": {},
+      "schema_valid": false,
+      "accurate": false,
+      "passed": false,
+      "coverage": {},
+      "average_confidence": null,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "elapsed_s": 1.1,
+      "error": "no pages crawled"
+    },
+    {
+      "url": "https://www.cmcservice.com",
+      "domain": "cmcservice.com",
+      "crawl_ok": true,
+      "pages": 1,
+      "page_categories": {
+        "service_detail": 1
+      },
+      "schema_valid": true,
+      "accurate": true,
+      "passed": true,
+      "coverage": {
+        "services": 0,
+        "service_areas": 0,
+        "locations": 0,
+        "faqs": 0,
+        "offers": 0,
+        "trust_signals": 0,
+        "has_phone": true,
+        "business_name": false
+      },
+      "average_confidence": null,
+      "prompt_tokens": 804,
+      "completion_tokens": 68,
+      "elapsed_s": 3.9,
+      "error": null
+    },
+    {
+      "url": "https://www.lulasplumbing.com",
+      "domain": "lulasplumbing.com",
+      "crawl_ok": false,
+      "pages": 0,
+      "page_categories": {},
+      "schema_valid": false,
+      "accurate": false,
+      "passed": false,
+      "coverage": {},
+      "average_confidence": null,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "elapsed_s": 1.0,
+      "error": "no pages crawled"
+    },
+    {
+      "url": "https://www.airnowcooling.com",
+      "domain": "airnowcooling.com",
+      "crawl_ok": false,
+      "pages": 0,
+      "page_categories": {},
+      "schema_valid": false,
+      "accurate": false,
+      "passed": false,
+      "coverage": {},
+      "average_confidence": null,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "elapsed_s": 1.2,
+      "error": "no pages crawled"
+    },
+    {
+      "url": "https://www.weldonp&h.com",
+      "domain": "weldonp_h.com",
+      "crawl_ok": false,
+      "pages": 0,
+      "page_categories": {},
+      "schema_valid": false,
+      "accurate": false,
+      "passed": false,
+      "coverage": {},
+      "average_confidence": null,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "elapsed_s": 1.0,
+      "error": "no pages crawled"
+    },
+    {
+      "url": "https://www.bluedotservice.com",
+      "domain": "bluedotservice.com",
+      "crawl_ok": false,
+      "pages": 0,
+      "page_categories": {},
+      "schema_valid": false,
+      "accurate": false,
+      "passed": false,
+      "coverage": {},
+      "average_confidence": null,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "elapsed_s": 1.1,
+      "error": "no pages crawled"
+    },
+    {
+      "url": "https://www.precisionhvactexas.com",
+      "domain": "precisionhvactexas.com",
+      "crawl_ok": false,
+      "pages": 0,
+      "page_categories": {},
+      "schema_valid": false,
+      "accurate": false,
+      "passed": false,
+      "coverage": {},
+      "average_confidence": null,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "elapsed_s": 1.0,
+      "error": "no pages crawled"
+    },
+    {
+      "url": "https://www.dynamicairllc.com",
+      "domain": "dynamicairllc.com",
+      "crawl_ok": false,
+      "pages": 0,
+      "page_categories": {},
+      "schema_valid": false,
+      "accurate": false,
+      "passed": false,
+      "coverage": {},
+      "average_confidence": null,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "elapsed_s": 1.1,
+      "error": "no pages crawled"
+    },
+    {
+      "url": "https://www.coolingunlimited.com",
+      "domain": "coolingunlimited.com",
+      "crawl_ok": true,
+      "pages": 6,
+      "page_categories": {
+        "home": 1,
+        "location": 5
+      },
+      "schema_valid": true,
+      "accurate": true,
+      "passed": true,
+      "coverage": {
+        "services": 30,
+        "service_areas": 101,
+        "locations": 4,
+        "faqs": 0,
+        "offers": 0,
+        "trust_signals": 6,
+        "has_phone": false,
+        "business_name": true
+      },
+      "average_confidence": 0.48,
+      "prompt_tokens": 10822,
+      "completion_tokens": 4901,
+      "elapsed_s": 96.8,
+      "error": null
+    },
+    {
+      "url": "https://www.frostingny.com",
+      "domain": "frostingny.com",
+      "crawl_ok": false,
+      "pages": 0,
+      "page_categories": {},
+      "schema_valid": false,
+      "accurate": false,
+      "passed": false,
+      "coverage": {},
+      "average_confidence": null,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "elapsed_s": 1.1,
+      "error": "no pages crawled"
+    },
+    {
+      "url": "https://www.airassurance.com",
+      "domain": "airassurance.com",
+      "crawl_ok": true,
+      "pages": 6,
+      "page_categories": {
+        "home": 1,
+        "location": 1,
+        "services": 1,
+        "about": 1,
+        "blog": 2
+      },
+      "schema_valid": true,
+      "accurate": true,
+      "passed": true,
+      "coverage": {
+        "services": 6,
+        "service_areas": 2,
+        "locations": 1,
+        "faqs": 0,
+        "offers": 0,
+        "trust_signals": 13,
+        "has_phone": true,
+        "business_name": true
+      },
+      "average_confidence": 0.43,
+      "prompt_tokens": 6805,
+      "completion_tokens": 1254,
+      "elapsed_s": 37.6,
+      "error": null
+    },
+    {
+      "url": "https://www.acbyj.com",
+      "domain": "acbyj.com",
+      "crawl_ok": true,
+      "pages": 6,
+      "page_categories": {
+        "home": 1,
+        "contact": 1,
+        "service_detail": 4
+      },
+      "schema_valid": true,
+      "accurate": true,
+      "passed": true,
+      "coverage": {
+        "services": 12,
+        "service_areas": 6,
+        "locations": 1,
+        "faqs": 0,
+        "offers": 1,
+        "trust_signals": 11,
+        "has_phone": true,
+        "business_name": true
+      },
+      "average_confidence": 0.49,
+      "prompt_tokens": 5781,
+      "completion_tokens": 1960,
+      "elapsed_s": 59.7,
+      "error": null
+    },
+    {
+      "url": "https://www.classicairtexas.com",
+      "domain": "classicairtexas.com",
+      "crawl_ok": false,
+      "pages": 0,
+      "page_categories": {},
+      "schema_valid": false,
+      "accurate": false,
+      "passed": false,
+      "coverage": {},
+      "average_confidence": null,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "elapsed_s": 1.0,
+      "error": "no pages crawled"
+    },
+    {
+      "url": "https://www.comfortmasters.com",
+      "domain": "comfortmasters.com",
+      "crawl_ok": true,
+      "pages": 6,
+      "page_categories": {
+        "home": 1,
+        "service_detail": 4,
+        "contact": 1
+      },
+      "schema_valid": true,
+      "accurate": true,
+      "passed": true,
+      "coverage": {
+        "services": 17,
+        "service_areas": 6,
+        "locations": 1,
+        "faqs": 0,
+        "offers": 4,
+        "trust_signals": 9,
+        "has_phone": true,
+        "business_name": true
+      },
+      "average_confidence": 0.49,
+      "prompt_tokens": 8386,
+      "completion_tokens": 2583,
+      "elapsed_s": 68.6,
+      "error": null
+    },
+    {
+      "url": "https://www.airsupplyheating.com",
+      "domain": "airsupplyheating.com",
+      "crawl_ok": false,
+      "pages": 0,
+      "page_categories": {},
+      "schema_valid": false,
+      "accurate": false,
+      "passed": false,
+      "coverage": {},
+      "average_confidence": null,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "elapsed_s": 1.7,
+      "error": "no pages crawled"
+    },
+    {
+      "url": "https://www.allproplumbing.com",
+      "domain": "allproplumbing.com",
+      "crawl_ok": true,
+      "pages": 6,
+      "page_categories": {
+        "service_detail": 1,
+        "faq": 1,
+        "pricing": 1,
+        "reviews": 1,
+        "about": 1,
+        "unknown": 1
+      },
+      "schema_valid": true,
+      "accurate": true,
+      "passed": true,
+      "coverage": {
+        "services": 4,
+        "service_areas": 0,
+        "locations": 0,
+        "faqs": 8,
+        "offers": 1,
+        "trust_signals": 2,
+        "has_phone": false,
+        "business_name": true
+      },
+      "average_confidence": 0.26,
+      "prompt_tokens": 8875,
+      "completion_tokens": 1190,
+      "elapsed_s": 51.5,
+      "error": null
+    },
+    {
+      "url": "https://www.scottsheatingandair.com",
+      "domain": "scottsheatingandair.com",
+      "crawl_ok": false,
+      "pages": 0,
+      "page_categories": {},
+      "schema_valid": false,
+      "accurate": false,
+      "passed": false,
+      "coverage": {},
+      "average_confidence": null,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "elapsed_s": 22.5,
+      "error": "no pages crawled"
+    },
+    {
+      "url": "https://www.totalcomfortmechanical.com",
+      "domain": "totalcomfortmechanical.com",
+      "crawl_ok": true,
+      "pages": 6,
+      "page_categories": {
+        "home": 1,
+        "faq": 1,
+        "service_detail": 3,
+        "services": 1
+      },
+      "schema_valid": true,
+      "accurate": true,
+      "passed": true,
+      "coverage": {
+        "services": 27,
+        "service_areas": 14,
+        "locations": 0,
+        "faqs": 0,
+        "offers": 0,
+        "trust_signals": 7,
+        "has_phone": false,
+        "business_name": true
+      },
+      "average_confidence": 0.41,
+      "prompt_tokens": 7646,
+      "completion_tokens": 2050,
+      "elapsed_s": 65.8,
       "error": null
     }
   ]

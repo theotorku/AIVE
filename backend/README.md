@@ -1,12 +1,17 @@
-# Backend — Crawler + Extraction (Goals 01–02)
+# Backend — Crawler + Extraction + ABI + API (Goals 01–04)
 
-Website crawling, markdown conversion, and semantic extraction for the ProPlan
-ABI MVP.
+Website crawling, markdown conversion, semantic extraction, ABI scoring, and the
+dashboard API for the ProPlan ABI MVP.
 
 - **Goal 01 — Crawler:** crawl a URL, render JS pages, strip nav/footer noise,
   export clean markdown.
 - **Goal 02 — Extraction:** LLM-based extraction of a stable business profile
   (services, locations, FAQs, contact info, offers) from the crawled markdown.
+- **Goal 03 — ABI:** deterministic, explainable scoring of the profile across
+  five dimensions (`app/services/abi_score.py`).
+- **Goal 04 — Dashboard API:** FastAPI app (`api/`) that serves the real
+  artifacts and runs the pipeline as background jobs for the React frontend
+  (`../frontend/`).
 
 ## Setup
 
@@ -64,13 +69,53 @@ python -m backend.extract_cli --domain morrisjenkins.com
 Artifacts under `backend/output/<domain>/`:
 - `page_documents.json` — rich per-page crawl (title, headings, links, metadata,
   JSON-LD, markdown); cached so re-runs skip the browser,
+- `extractions.json` — per-page LLM outputs; cached so the merge + ABI scoring
+  stages can be re-run with zero LLM cost (`reuse_extraction`),
 - `profile.json` — merged business profile (every fact carries `confidence`,
-  `evidence`, `source_url`) plus an `abi_evidence` block,
-- `pipeline.json` — run metadata (tokens, page categories, per-page errors).
+  `evidence`, `source_url`) plus a `structured_data` signal, an `abi_evidence`
+  block, and the `abi_score` block (Goal 03),
+- `pipeline.json` — run metadata (tokens, page categories, per-page errors,
+  `average_confidence`, `abi_overall`, `abi_grade`),
+- `confidence.json` — Extraction Confidence Score: `{"site", "average_confidence"}`,
+- `abi_score.json` — standalone ABI score (overall + 5 dimensions + criteria +
+  prioritized recommendations).
 
 Rules extract facts → the LLM interprets meaning per page → the normalizer
 resolves duplicates → the confidence engine scores reliability from structural
-signals (headings/nav/schema.org/repetition) → the ABI layer emits evidence.
+signals (headings/nav/schema.org/repetition) → the ABI layer emits evidence →
+the ABI scorer produces an explainable 0–100 score per dimension.
+
+### ABI scoring (Goal 03)
+
+`app/services/abi_score.py` scores a profile deterministically (no LLM, so it is
+repeatable and free to re-run). Five PRD-weighted dimensions — AI Understanding
+(25%), AI Retrieval (25%), AI Recommendation (20%), Agent Readiness (15%),
+Semantic Authority (15%) — each a set of named criteria carrying earned/max
+points + rationale + evidence + a recommendation. Overall is the weighted average
+mapped to a letter grade; recommendations are ranked by ABI impact. The contract
+(weights, grade bands) lives in `app/schema.py` and is enforced by
+`validate_abi_score`. Validate the benchmark with:
+
+```bash
+python -m backend.run_abi_validation --min 50 --passed-only
+```
+
+### Dashboard (Goal 04)
+
+FastAPI serves the real artifacts (no mocked data) and runs the pipeline as
+background jobs; the React + Vite + Chakra app in `../frontend/` renders them.
+
+```bash
+# backend API (needs OPENAI_API_KEY for live URL runs)
+uvicorn backend.api.main:app --port 8000
+
+# frontend (separate terminal)
+cd frontend && npm install && npm run dev      # http://localhost:5173
+```
+
+Endpoints: `GET /api/sites`, `GET /api/sites/{domain}`,
+`GET /api/sites/{domain}/report` (self-contained HTML), `GET /api/benchmark`,
+`POST /api/runs` `{url}`, `GET /api/runs/{run_id}`.
 
 ### Validation (Goal 02 acceptance)
 

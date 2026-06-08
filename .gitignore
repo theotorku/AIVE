@@ -28,6 +28,14 @@ data/
 # Crawler output (generated markdown; reports under validation/ are kept)
 backend/output/
 
+# Agent working memory (session notes, not product code)
+memory/
+
+# Transient run logs + browser-verification artifacts
+backend/validation/_*.log
+.playwright-mcp/
+*-dashboard-detail.png
+
 # OS / editor
 .DS_Store
 Thumbs.db

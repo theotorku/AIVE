@@ -58,7 +58,7 @@ def _coverage(profile: dict) -> dict:
 
 
 def run(target: int, max_pages: int, model: str, sites_file: Path,
-        output_root: Path, reuse_profile: bool) -> int:
+        output_root: Path, reuse_profile: bool, reuse_extraction: bool = False) -> int:
     sites = load_sites(sites_file)
     client = OpenAI()
     rows, passed = [], 0
@@ -72,7 +72,8 @@ def run(target: int, max_pages: int, model: str, sites_file: Path,
         try:
             result = run_pipeline(url, output_root=str(output_root), model=model,
                                   max_pages=max_pages, client=client,
-                                  reuse_crawl=True, reuse_profile=reuse_profile)
+                                  reuse_crawl=True, reuse_profile=reuse_profile,
+                                  reuse_extraction=reuse_extraction)
             elapsed = time.monotonic() - t0
             crawl_ok = result.pages > 0 and result.error is None
             total_prompt += result.prompt_tokens
@@ -95,6 +96,7 @@ def run(target: int, max_pages: int, model: str, sites_file: Path,
                 "pages": result.pages, "page_categories": result.page_categories,
                 "schema_valid": schema_valid, "accurate": accurate, "passed": ok,
                 "coverage": cov,
+                "average_confidence": result.average_confidence,
                 "prompt_tokens": result.prompt_tokens,
                 "completion_tokens": result.completion_tokens,
                 "elapsed_s": round(elapsed, 1),
@@ -104,17 +106,20 @@ def run(target: int, max_pages: int, model: str, sites_file: Path,
             if ok:
                 passed += 1
             status = "PASS" if ok else "FAIL"
+            conf = result.average_confidence
             print(f"    {status}  crawl={'ok' if crawl_ok else 'FAIL'} "
                   f"schema={'ok' if schema_valid else 'BAD'}  pages={result.pages} "
                   f"svc={cov.get('services','-')} faq={cov.get('faqs','-')} "
-                  f"phone={cov.get('has_phone','-')} tok={result.total_tokens} "
-                  f"{elapsed:.1f}s", flush=True)
+                  f"phone={cov.get('has_phone','-')} "
+                  f"conf={conf if conf is not None else '-'} "
+                  f"tok={result.total_tokens} {elapsed:.1f}s", flush=True)
         except Exception as exc:  # noqa: BLE001
             elapsed = time.monotonic() - t0
             rows.append({
                 "url": url, "domain": domain, "crawl_ok": False, "pages": 0,
                 "page_categories": {}, "schema_valid": False, "accurate": False,
-                "passed": False, "coverage": {}, "prompt_tokens": 0,
+                "passed": False, "coverage": {}, "average_confidence": None,
+                "prompt_tokens": 0,
                 "completion_tokens": 0, "elapsed_s": round(elapsed, 1),
                 "error": f"{type(exc).__name__}: {exc}"})
             print(f"    ERROR {exc}", flush=True)
@@ -124,12 +129,16 @@ def run(target: int, max_pages: int, model: str, sites_file: Path,
 
     crawled = [r for r in rows if r["crawl_ok"]]
     schema_valid_count = sum(1 for r in crawled if r["schema_valid"])
+    confs = [r["average_confidence"] for r in crawled
+             if r.get("average_confidence") is not None]
+    mean_confidence = round(sum(confs) / len(confs), 2) if confs else None
     summary = {
         "target": target, "model": model, "attempted": len(rows),
         "crawl_ok": len(crawled), "passed": passed,
         "schema_valid": schema_valid_count,
         "schema_stable": schema_valid_count == len(crawled) and len(crawled) > 0,
         "met_target": passed >= target,
+        "mean_confidence": mean_confidence,  # Extraction Confidence Score (avg of sites)
         "total_prompt_tokens": total_prompt,
         "total_completion_tokens": total_completion,
         "results": rows,
@@ -143,6 +152,7 @@ def run(target: int, max_pages: int, model: str, sites_file: Path,
     print(f"\nResult: {passed}/{target} passed | "
           f"schema valid {schema_valid_count}/{len(crawled)} crawled "
           f"({'STABLE' if summary['schema_stable'] else 'UNSTABLE'}) | "
+          f"mean conf {mean_confidence if mean_confidence is not None else 'n/a'} | "
           f"tokens {total_prompt + total_completion} | "
           f"{'TARGET MET' if summary['met_target'] else 'TARGET NOT MET'}")
     return 0 if (summary["met_target"] and summary["schema_stable"]) else 1
@@ -163,22 +173,26 @@ def _write_report(summary: dict, path: Path) -> None:
         f"- Schema valid: {summary['schema_valid']}/{summary['crawl_ok']} crawled "
         f"({'STABLE' if summary['schema_stable'] else 'UNSTABLE'})",
         f"- Target met: {'yes' if summary['met_target'] else 'no'}",
+        f"- Mean extraction confidence: "
+        f"{summary['mean_confidence'] if summary['mean_confidence'] is not None else 'n/a'}",
         f"- Tokens: {summary['total_prompt_tokens']} prompt + "
         f"{summary['total_completion_tokens']} completion",
         f"- Est. cost: ${est:.4f}",
         "",
-        "| # | Domain | Pages | Schema | Svc | Area | Loc | FAQ | Trust | Phone | Result |",
-        "|---|--------|-------|--------|-----|------|-----|-----|-------|-------|--------|",
+        "| # | Domain | Pages | Schema | Svc | Area | Loc | FAQ | Trust | Phone | Conf | Result |",
+        "|---|--------|-------|--------|-----|------|-----|-----|-------|-------|------|--------|",
     ]
     for i, r in enumerate(summary["results"], 1):
         c = r.get("coverage") or {}
+        conf = r.get("average_confidence")
         res = "PASS" if r["passed"] else f"FAIL ({r.get('error') or 'low coverage'})"
         lines.append(
             f"| {i} | {r['domain']} | {r['pages']} "
             f"| {'ok' if r['schema_valid'] else 'BAD'} | {c.get('services','-')} "
             f"| {c.get('service_areas','-')} | {c.get('locations','-')} "
             f"| {c.get('faqs','-')} | {c.get('trust_signals','-')} "
-            f"| {'Y' if c.get('has_phone') else '-'} | {res} |")
+            f"| {'Y' if c.get('has_phone') else '-'} "
+            f"| {conf if conf is not None else '-'} | {res} |")
     lines.append("")
     path.write_text("\n".join(lines), encoding="utf-8")
 
@@ -192,9 +206,13 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--output", type=Path, default=HERE / "output")
     parser.add_argument("--reuse-profile", action="store_true",
                         help="Reuse cached profile.json (skip LLM) when present")
+    parser.add_argument("--reuse-extraction", action="store_true",
+                        help="Rebuild profile+score from cached crawl+extractions "
+                        "(skip LLM, apply merge-stage changes for free)")
     args = parser.parse_args(argv)
     return run(args.target, args.max_pages, args.model, args.sites, args.output,
-               reuse_profile=args.reuse_profile)
+               reuse_profile=args.reuse_profile,
+               reuse_extraction=args.reuse_extraction)
 
 
 if __name__ == "__main__":

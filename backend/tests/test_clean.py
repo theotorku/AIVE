@@ -64,7 +64,7 @@ def test_discover_prioritizes_business_pages():
     base = "https://acme-hvac.example"
     links = discover_links(base, html, max_pages=5)
 
-    assert links[0] == base                          # homepage always first
+    assert links[0].rstrip("/") == base              # homepage always first (canonicalized)
     assert any(l.endswith("/services") for l in links)
     assert any(l.endswith("/faq") for l in links)
     # External, mail, and file links must be excluded.

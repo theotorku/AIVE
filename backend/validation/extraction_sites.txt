@@ -32,3 +32,48 @@ https://www.hobaica.com
 https://www.johnmooreservices.com
 https://www.abacusplumbing.net
 https://www.horizonservices.com
+
+# --- Goal 03B benchmark expansion (added 2026-06-07) ---
+# Target: reach 50 total successful extractions. National franchise brands first
+# (most likely to render), then large regionals, then buffer. Failures are
+# recorded and skipped; the run stops once 50 sites pass.
+https://www.rotorooter.com
+https://www.mrrooter.com
+https://www.benjaminfranklinplumbing.com
+https://www.onehourheatandair.com
+https://www.mistersparky.com
+https://www.mrhandyman.com
+https://www.lentheplumber.com
+https://www.petriplumbing.com
+https://www.wmhenderson.com
+https://www.hallerent.com
+https://www.petro.com
+https://www.thomasgalbraith.com
+https://www.gemplumbing.com
+https://www.lindstromair.com
+https://www.sobieskiinc.com
+https://www.griffithenergyservices.com
+https://www.ranshaw.com
+https://www.hillerplumbing.com
+https://www.mauzy.com
+https://www.goodberlet.com
+https://www.larryandsons.com
+https://www.michaelbonsby.com
+https://www.cmcservice.com
+https://www.lulasplumbing.com
+https://www.airnowcooling.com
+https://www.weldonp&h.com
+https://www.bluedotservice.com
+https://www.precisionhvactexas.com
+https://www.dynamicairllc.com
+https://www.coolingunlimited.com
+https://www.frostingny.com
+https://www.airassurance.com
+https://www.acbyj.com
+https://www.classicairtexas.com
+https://www.comfortmasters.com
+https://www.airsupplyheating.com
+https://www.allproplumbing.com
+https://www.scottsheatingandair.com
+https://www.totalcomfortmechanical.com
+https://www.summersphc.com
