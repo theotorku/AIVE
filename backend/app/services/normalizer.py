@@ -51,11 +51,22 @@ def _canonical_for(text: str, table: list[tuple[str, re.Pattern]]) -> str | None
     return None
 
 
+# Marketing qualifiers stripped before grouping so "Custom AI Workflows" and
+# "AI Workflows" collapse. Deliberately excludes core domain nouns (ai, lead,
+# automation, …) so genuinely distinct offerings are NOT over-merged.
+_QUALIFIERS = {"custom", "advanced", "smart", "automated", "powered",
+               "intelligent", "complete", "full", "comprehensive", "premium",
+               "professional", "seamless", "modern", "nextgen", "endtoend",
+               "allinone", "enterprise", "realtime", "powerful"}
+
+
 def _token_key(text: str) -> str:
-    """Order-independent key for generic grouping (drops filler words)."""
+    """Order-independent key for generic grouping (drops filler + qualifiers)."""
     words = re.findall(r"[a-z0-9]+", text.lower())
-    stop = {"the", "and", "of", "a", "an", "for", "your", "our", "services", "service"}
-    core = sorted(w.rstrip("s") for w in words if w not in stop)
+    stop = {"the", "and", "of", "a", "an", "for", "your", "our",
+            "services", "service"}
+    core = sorted(w.rstrip("s") for w in words
+                  if w not in stop and w not in _QUALIFIERS)
     return " ".join(core) or text.lower()
 
 
