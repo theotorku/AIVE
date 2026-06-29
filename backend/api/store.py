@@ -54,6 +54,48 @@ def load_site(domain: str) -> dict | None:
     }
 
 
+# Plain-language grade meanings (mirrors frontend GRADE_MEANING in api.ts).
+_GRADE_MEANING = {
+    "A": "AI understands your business very well and is likely to surface it.",
+    "B": "AI understands your business well, with a few gaps to close.",
+    "C": "AI only partially understands your business.",
+    "D": "AI struggles to understand your business — important details are missing.",
+    "F": "AI can barely understand your business right now.",
+}
+
+
+def load_teaser(domain: str) -> dict | None:
+    """Free teaser: headline grade + the single biggest gap, nothing more.
+
+    Deliberately excludes the dimension/criteria/evidence breakdown so the paid
+    deliverable is never sent to anonymous clients (sales/strategy.md §5, rung 0).
+    """
+    profile = _read_json(site_dir(domain) / "profile.json")
+    if not isinstance(profile, dict):
+        return None
+    score = profile.get("abi_score") or _read_json(site_dir(domain) / "abi_score.json")
+    if not isinstance(score, dict):
+        return None
+    grade = score.get("grade")
+    recs = score.get("top_recommendations") or []
+    top = recs[0] if recs else None
+    top_gap = None
+    if isinstance(top, dict):
+        top_gap = {
+            "title": top.get("dimension_label") or top.get("dimension"),
+            "why": top.get("recommendation"),
+        }
+    return {
+        "domain": domain,
+        "business_name": profile.get("business_name"),
+        "overall": score.get("overall"),
+        "grade": grade,
+        "grade_label": score.get("grade_label"),
+        "grade_meaning": _GRADE_MEANING.get(grade or ""),
+        "top_gap": top_gap,
+    }
+
+
 def list_sites() -> list[dict]:
     """Lightweight catalogue of every scored site (for the gallery)."""
     out: list[dict] = []

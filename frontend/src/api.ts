@@ -101,6 +101,16 @@ export interface Job {
   domain_ready: boolean;
 }
 
+export interface Teaser {
+  domain: string;
+  business_name: string | null;
+  overall: number | null;
+  grade: string | null;
+  grade_label: string | null;
+  grade_meaning: string | null;
+  top_gap: { title: string | null; why: string | null } | null;
+}
+
 export interface Benchmark {
   sites_scored: number;
   benchmark: {
@@ -115,8 +125,29 @@ export interface Benchmark {
 
 async function get<T>(url: string): Promise<T> {
   const r = await fetch(url);
-  if (!r.ok) throw new Error(`${r.status} ${r.statusText}`);
+  if (!r.ok) throw new Error(await errText(r));
   return r.json();
+}
+
+async function post<T>(url: string, body: unknown): Promise<T> {
+  const r = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+  if (!r.ok) throw new Error(await errText(r));
+  return r.json();
+}
+
+// FastAPI returns errors as { detail: "..." }; surface that to the UI.
+async function errText(r: Response): Promise<string> {
+  try {
+    const d = await r.json();
+    if (d?.detail) return String(d.detail);
+  } catch {
+    /* not json */
+  }
+  return `${r.status} ${r.statusText}`;
 }
 
 export const api = {
@@ -124,16 +155,18 @@ export const api = {
   site: (domain: string) => get<SiteDetail>(`/api/sites/${domain}`),
   benchmark: () => get<Benchmark>("/api/benchmark"),
   reportUrl: (domain: string) => `/api/sites/${domain}/report`,
-  startRun: async (url: string): Promise<Job> => {
-    const r = await fetch("/api/runs", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ url }),
-    });
-    if (!r.ok) throw new Error(`${r.status} ${r.statusText}`);
-    return r.json();
-  },
+  startRun: (url: string) => post<Job>("/api/runs", { url }),
   run: (runId: string) => get<Job>(`/api/runs/${runId}`),
+
+  // Public funnel
+  teaser: (domain: string) => get<Teaser>(`/api/teaser/${domain}`),
+  createCheckout: (domain: string) => post<{ url: string }>("/api/checkout", { domain }),
+  verifyCheckout: (sessionId: string) =>
+    get<{ token: string; domain: string }>(`/api/checkout/${sessionId}`),
+
+  // Token-gated report (buyers + public sample)
+  reportByToken: (token: string) => get<SiteDetail>(`/api/reports/${token}`),
+  reportDownloadUrl: (token: string) => `/api/reports/${token}/report`,
 };
 
 export const GRADE_COLOR: Record<string, string> = {

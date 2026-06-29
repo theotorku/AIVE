@@ -461,3 +461,44 @@ its §6.
 130 backend tests pass (+8 freeze guards). All 54 cached artifacts re-stamped to
 v0.1.1 (free, $0); benchmark unchanged (54 sites, avg ABI 61.5, all
 explainable/repeatable/schema-valid). ProPlan 39.0 (deterministic, unchanged).
+
+---
+
+## Funnel + Payments — Landing → Teaser → Pilot $399 → Gated Report (2026-06-28)
+
+Aligned the product flow with the sales ladder (`sales/strategy.md` §5). The
+landing CTA no longer dumps anonymous visitors into the full internal dashboard
+(the paid deliverable). New flow: **enter URL → live audit → free teaser (grade +
+#1 gap) → Stripe $399 checkout → unique buyer report link.**
+
+### Delivered
+- **Backend**
+  - `GET /api/teaser/{domain}` (`store.load_teaser`) — grade + single top gap
+    only; the dimension/criteria/evidence breakdown is never sent to anonymous
+    clients.
+  - `billing.py` — Stripe Checkout for the Pilot Audit ($399); `create_checkout`,
+    `grant_for_session` (verify-on-redirect), and a `checkout.session.completed`
+    webhook as backup. Degrades to a clean 503 when `STRIPE_SECRET_KEY` is unset.
+  - `grants.py` — file-based purchase grants under `output/_grants/`; opaque token
+    → domain, idempotent per Stripe session, sample token for the public demo.
+  - `ratelimit.py` — per-IP (3/hr, 10/day) + global (300/day) caps; `ALLOW_PUBLIC_RUNS`
+    now defaults **on** so the funnel works, protected by these caps + crawl reuse.
+  - Token-gated `GET /api/reports/{token}` (+ HTML download).
+- **Frontend**
+  - `Landing.tsx` — inline audit state machine + grade/teaser overlay + buy button
+    (no longer switches to the dashboard).
+  - `BuyerReport.tsx` — the paid report, scoped to one token-fetched domain (reuses
+    `ScoreHero`/`DimensionCards`/`Recommendations`/`EvidenceView`; no gallery/run panel).
+  - `Root.tsx` — query-param routing: `?report=<token>` (buyer/sample),
+    `?session_id=` (verify payment), `?admin=<secret>` (internal dashboard), else landing.
+
+### Open issues
+- Rate limiting is in-memory/per-process — move to Redis/Supabase before scaling
+  the API horizontally.
+- Webhook signature verification needs `STRIPE_WEBHOOK_SECRET` set in prod.
+
+### Verification
+137 backend tests pass (+7 new funnel tests: teaser never leaks the breakdown,
+grant mint/resolve round-trip + idempotency, bad-token 404, sample report,
+checkout-503-when-unconfigured). Frontend `tsc -b` clean; production build OK.
+Live payment path requires Stripe keys (test card `4242…`) to exercise end-to-end.

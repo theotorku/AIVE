@@ -144,23 +144,27 @@ prod base URL for an automated check.
 
 ## 4. Production hardening (do before any public link)
 
-**🔴 Protect `POST /api/runs` — it triggers a live crawl + paid LLM call.** Left
-open, anyone can spend your OpenAI budget and run your crawler against arbitrary
-sites. Pick one:
+**🔴 `POST /api/runs` triggers a live crawl + paid LLM call.** The public funnel
+(landing → free teaser) needs it on, so `ALLOW_PUBLIC_RUNS` now **defaults to
+true** and the endpoint is protected by built-in safeguards:
 
-- **Disable public runs for the marketing demo** (recommended first). Gate the
-  endpoint on an env flag and serve only cached audits + benchmark publicly; run
-  audits internally:
-  ```python
-  # backend/api/main.py — in create_run()
-  import os
-  if os.getenv("ALLOW_PUBLIC_RUNS", "false").lower() != "true":
-      raise HTTPException(403, "Live audits are not enabled on this instance.")
-  ```
-- **Shared-secret header** for an internal tool (`X-AIVE-Token` checked against an
-  env var).
-- **Rate-limit + bot protection** via the **Vercel Firewall / WAF** on `/api/runs`
-  (and a per-IP cap) if you keep it public.
+- **Per-IP + global rate limiting** (`backend/api/ratelimit.py`): defaults 3/hour
+  and 10/day per IP, 300/day global. Tune via `RUNS_PER_IP_HOUR` /
+  `RUNS_PER_IP_DAY` / `RUNS_GLOBAL_DAY`. (In-memory/per-process — fine for one
+  Railway instance; move to Redis/Supabase if you scale out.)
+- **Cached-domain reuse** (`jobs.py` `reuse_crawl=True`): a re-audit of a known
+  domain skips the browser crawl, cutting cost to the LLM step only.
+
+Defence in depth (recommended on top): **Vercel Firewall / WAF** rate rules on
+`/api/runs`, a spend limit on the OpenAI key, and `ALLOW_PUBLIC_RUNS=false` if you
+ever want to take the live funnel offline and serve only cached audits.
+
+**💳 Payments.** Checkout is gated on `STRIPE_SECRET_KEY`; without it,
+`POST /api/checkout` returns a clean 503 and the rest of the API runs normally.
+For production set the Stripe keys, `PUBLIC_BASE_URL`, and a webhook to
+`POST /api/stripe/webhook` for `checkout.session.completed`. Buyer report links
+(`?report=<token>`) are minted on payment and stored under `backend/output/_grants/`
+— keep that on the Railway volume so links survive redeploys.
 
 **Other hardening:**
 - **CORS:** with the Vercel rewrite you don't need it (same-origin). If you ever
@@ -199,9 +203,16 @@ For the frontend preview to reach the backend, run with the Vite dev proxy
 | Service | Variable | Required | Purpose |
 |---|---|---|---|
 | Railway (backend) | `OPENAI_API_KEY` | ✅ | Per-page extraction model |
-| Railway | `ALLOW_PUBLIC_RUNS` | ⚪ | Gate the paid live-audit endpoint (default off) |
+| Railway | `ALLOW_PUBLIC_RUNS` | ⚪ | Live-audit endpoint; **default on** (the public funnel needs it). Set `false` to disable. |
+| Railway | `RUNS_PER_IP_HOUR` / `RUNS_PER_IP_DAY` / `RUNS_GLOBAL_DAY` | ⚪ | Per-IP + global run caps (defaults 3 / 10 / 300) |
+| Railway | `STRIPE_SECRET_KEY` | ⚪ | Enables `$399` Pilot checkout; if unset, checkout returns 503 |
+| Railway | `STRIPE_WEBHOOK_SECRET` | ⚪ | Verifies the `checkout.session.completed` webhook (backup grant minting) |
+| Railway | `STRIPE_PRICE_ID` / `PILOT_PRICE_CENTS` | ⚪ | Use a Stripe Price, or set the inline amount (default `39900`) |
+| Railway | `PUBLIC_BASE_URL` | ⚪ | Site origin for Stripe success/cancel redirects |
+| Railway | `SAMPLE_DOMAIN` | ⚪ | Domain served behind the public `?report=sample` link (default `proplansolutions.io`) |
+| Railway | `CORS_ORIGINS` | ⚪ | Comma-separated allowed origins (default localhost dev) |
 | Railway | `PORT` | (auto) | Injected by Railway |
-| Vercel (frontend) | *(none)* | — | No secrets; API base is set in `vercel.json` |
+| Vercel (frontend) | `VITE_ADMIN_SECRET` | ⚪ | Secret for the internal `?admin=` dashboard (default `admin` — change it) |
 
 ---
 
