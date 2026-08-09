@@ -3,9 +3,7 @@ import { Box, Flex, Spinner, Text } from "@chakra-ui/react";
 import { Landing } from "./Landing";
 import { BuyerReport } from "./BuyerReport";
 import App from "./App";
-import { api } from "./api";
-
-const ADMIN_SECRET = import.meta.env.VITE_ADMIN_SECRET ?? "admin";
+import { api, setAdminKey } from "./api";
 
 /** Reset the URL to the bare landing page (drops query params). */
 function goHome() {
@@ -67,7 +65,11 @@ export default function Root() {
     return <BuyerReport token={reportToken} onHome={goHome} />;
   }
 
-  if (admin && admin === ADMIN_SECRET) {
+  // The server authorizes the internal dashboard against ADMIN_API_KEY; here we
+  // just forward the operator's key from the URL. A wrong key surfaces as an API
+  // error inside the dashboard — no site data is exposed client-side.
+  if (admin) {
+    setAdminKey(admin);
     return <App onHome={goHome} />;
   }
 

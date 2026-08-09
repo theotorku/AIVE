@@ -3,8 +3,13 @@
 A live audit crawls an arbitrary site and calls the paid LLM, so the open
 endpoint is a cost vector. This caps runs per client IP and globally per day.
 
-In-memory and per-process — good enough for a single Railway instance at launch.
-Move to Redis/Supabase if the API scales horizontally.
+Defaults are a conservative launch posture (2/IP/hour, 5/IP/day, 25 globally/day)
+sized to an OpenAI monthly budget alert of ~$25; raise them only after observing
+real conversion and per-audit cost. This is a monitoring/throttle control, not a
+dependable spend cap — it is in-memory and per-process, so counts reset on deploy
+or restart, and it does not track dollars. For a real hard cap, move the quota to
+persistent storage (Redis/Supabase/Postgres) with atomic reservation and pair it
+with the OpenAI budget alert + Vercel WAF rules described in DEPLOYMENT.md §4.
 """
 
 from __future__ import annotations
@@ -13,9 +18,9 @@ import os
 import threading
 import time
 
-_PER_IP_HOUR = int(os.getenv("RUNS_PER_IP_HOUR", "3"))
-_PER_IP_DAY = int(os.getenv("RUNS_PER_IP_DAY", "10"))
-_GLOBAL_DAY = int(os.getenv("RUNS_GLOBAL_DAY", "300"))
+_PER_IP_HOUR = int(os.getenv("RUNS_PER_IP_HOUR", "2"))
+_PER_IP_DAY = int(os.getenv("RUNS_PER_IP_DAY", "5"))
+_GLOBAL_DAY = int(os.getenv("RUNS_GLOBAL_DAY", "25"))
 
 _HOUR = 3600
 _DAY = 86400

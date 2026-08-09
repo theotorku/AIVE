@@ -9,8 +9,9 @@ volume alongside the audit artifacts they unlock.
 from __future__ import annotations
 
 import json
+import os
 import uuid
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 from backend.api import store
@@ -19,6 +20,10 @@ GRANTS_DIR = store.OUTPUT_DIR / "_grants"
 
 # A buyer-less, read-only grant for the public "View sample" report.
 SAMPLE_TOKEN = "sample"
+
+# How long a paid report link stays valid. Default 0 = never expires (a buyer
+# keeps their deliverable indefinitely); set GRANT_TTL_DAYS>0 to time-box links.
+GRANT_TTL_DAYS = int(os.getenv("GRANT_TTL_DAYS", "0"))
 
 
 def _grant_path(token: str) -> Path:
@@ -37,18 +42,36 @@ def mint(domain: str, session_id: str | None = None) -> str:
         if existing:
             return existing
     token = uuid.uuid4().hex
+    now = datetime.now(timezone.utc)
     payload = {
         "token": token,
         "domain": domain,
         "session_id": session_id,
-        "created": datetime.now(timezone.utc).isoformat(),
+        "created": now.isoformat(),
     }
+    if GRANT_TTL_DAYS > 0:
+        payload["expires_at"] = (now + timedelta(days=GRANT_TTL_DAYS)).isoformat()
     _grant_path(token).write_text(json.dumps(payload, indent=2), encoding="utf-8")
     return token
 
 
+def _is_expired(data: dict) -> bool:
+    """A grant is expired only if it carries an expires_at that is in the past.
+
+    Grants minted with no TTL (expires_at absent) never expire, so existing
+    buyer links keep working regardless of the GRANT_TTL_DAYS setting.
+    """
+    raw = data.get("expires_at")
+    if not raw:
+        return False
+    try:
+        return datetime.fromisoformat(raw) < datetime.now(timezone.utc)
+    except Exception:  # noqa: BLE001 - malformed timestamp => treat as not expired
+        return False
+
+
 def resolve(token: str, sample_domain: str | None = None) -> str | None:
-    """Return the domain a token unlocks, or None if the token is unknown."""
+    """Return the domain a token unlocks, or None if unknown or expired."""
     if token == SAMPLE_TOKEN:
         return sample_domain
     path = _grant_path(token)
@@ -56,9 +79,11 @@ def resolve(token: str, sample_domain: str | None = None) -> str | None:
         return None
     try:
         data = json.loads(path.read_text(encoding="utf-8"))
-        return data.get("domain")
     except Exception:  # noqa: BLE001
         return None
+    if _is_expired(data):
+        return None
+    return data.get("domain")
 
 
 def find_by_session(session_id: str) -> str | None:

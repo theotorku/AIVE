@@ -87,17 +87,22 @@ def grant_for_session(session_id: str) -> tuple[str, str] | None:
 
 
 def handle_webhook(payload: bytes, sig_header: str | None) -> None:
-    """Verify and process a Stripe webhook (backup grant minting)."""
+    """Verify and process a Stripe webhook (backup grant minting).
+
+    The signature is always verified: without STRIPE_WEBHOOK_SECRET, or without a
+    signature header, the event is rejected. There is deliberately no unverified
+    fallback — an unauthenticated caller must never be able to mint a report
+    grant by POSTing a forged `checkout.session.completed` event.
+    """
     stripe = _stripe()
     if stripe is None:
         raise RuntimeError("billing_unconfigured")
     secret = os.getenv("STRIPE_WEBHOOK_SECRET")
-    if secret and sig_header:
-        event = stripe.Webhook.construct_event(payload, sig_header, secret)
-    else:
-        import json
-
-        event = json.loads(payload)
+    if not secret:
+        raise RuntimeError("webhook_secret_unconfigured")
+    if not sig_header:
+        raise ValueError("missing stripe-signature header")
+    event = stripe.Webhook.construct_event(payload, sig_header, secret)
 
     if event.get("type") == "checkout.session.completed":
         session = event["data"]["object"]

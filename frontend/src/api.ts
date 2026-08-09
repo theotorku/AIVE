@@ -123,8 +123,20 @@ export interface Benchmark {
   };
 }
 
+// Operator credential for the internal (?admin=) dashboard. Read from the URL
+// by Root and sent as X-Admin-Key on requests to the gated /api/sites* routes;
+// never baked into the bundle. The public funnel needs none of this.
+let adminKey: string | null = null;
+export function setAdminKey(key: string | null): void {
+  adminKey = key;
+}
+
+function authHeaders(): Record<string, string> {
+  return adminKey ? { "X-Admin-Key": adminKey } : {};
+}
+
 async function get<T>(url: string): Promise<T> {
-  const r = await fetch(url);
+  const r = await fetch(url, { headers: authHeaders() });
   if (!r.ok) throw new Error(await errText(r));
   return r.json();
 }
@@ -132,7 +144,7 @@ async function get<T>(url: string): Promise<T> {
 async function post<T>(url: string, body: unknown): Promise<T> {
   const r = await fetch(url, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json", ...authHeaders() },
     body: JSON.stringify(body),
   });
   if (!r.ok) throw new Error(await errText(r));
@@ -154,7 +166,10 @@ export const api = {
   sites: () => get<{ sites: SiteSummary[] }>("/api/sites").then((d) => d.sites),
   site: (domain: string) => get<SiteDetail>(`/api/sites/${domain}`),
   benchmark: () => get<Benchmark>("/api/benchmark"),
-  reportUrl: (domain: string) => `/api/sites/${domain}/report`,
+  // Gated route opened via <a href> (no custom header possible), so the admin
+  // key travels as a query param when present.
+  reportUrl: (domain: string) =>
+    `/api/sites/${domain}/report${adminKey ? `?admin=${encodeURIComponent(adminKey)}` : ""}`,
   startRun: (url: string) => post<Job>("/api/runs", { url }),
   run: (runId: string) => get<Job>(`/api/runs/${runId}`),
 

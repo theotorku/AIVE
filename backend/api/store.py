@@ -7,11 +7,22 @@ pipeline wrote. Nothing is synthesized.
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
 
 BACKEND_DIR = Path(__file__).resolve().parent.parent
 OUTPUT_DIR = BACKEND_DIR / "output"
 VALIDATION_DIR = BACKEND_DIR / "validation"
+
+# A domain slug is exactly what the crawler writes (see crawl._domain_slug):
+# a hostname reduced to lowercase alphanumerics plus dot/hyphen/underscore.
+# Anything else (slashes, "..", encoded traversal) must never reach the
+# filesystem, so it is rejected here rather than joined onto OUTPUT_DIR.
+_SLUG_RE = re.compile(r"^[a-z0-9][a-z0-9._-]*$")
+
+
+def _valid_domain(domain: str) -> bool:
+    return bool(domain) and ".." not in domain and _SLUG_RE.match(domain) is not None
 
 
 def _read_json(path: Path) -> dict | list | None:
@@ -24,10 +35,14 @@ def _read_json(path: Path) -> dict | list | None:
 
 
 def site_dir(domain: str) -> Path:
+    if not _valid_domain(domain):
+        raise ValueError(f"invalid domain slug: {domain!r}")
     return OUTPUT_DIR / domain
 
 
 def has_profile(domain: str) -> bool:
+    if not _valid_domain(domain):
+        return False
     return (site_dir(domain) / "profile.json").exists()
 
 
@@ -37,6 +52,8 @@ def load_site(domain: str) -> dict | None:
     The profile already embeds `abi_evidence` and `abi_score`; we also surface
     the standalone artifacts so the shape is explicit for the UI.
     """
+    if not _valid_domain(domain):
+        return None
     profile = _read_json(site_dir(domain) / "profile.json")
     if not isinstance(profile, dict):
         return None
@@ -70,6 +87,8 @@ def load_teaser(domain: str) -> dict | None:
     Deliberately excludes the dimension/criteria/evidence breakdown so the paid
     deliverable is never sent to anonymous clients (sales/strategy.md §5, rung 0).
     """
+    if not _valid_domain(domain):
+        return None
     profile = _read_json(site_dir(domain) / "profile.json")
     if not isinstance(profile, dict):
         return None
