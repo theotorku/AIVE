@@ -461,3 +461,139 @@ its §6.
 130 backend tests pass (+8 freeze guards). All 54 cached artifacts re-stamped to
 v0.1.1 (free, $0); benchmark unchanged (54 sites, avg ABI 61.5, all
 explainable/repeatable/schema-valid). ProPlan 39.0 (deterministic, unchanged).
+
+---
+
+## Funnel + Payments — Landing → Teaser → Pilot $399 → Gated Report (2026-06-28)
+
+Aligned the product flow with the sales ladder (`sales/strategy.md` §5). The
+landing CTA no longer dumps anonymous visitors into the full internal dashboard
+(the paid deliverable). New flow: **enter URL → live audit → free teaser (grade +
+#1 gap) → Stripe $399 checkout → unique buyer report link.**
+
+### Delivered
+- **Backend**
+  - `GET /api/teaser/{domain}` (`store.load_teaser`) — grade + single top gap
+    only; the dimension/criteria/evidence breakdown is never sent to anonymous
+    clients.
+  - `billing.py` — Stripe Checkout for the Pilot Audit ($399); `create_checkout`,
+    `grant_for_session` (verify-on-redirect), and a `checkout.session.completed`
+    webhook as backup. Degrades to a clean 503 when `STRIPE_SECRET_KEY` is unset.
+  - `grants.py` — file-based purchase grants under `output/_grants/`; opaque token
+    → domain, idempotent per Stripe session, sample token for the public demo.
+  - `ratelimit.py` — per-IP (2/hr, 5/day) + global (25/day) caps (conservative
+    launch defaults, env-overridable); `ALLOW_PUBLIC_RUNS` now defaults **on** so
+    the funnel works, protected by these caps + crawl reuse.
+  - Token-gated `GET /api/reports/{token}` (+ HTML download).
+- **Frontend**
+  - `Landing.tsx` — inline audit state machine + grade/teaser overlay + buy button
+    (no longer switches to the dashboard).
+  - `BuyerReport.tsx` — the paid report, scoped to one token-fetched domain (reuses
+    `ScoreHero`/`DimensionCards`/`Recommendations`/`EvidenceView`; no gallery/run panel).
+  - `Root.tsx` — query-param routing: `?report=<token>` (buyer/sample),
+    `?session_id=` (verify payment), `?admin=<secret>` (internal dashboard), else landing.
+
+### Open issues
+- Rate limiting + jobs are in-memory/per-process — move to Redis/Supabase before
+  scaling the API horizontally (counts reset on deploy/restart).
+- Grant store is file-based under `output/_grants/` — keep on the Railway volume
+  so buyer links survive redeploys.
+
+### Verification
+149 backend tests pass. Frontend `tsc -b` clean; production build OK.
+Live payment path requires Stripe keys (test card `4242…`) to exercise end-to-end.
+
+---
+
+## GTM Package — Complete (2026-07-06)
+
+Full go-to-market package delivered in `gtm/` (16 deliverables, indexed in
+`gtm/00_README.md`), built on the existing `sales/` kit.
+
+### Completed work
+- ICP (HVAC owner-operator primary; agency reseller secondary) + TAM/SAM/SOM
+  (~$600M / ~$210M / $100–150k yr-1) + competitive landscape (6 classes; open
+  lane = SMB site-side instrument + fix loop)
+- Vertical decision: **HVAC first** (benchmark-calibrated), plumbing at day 60+
+- Pricing/packaging ladder finalized: $0 grade / $399 founding / $749 audit /
+  $2,500 fix / $299mo monitoring + guarantee + reseller terms
+- Landing page copy v2 (HVAC-specific, free-grade capture), sales deck
+  (gtm/AIVE_sales_deck.pptx, QA'd), sales call script, 5-touch audit-led email
+  sequence, LinkedIn + Facebook strategies
+- 90-day launch roadmap (weekly), KPI dashboard (md + AIVE_kpi_tracker.xlsx,
+  formulas verified 0 errors), risk register w/ kill criteria, pre-launch
+  product P0/P1/P2 list
+- New skill: `.claude/skills/audit-led-outreach/` (pre-audit → personalize →
+  sequence workflow)
+
+### Open issues
+- P0 product items block public launch: gate /api/runs, teaser output mode,
+  Stripe links, report branding, batch CLI hardening (gtm/15)
+- Social accounts + sending domain not yet provisioned
+
+### Lessons learned
+- The audit-led wedge (pre-audit every prospect, lead with their grade) is the
+  single conversion lever every channel doc reuses — protect audit quality
+- Market research confirms pricing gap: self-serve monitors $29–699/mo,
+  agencies $1.5k+/mo; the $399–749 one-off evidence-backed audit is unoccupied
+
+---
+
+## Marketing Demo Videos (2026-07-10)
+
+Built platform cuts from the e2e demo recording, saved to `gtm/video/`
+(specs + post copy in `gtm/video/16_demo_videos.md`; README updated):
+
+- `aive_demo_linkedin.mp4` — 16:9, 32.4s: hook → captioned demo → benchmark → CTA
+- `aive_demo_facebook.mp4` — 1:1, 22.8s: square bands, 2.5× mid-section, CTA
+
+Caption-driven (muted-autoplay); voiceover script remains available for a
+sound-on variant. QA'd frame-by-frame (fixed caption-boundary overlap and
+white page-load lead-in by trimming demo start to t=3s).
+
+---
+
+## Security hardening + deploy readiness (2026-08-09)
+
+Launch-readiness security review of the funnel/payments/public-run paths, all
+fixes landed with tests. This closes the P0 security items flagged in the
+2026-07-06 GTM "open issues" (gate `/api/runs`, teaser-only anonymous output,
+verified Stripe path).
+
+### Delivered
+- **C1** — internal `/api/sites*` routes gated behind `ADMIN_API_KEY`
+  (`X-Admin-Key` header or `?admin=`); loopback-only when unset (closed by
+  default remotely). Closes a paywall bypass that served the full paid report
+  unauthenticated.
+- **C2** — Stripe webhook signature always verified; the unverified fallback is
+  removed, so a forged `checkout.session.completed` can never mint a grant (503
+  until `STRIPE_WEBHOOK_SECRET` is set).
+- **H1** — SSRF guard (`backend/api/ssrf.py`) resolves the target host to IPs and
+  blocks private/loopback/link-local ranges before the crawl.
+- **H2** — proxy-aware client IP: rate limiting reads `X-Forwarded-For` when
+  `TRUST_PROXY=true` (correct keying behind Vercel/Railway).
+- **M1** — domain-slug validation in `store.py` (no path traversal).
+- **M2** — `POST /api/checkout` is rate-limited on the same per-IP/global caps.
+- **L1** — optional grant TTL (`GRANT_TTL_DAYS`, default `0` = never expires).
+- **L2** — background-job errors sanitized (detail logged server-side, generic
+  message returned to the client).
+
+### Cost controls (launch posture)
+- Rate-limit defaults lowered to **2/IP-hour, 5/IP-day, 25 global/day**
+  (env-overridable), sized to a ~$25/mo OpenAI budget alert.
+- Documented OpenAI budget alert + Vercel WAF rules in `DEPLOYMENT.md §4/§4a`.
+
+### Deploy artifacts
+- Added `Dockerfile` (MS Playwright python image, `$PORT`-aware uvicorn),
+  `.dockerignore`, and `frontend/vercel.json` (`/api/*` → Railway rewrite,
+  placeholder destination).
+
+### Open issues
+- `frontend/vercel.json` destination is a placeholder — fill in the real Railway
+  URL after the backend deploys.
+- Rate limiting/jobs remain in-memory/per-process (counts reset on restart); move
+  to Redis/Supabase for a real hard spend cap.
+
+### Verification
+149 backend tests pass; frontend `tsc -b` + production build clean. Shipped on
+branch `funnel-payments-pricing` (PR #1).

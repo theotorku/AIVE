@@ -78,10 +78,10 @@ recurring.
 | Rung | Offer | Price | Delivery asset | Goal |
 |---|---|---:|---|---|
 | 0 | **Free teaser** — grade + top gap only | $0 | landing "Run free audit" / pre-audit | Open the conversation (the wedge, §2) |
-| 1 | **Pilot Audit** | $399 | dashboard + HTML report + 30-min call | First 5–10 logos + testimonials |
-| 2 | **Standard Audit** | $950 | report + 60-min call + written fix list | Repeatable cash, learn objections |
+| 1 | **Pilot Audit** *(founding price, first 10 clients; normally $749)* | $399 | dashboard + HTML report + 30-min call | First 5–10 logos + testimonials |
+| 2 | **Standard Audit** | $749 | report + 60-min call + written fix list | Repeatable cash, learn objections |
 | 3 | **Audit + Fix** | $2,500 | the **[Agent-Visible Website Fixer](../playbooks/agent-visible-website-fixer.prompt.md)** + [spec](../playbooks/agent-visible-website-spec.md) + 30-day re-audit | Higher ACV, prove the lift |
-| 4 | **Monitoring retainer** | $300–$1,000/mo | scheduled re-score, ABI history, alerts | **Recurring revenue / SaaS path** |
+| 4 | **Monitoring retainer** | $149–$499/mo | scheduled re-score, ABI history, alerts, **human re-audit + fix verification** | **Recurring revenue / SaaS path** |
 
 The fix engagement (rung 3) is the strategic hinge: it's where the
 [fixer skill](../.claude/skills/agent-visible-website-fixer/SKILL.md) turns a
@@ -94,12 +94,16 @@ subscription; earn it by delivering rungs 1–3 first.
 ## 6. Unit economics (why this works)
 
 - **COGS per audit ≈ $0.004 LLM + a crawl** → audit gross margin is effectively
-  ~99%. A $399–$950 audit is almost pure margin.
+  ~99%. A $399–$749 audit is almost pure margin.
 - **Fix delivery is leveraged** by the fixer skill + spec (the same playbook every
   time; generate JSON-LD/FAQ artifacts from the audit — see the worked example in
   `playbooks/examples/`, which moved a real site **ABI 39→53**).
 - **Monitoring is near-zero marginal cost** — re-scoring cached crawls is free
-  (`reuse_extraction`), so a $300–$1,000/mo retainer is high-margin recurring.
+  (`reuse_extraction`), so a $149–$499/mo retainer is high-margin recurring.
+  Self-serve AI-trackers (Otterly, Knowatoa) sit at $29–$200/mo and the category
+  average is ~$337/mo, so justify the premium with **human re-audit + fix
+  verification** (we move the score, not just watch it) rather than a bare
+  dashboard — this rung, not the one-off audit, is the business.
 - **Implication:** price on *value delivered* (found + booked customers), not on
   cost. Spend the margin on audit-led outbound (§2) and proof.
 

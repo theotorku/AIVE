@@ -1,0 +1,14 @@
+# Keep the backend image small: only backend/ source is copied (see Dockerfile).
+**/__pycache__/
+*.py[cod]
+backend/output/
+backend/tests/
+frontend/
+.venv/
+venv/
+.git/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.env
+.env.*

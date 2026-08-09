@@ -101,6 +101,16 @@ export interface Job {
   domain_ready: boolean;
 }
 
+export interface Teaser {
+  domain: string;
+  business_name: string | null;
+  overall: number | null;
+  grade: string | null;
+  grade_label: string | null;
+  grade_meaning: string | null;
+  top_gap: { title: string | null; why: string | null } | null;
+}
+
 export interface Benchmark {
   sites_scored: number;
   benchmark: {
@@ -113,27 +123,65 @@ export interface Benchmark {
   };
 }
 
+// Operator credential for the internal (?admin=) dashboard. Read from the URL
+// by Root and sent as X-Admin-Key on requests to the gated /api/sites* routes;
+// never baked into the bundle. The public funnel needs none of this.
+let adminKey: string | null = null;
+export function setAdminKey(key: string | null): void {
+  adminKey = key;
+}
+
+function authHeaders(): Record<string, string> {
+  return adminKey ? { "X-Admin-Key": adminKey } : {};
+}
+
 async function get<T>(url: string): Promise<T> {
-  const r = await fetch(url);
-  if (!r.ok) throw new Error(`${r.status} ${r.statusText}`);
+  const r = await fetch(url, { headers: authHeaders() });
+  if (!r.ok) throw new Error(await errText(r));
   return r.json();
+}
+
+async function post<T>(url: string, body: unknown): Promise<T> {
+  const r = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...authHeaders() },
+    body: JSON.stringify(body),
+  });
+  if (!r.ok) throw new Error(await errText(r));
+  return r.json();
+}
+
+// FastAPI returns errors as { detail: "..." }; surface that to the UI.
+async function errText(r: Response): Promise<string> {
+  try {
+    const d = await r.json();
+    if (d?.detail) return String(d.detail);
+  } catch {
+    /* not json */
+  }
+  return `${r.status} ${r.statusText}`;
 }
 
 export const api = {
   sites: () => get<{ sites: SiteSummary[] }>("/api/sites").then((d) => d.sites),
   site: (domain: string) => get<SiteDetail>(`/api/sites/${domain}`),
   benchmark: () => get<Benchmark>("/api/benchmark"),
-  reportUrl: (domain: string) => `/api/sites/${domain}/report`,
-  startRun: async (url: string): Promise<Job> => {
-    const r = await fetch("/api/runs", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ url }),
-    });
-    if (!r.ok) throw new Error(`${r.status} ${r.statusText}`);
-    return r.json();
-  },
+  // Gated route opened via <a href> (no custom header possible), so the admin
+  // key travels as a query param when present.
+  reportUrl: (domain: string) =>
+    `/api/sites/${domain}/report${adminKey ? `?admin=${encodeURIComponent(adminKey)}` : ""}`,
+  startRun: (url: string) => post<Job>("/api/runs", { url }),
   run: (runId: string) => get<Job>(`/api/runs/${runId}`),
+
+  // Public funnel
+  teaser: (domain: string) => get<Teaser>(`/api/teaser/${domain}`),
+  createCheckout: (domain: string) => post<{ url: string }>("/api/checkout", { domain }),
+  verifyCheckout: (sessionId: string) =>
+    get<{ token: string; domain: string }>(`/api/checkout/${sessionId}`),
+
+  // Token-gated report (buyers + public sample)
+  reportByToken: (token: string) => get<SiteDetail>(`/api/reports/${token}`),
+  reportDownloadUrl: (token: string) => `/api/reports/${token}/report`,
 };
 
 export const GRADE_COLOR: Record<string, string> = {

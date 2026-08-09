@@ -84,9 +84,10 @@ A practical implementation plan for:
 
 ## Suggested First Pricing
 
-### Pilot Audit: $399
+### Pilot Audit: $399 — Founding price (first 10 clients)
 
-For first customers and testimonials.
+For first customers and testimonials. A time-boxed founding price (normally
+$749); charging filters for real buyers and validates willingness to pay.
 
 Includes:
 
@@ -94,7 +95,7 @@ Includes:
 - report,
 - 30-minute review call.
 
-### Standard Audit: $950
+### Standard Audit: $749
 
 For normal SMB sales.
 

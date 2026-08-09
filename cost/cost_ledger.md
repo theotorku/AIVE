@@ -153,3 +153,34 @@ Freeze + version stamp + enforcement + docs. No scoring change.
 - **Runtime cost:** unchanged.
 
 MVP total external spend unchanged (~$0.38).
+
+---
+
+## Funnel + Payments — Landing → Teaser → Pilot $399 → Gated Report (2026-06-28)
+
+Sales-flow rework (teaser endpoint, Stripe checkout, grants, rate limiting,
+buyer report). No change to crawling/extraction/scoring.
+
+- **Build cost:** engineering time only. New dependency: `stripe==11.1.0`
+  (install only; no API spend during build/test — billing tests run with keys
+  unset and assert the 503 path).
+- **Runtime cost — per public teaser:** one live audit = the existing
+  pipeline cost (~$0.004 LLM + a crawl). Re-auditing a cached domain skips the
+  crawl (`reuse_crawl`), so cost falls to the LLM step only. Per-IP + global rate
+  caps bound worst-case spend; `ALLOW_PUBLIC_RUNS=false` disables it entirely.
+- **Payments:** Stripe fees apply per paid Pilot Audit (≈2.9% + $0.30 on $399);
+  grant minting/report serving is file I/O, $0.
+- **Test/verification cost: $0.** 137 tests + frontend build use cached artifacts
+  and no Stripe/LLM network calls.
+
+MVP total external spend unchanged (~$0.38); per-audit COGS unchanged (~$0.004 +
+crawl, per `sales/strategy.md` §6).
+
+## 2026-07-06 — GTM package build (Cowork session)
+
+- Scope: 16-deliverable GTM package (gtm/), sales deck pptx, KPI tracker xlsx,
+  progress/memory/skill updates
+- Model: claude-fable-5 (Cowork); web research: 6 searches
+- Build cost: LLM session tokens only (~1 session); no runtime/E2E audit cost
+  incurred (no crawls run)
+- Estimated spend: < $5 session inference; $0 pipeline COGS
