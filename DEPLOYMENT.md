@@ -154,8 +154,8 @@ prod base URL for an automated check.
 (landing → free teaser) needs it on, so `ALLOW_PUBLIC_RUNS` now **defaults to
 true** and the endpoint is protected by built-in safeguards:
 
-- **Per-IP + global rate limiting** (`backend/api/ratelimit.py`): defaults 3/hour
-  and 10/day per IP, 300/day global. Tune via `RUNS_PER_IP_HOUR` /
+- **Per-IP + global rate limiting** (`backend/api/ratelimit.py`): defaults 2/hour
+  and 5/day per IP, 25/day global. Tune via `RUNS_PER_IP_HOUR` /
   `RUNS_PER_IP_DAY` / `RUNS_GLOBAL_DAY`. (In-memory/per-process — fine for one
   Railway instance; move to Redis/Supabase if you scale out.)
 - **Cached-domain reuse** (`jobs.py` `reuse_crawl=True`): a re-audit of a known
