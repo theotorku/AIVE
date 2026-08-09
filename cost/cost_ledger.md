@@ -175,3 +175,12 @@ buyer report). No change to crawling/extraction/scoring.
 
 MVP total external spend unchanged (~$0.38); per-audit COGS unchanged (~$0.004 +
 crawl, per `sales/strategy.md` §6).
+
+## 2026-07-06 — GTM package build (Cowork session)
+
+- Scope: 16-deliverable GTM package (gtm/), sales deck pptx, KPI tracker xlsx,
+  progress/memory/skill updates
+- Model: claude-fable-5 (Cowork); web research: 6 searches
+- Build cost: LLM session tokens only (~1 session); no runtime/E2E audit cost
+  incurred (no crawls run)
+- Estimated spend: < $5 session inference; $0 pipeline COGS
