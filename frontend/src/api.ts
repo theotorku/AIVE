@@ -56,6 +56,24 @@ export interface EvidenceItem {
   [k: string]: unknown;
 }
 
+export interface AgentProfileFact extends EvidenceItem {
+  kind?: string;
+}
+
+export interface AgentProfile {
+  version: string;
+  identity: Record<string, AgentProfileFact>;
+  canonical_services: AgentProfileFact[];
+  service_areas: AgentProfileFact[];
+  availability: AgentProfileFact[];
+  pricing: AgentProfileFact[];
+  booking_endpoints: (AgentProfileFact & { tier: string; verified: boolean })[];
+  policies: AgentProfileFact[];
+  trust_signals: AgentProfileFact[];
+  contact_information: Record<string, AgentProfileFact>;
+  live_availability_checked: boolean;
+}
+
 export interface Profile {
   business_name: string | null;
   industry: string | null;
@@ -69,6 +87,7 @@ export interface Profile {
   contact_information: Record<string, string | null>;
   structured_data?: Record<string, boolean>;
   source_pages: { url: string; category: string }[];
+  agent_profile?: AgentProfile;
 }
 
 export interface CrawlCoverage {

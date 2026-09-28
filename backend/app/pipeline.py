@@ -35,6 +35,7 @@ from backend.app.schema import ABI_VERSION, Heading, Link, PageDocument
 from backend.app.services import page_classifier, rule_extractor
 from backend.app.services.abi_evidence import build_abi_evidence
 from backend.app.services.abi_score import score_abi
+from backend.app.services.agent_profile import build_agent_profile
 from backend.app.services.confidence import average_confidence
 from backend.app.services.crawler import crawl_documents
 from backend.app.services.llm_extractor import (
@@ -243,6 +244,12 @@ def run_pipeline(
             cached.pop("abi_evidence", None)
             cached.pop("abi_score", None)  # recomputed deterministically below
             validate_profile(cached)
+            # Older cached profiles predate the additive agent read model.
+            # Hydrate it from cached pages when available without another crawl.
+            if "agent_profile" not in cached:
+                cached_docs = _load_cached_docs(site_dir)
+                if cached_docs:
+                    cached["agent_profile"] = build_agent_profile(cached_docs, cached)
             cats: dict = {}
             for sp in cached.get("source_pages", []):
                 cats[sp["category"]] = cats.get(sp["category"], 0) + 1
