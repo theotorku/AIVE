@@ -53,10 +53,10 @@ Suggested early pricing:
 
 | Package | Price | Use When |
 |---|---:|---|
-| Pilot Audit | $299-$499 | first 5-10 customers, fast learning |
-| Standard Audit | $750-$1,500 | normal SMB sale |
+| Pilot Audit | $399 (founding, first 10) | first 5-10 customers, fast learning |
+| Standard Audit | $749 | normal SMB sale |
 | Audit + Fix Plan | $2,500-$5,000 | includes implementation roadmap |
-| Monitoring Retainer | $300-$1,000/mo | recurring score tracking and updates |
+| Monitoring Retainer | $149-$499/mo | recurring score tracking, human re-audit + fix verification |
 
 Do not lead with a monthly SaaS subscription yet. Sell the audit, learn the
 objections, then package recurring monitoring.
