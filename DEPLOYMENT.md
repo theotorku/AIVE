@@ -12,10 +12,10 @@ dashboard/landing) from local to production.
   frontend. The Railway service has a volume at `/app/backend/output` and a
   `/api/health` health check.
 - Checkout is disabled: `VITE_ENABLE_CHECKOUT` and `STRIPE_SECRET_KEY` are unset.
-- Live audit submission is temporarily disabled with `ALLOW_PUBLIC_RUNS=false`
-  until a dedicated `OPENAI_API_KEY` is installed in Railway. Initial launch
-  limit is `RUNS_GLOBAL_DAY=5`. After setting the key, change
-  `ALLOW_PUBLIC_RUNS=true` and verify one real audit.
+- A dedicated `OPENAI_API_KEY` is installed in Railway. Live audit submission
+  is enabled with `ALLOW_PUBLIC_RUNS=true` and an initial limit of
+  `RUNS_GLOBAL_DAY=5`. A production audit of `proplansolutions.io` completed
+  successfully through Vercel on 2026-10-04; the free teaser was verified.
 - The Railway service was deployed with `railway up` from the pushed Git
   revision. Its GitHub source is not connected, so future pushes do **not**
   automatically redeploy Railway. Redeploy it with the CLI or explicitly
@@ -142,9 +142,8 @@ configure.
 curl https://aive-inky.vercel.app/api/health  # proxied → {"status":"ok","billing":false}
 ```
 
-Open the site: the landing page renders and **"View sample"** loads the bundled
-audit. **"Get my free grade"** can submit live audits once the dedicated OpenAI
-key is installed and `ALLOW_PUBLIC_RUNS=true`.
+Open the site: the landing page renders, **"View sample"** loads the bundled
+audit, and **"Get my free grade"** submits a live audit.
 
 ---
 
