@@ -1,0 +1,1278 @@
+{
+  "schema_version": "2.0",
+  "business_name": "ProPlan Solutions",
+  "industry": "AI Strategy & Automation Solutions",
+  "services": [
+    {
+      "value": "AI Lead Scoring",
+      "confidence": 0.8,
+      "evidence": "AI-powered lead scoring that prioritizes your hottest prospects",
+      "source_url": "https://www.proplansolutions.io/",
+      "confidence_reason": "appears in page headings; found on a relevant page; repeated across 3 pages; clearly stated in content",
+      "aliases": [
+        "AI-powered lead scoring"
+      ],
+      "source_pages": [
+        "https://www.proplansolutions.io/",
+        "https://www.proplansolutions.io/about",
+        "https://www.proplansolutions.io/blog/real-estate-lead-optimization"
+      ],
+      "provenance": "first_party_service"
+    },
+    {
+      "value": "Live Analytics",
+      "confidence": 0.57,
+      "evidence": "Conversion rates, pipeline value, and ROI — updated live.",
+      "source_url": "https://www.proplansolutions.io/",
+      "confidence_reason": "appears in page headings; found on a relevant page; clearly stated in content",
+      "aliases": [],
+      "source_pages": [
+        "https://www.proplansolutions.io/"
+      ],
+      "provenance": "first_party_service"
+    },
+    {
+      "value": "Custom AI Workflows",
+      "confidence": 0.57,
+      "evidence": "FastAPI + Claude AI backends handle quoting, scheduling, follow-ups.",
+      "source_url": "https://www.proplansolutions.io/",
+      "confidence_reason": "appears in page headings; found on a relevant page; clearly stated in content",
+      "aliases": [],
+      "source_pages": [
+        "https://www.proplansolutions.io/"
+      ],
+      "provenance": "first_party_service"
+    },
+    {
+      "value": "Enterprise-Grade Security",
+      "confidence": 0.57,
+      "evidence": "API key auth, rate limiting, connection pooling, and encrypted service-to-service communication.",
+      "source_url": "https://www.proplansolutions.io/",
+      "confidence_reason": "appears in page headings; found on a relevant page; clearly stated in content",
+      "aliases": [],
+      "source_pages": [
+        "https://www.proplansolutions.io/"
+      ],
+      "provenance": "first_party_service"
+    },
+    {
+      "value": "SOW Conversion",
+      "confidence": 0.57,
+      "evidence": "One-click from proposal to signature-ready Statement of Work.",
+      "source_url": "https://www.proplansolutions.io/products/scopeai",
+      "confidence_reason": "appears in page headings; found on a relevant page; clearly stated in content",
+      "aliases": [],
+      "source_pages": [
+        "https://www.proplansolutions.io/products/scopeai"
+      ],
+      "provenance": "first_party_service"
+    },
+    {
+      "value": "Risk Detection",
+      "confidence": 0.55,
+      "evidence": "AI flags scope gaps and ambiguities before you quote.",
+      "source_url": "https://www.proplansolutions.io/products/scopeai",
+      "confidence_reason": "appears in page headings; found on a relevant page; clearly stated in content",
+      "aliases": [],
+      "source_pages": [
+        "https://www.proplansolutions.io/products/scopeai"
+      ],
+      "provenance": "first_party_service"
+    },
+    {
+      "value": "Service Catalog Mapping",
+      "confidence": 0.55,
+      "evidence": "Every quote stays consistent. Your service offerings always map to the same pricing, no exceptions.",
+      "source_url": "https://www.proplansolutions.io/products/scopeai",
+      "confidence_reason": "appears in page headings; found on a relevant page; clearly stated in content",
+      "aliases": [],
+      "source_pages": [
+        "https://www.proplansolutions.io/products/scopeai"
+      ],
+      "provenance": "first_party_service"
+    },
+    {
+      "value": "Executive Summaries",
+      "confidence": 0.55,
+      "evidence": "Auto-generated summaries that speak the client's language and highlight what matters to their business.",
+      "source_url": "https://www.proplansolutions.io/products/scopeai",
+      "confidence_reason": "appears in page headings; found on a relevant page; clearly stated in content",
+      "aliases": [],
+      "source_pages": [
+        "https://www.proplansolutions.io/products/scopeai"
+      ],
+      "provenance": "first_party_service"
+    },
+    {
+      "value": "Timeline Generation",
+      "confidence": 0.55,
+      "evidence": "Realistic timelines based on scope complexity.",
+      "source_url": "https://www.proplansolutions.io/products/scopeai",
+      "confidence_reason": "appears in page headings; found on a relevant page; clearly stated in content",
+      "aliases": [],
+      "source_pages": [
+        "https://www.proplansolutions.io/products/scopeai"
+      ],
+      "provenance": "first_party_service"
+    },
+    {
+      "value": "Automated customer communication",
+      "confidence": 0.4,
+      "evidence": "Automated customer communication — response in under 60 seconds",
+      "source_url": "https://www.proplansolutions.io/about",
+      "confidence_reason": "found on a relevant page; clearly stated in content",
+      "aliases": [],
+      "source_pages": [
+        "https://www.proplansolutions.io/about"
+      ],
+      "provenance": "first_party_service"
+    },
+    {
+      "value": "Real-time analytics dashboards",
+      "confidence": 0.4,
+      "evidence": "Real-time analytics dashboards showing exactly what's working",
+      "source_url": "https://www.proplansolutions.io/about",
+      "confidence_reason": "found on a relevant page; clearly stated in content",
+      "aliases": [],
+      "source_pages": [
+        "https://www.proplansolutions.io/about"
+      ],
+      "provenance": "first_party_service"
+    },
+    {
+      "value": "Custom workflows",
+      "confidence": 0.4,
+      "evidence": "Custom workflows tailored to your unique business processes",
+      "source_url": "https://www.proplansolutions.io/about",
+      "confidence_reason": "found on a relevant page; clearly stated in content",
+      "aliases": [],
+      "source_pages": [
+        "https://www.proplansolutions.io/about"
+      ],
+      "provenance": "first_party_service"
+    },
+    {
+      "value": "Ongoing optimization",
+      "confidence": 0.4,
+      "evidence": "Ongoing optimization to ensure you stay ahead of competitors",
+      "source_url": "https://www.proplansolutions.io/about",
+      "confidence_reason": "found on a relevant page; clearly stated in content",
+      "aliases": [],
+      "source_pages": [
+        "https://www.proplansolutions.io/about"
+      ],
+      "provenance": "first_party_service"
+    },
+    {
+      "value": "AI Proposal Generation",
+      "confidence": 0.38,
+      "evidence": "AI extracts scope, flags risks, maps your pricing, and generates a polished proposal.",
+      "source_url": "https://www.proplansolutions.io/products/scopeai",
+      "confidence_reason": "found on a relevant page; clearly stated in content",
+      "aliases": [],
+      "source_pages": [
+        "https://www.proplansolutions.io/products/scopeai"
+      ],
+      "provenance": "first_party_service"
+    }
+  ],
+  "service_areas": [
+    {
+      "value": "Denver",
+      "confidence": 0.14,
+      "evidence": "A boutique real estate agency in Denver",
+      "source_url": "https://www.proplansolutions.io/blog/real-estate-lead-optimization",
+      "confidence_reason": "clearly stated in content; only found in blog content",
+      "aliases": [],
+      "source_pages": [
+        "https://www.proplansolutions.io/blog/real-estate-lead-optimization"
+      ]
+    }
+  ],
+  "locations": [
+    {
+      "value": "Austin, TX",
+      "confidence": 0.15,
+      "evidence": "A growing remodeling company based in Austin, TX",
+      "source_url": "https://www.proplansolutions.io/blog/proplan-case-study",
+      "confidence_reason": "clearly stated in content; only found in blog content",
+      "source_pages": [
+        "https://www.proplansolutions.io/blog/proplan-case-study"
+      ],
+      "city": "Austin",
+      "state": "TX"
+    }
+  ],
+  "faqs": [],
+  "offers": [
+    {
+      "value": "Free Strategy Call",
+      "confidence": 0.27,
+      "evidence": "Book a free strategy call and discover what AI automation can do for your operations",
+      "source_url": "https://www.proplansolutions.io/blog/ai-in-remodeling",
+      "confidence_reason": "repeated across 5 pages; clearly stated in content; only found in blog content",
+      "source_pages": [
+        "https://www.proplansolutions.io/blog/ai-in-remodeling",
+        "https://www.proplansolutions.io/blog/ecommerce-automation",
+        "https://www.proplansolutions.io/blog/healthcare-practice-management",
+        "https://www.proplansolutions.io/blog/proplan-case-study",
+        "https://www.proplansolutions.io/blog/real-estate-lead-optimization"
+      ],
+      "details": "No commitment required.",
+      "provenance": "offer"
+    }
+  ],
+  "trust_signals": [
+    {
+      "value": "No monthly subscriptions or hidden fees",
+      "confidence": 0.38,
+      "evidence": "All pricing is project-based. No monthly subscriptions or hidden fees.",
+      "source_url": "https://www.proplansolutions.io/",
+      "confidence_reason": "found on a relevant page; clearly stated in content",
+      "source_pages": [
+        "https://www.proplansolutions.io/"
+      ],
+      "provenance": "trust_signal"
+    },
+    {
+      "value": "15+ businesses served",
+      "confidence": 0.38,
+      "evidence": "I've personally architected automation systems for 15+ businesses across construction, e-commerce, healthcare, and real estate.",
+      "source_url": "https://www.proplansolutions.io/about",
+      "confidence_reason": "found on a relevant page; clearly stated in content",
+      "source_pages": [
+        "https://www.proplansolutions.io/about"
+      ],
+      "provenance": "trust_signal"
+    },
+    {
+      "value": "HIPAA-compliant systems",
+      "confidence": 0.14,
+      "evidence": "ProPlan builds HIPAA-compliant systems tailored to your practice's unique needs",
+      "source_url": "https://www.proplansolutions.io/blog/healthcare-practice-management",
+      "confidence_reason": "clearly stated in content; only found in blog content",
+      "source_pages": [
+        "https://www.proplansolutions.io/blog/healthcare-practice-management"
+      ],
+      "provenance": "trust_signal"
+    },
+    {
+      "value": "Customer satisfaction score increased from 3.2/5 to 4.7/5",
+      "confidence": 0.14,
+      "evidence": "Customer satisfaction score increased from 3.2/5 to 4.7/5",
+      "source_url": "https://www.proplansolutions.io/blog/ecommerce-automation",
+      "confidence_reason": "clearly stated in content; only found in blog content",
+      "source_pages": [
+        "https://www.proplansolutions.io/blog/ecommerce-automation"
+      ],
+      "provenance": "trust_signal"
+    }
+  ],
+  "ctas": [
+    {
+      "value": "Book a 15-minute intro call",
+      "confidence": 0.4,
+      "evidence": "Skip the form. Book a 15-minute intro call directly with our solutions team and let's get straight to the point.",
+      "source_url": "https://www.proplansolutions.io/contact",
+      "confidence_reason": "found on a relevant page; clearly stated in content",
+      "source_pages": [
+        "https://www.proplansolutions.io/contact"
+      ],
+      "cta_type": "book"
+    },
+    {
+      "value": "Let's build automation that actually moves the needle",
+      "confidence": 0.4,
+      "evidence": "Let's build automation that actually moves the needle — starting this week.",
+      "source_url": "https://www.proplansolutions.io/about",
+      "confidence_reason": "found on a relevant page; clearly stated in content",
+      "source_pages": [
+        "https://www.proplansolutions.io/about"
+      ],
+      "cta_type": "contact"
+    },
+    {
+      "value": "Book a free strategy call",
+      "confidence": 0.38,
+      "evidence": "Book a free strategy call.",
+      "source_url": "https://www.proplansolutions.io/",
+      "confidence_reason": "found on a relevant page; clearly stated in content",
+      "source_pages": [
+        "https://www.proplansolutions.io/"
+      ],
+      "cta_type": "call"
+    },
+    {
+      "value": "Try ScopeAI today",
+      "confidence": 0.38,
+      "evidence": "Try ScopeAI today. Upload a brief, watch AI do the work, and send a polished proposal in minutes.",
+      "source_url": "https://www.proplansolutions.io/products/scopeai",
+      "confidence_reason": "found on a relevant page; clearly stated in content",
+      "source_pages": [
+        "https://www.proplansolutions.io/products/scopeai"
+      ],
+      "cta_type": "call"
+    },
+    {
+      "value": "Book Your Free Strategy Call",
+      "confidence": 0.27,
+      "evidence": "Book Your Free Strategy Call",
+      "source_url": "https://www.proplansolutions.io/blog/ai-in-remodeling",
+      "confidence_reason": "repeated across 5 pages; clearly stated in content; only found in blog content",
+      "source_pages": [
+        "https://www.proplansolutions.io/blog/ai-in-remodeling",
+        "https://www.proplansolutions.io/blog/ecommerce-automation",
+        "https://www.proplansolutions.io/blog/healthcare-practice-management",
+        "https://www.proplansolutions.io/blog/proplan-case-study",
+        "https://www.proplansolutions.io/blog/real-estate-lead-optimization"
+      ],
+      "cta_type": "book"
+    },
+    {
+      "value": "Start Your Journey",
+      "confidence": 0.15,
+      "evidence": "Let's discuss how AI automation can produce results like these in your business — starting with a free strategy session.",
+      "source_url": "https://www.proplansolutions.io/blog",
+      "confidence_reason": "clearly stated in content; only found in blog content",
+      "source_pages": [
+        "https://www.proplansolutions.io/blog"
+      ],
+      "cta_type": "contact"
+    }
+  ],
+  "contact_information": {
+    "phone": null,
+    "email": null,
+    "address": null,
+    "hours": null,
+    "booking_url": null
+  },
+  "structured_data": {
+    "schema_org_detected": false,
+    "has_business": false,
+    "has_faq_schema": false,
+    "has_name": false,
+    "has_phone": false,
+    "has_address": false,
+    "has_area_served": false
+  },
+  "blog_examples": [
+    {
+      "value": "Customer support automation",
+      "confidence": 0.34,
+      "evidence": "We built an intelligent customer support automation system",
+      "source_url": "https://www.proplansolutions.io/blog/ecommerce-automation",
+      "confidence_reason": "appears in page headings; appears in site navigation; clearly stated in content; only found in blog content",
+      "aliases": [],
+      "source_pages": [
+        "https://www.proplansolutions.io/blog/ecommerce-automation"
+      ],
+      "provenance": "blog_example"
+    },
+    {
+      "value": "Lead Scoring",
+      "confidence": 0.27,
+      "evidence": "FastAPI-Driven Lead Scoring: Every form submission is instantly evaluated based on budget fit, timeline, and project type",
+      "source_url": "https://www.proplansolutions.io/blog/proplan-case-study",
+      "confidence_reason": "appears in page headings; clearly stated in content; only found in blog content",
+      "aliases": [],
+      "source_pages": [
+        "https://www.proplansolutions.io/blog/proplan-case-study"
+      ],
+      "provenance": "blog_example"
+    },
+    {
+      "value": "Lead Conversion Optimization",
+      "confidence": 0.15,
+      "evidence": "How ProPlan Solutions boosted lead conversion from 19% to 43%",
+      "source_url": "https://www.proplansolutions.io/blog/proplan-case-study",
+      "confidence_reason": "clearly stated in content; only found in blog content",
+      "aliases": [],
+      "source_pages": [
+        "https://www.proplansolutions.io/blog/proplan-case-study"
+      ],
+      "provenance": "blog_example"
+    },
+    {
+      "value": "AI Automation for Quoting",
+      "confidence": 0.15,
+      "evidence": "AI Quote Generator: Dynamic, pre-trained quote templates adjust based on lead details",
+      "source_url": "https://www.proplansolutions.io/blog/proplan-case-study",
+      "confidence_reason": "clearly stated in content; only found in blog content",
+      "aliases": [],
+      "source_pages": [
+        "https://www.proplansolutions.io/blog/proplan-case-study"
+      ],
+      "provenance": "blog_example"
+    },
+    {
+      "value": "Email and Text Automation",
+      "confidence": 0.15,
+      "evidence": "Twilio + Email Automation: Leads get personalized texts and emails within 15 seconds",
+      "source_url": "https://www.proplansolutions.io/blog/proplan-case-study",
+      "confidence_reason": "clearly stated in content; only found in blog content",
+      "aliases": [],
+      "source_pages": [
+        "https://www.proplansolutions.io/blog/proplan-case-study"
+      ],
+      "provenance": "blog_example"
+    },
+    {
+      "value": "Intelligent Scheduling and Patient Engagement System",
+      "confidence": 0.14,
+      "evidence": "We implemented an intelligent scheduling and patient engagement system that operates 24/7",
+      "source_url": "https://www.proplansolutions.io/blog/healthcare-practice-management",
+      "confidence_reason": "clearly stated in content; only found in blog content",
+      "aliases": [],
+      "source_pages": [
+        "https://www.proplansolutions.io/blog/healthcare-practice-management"
+      ],
+      "provenance": "blog_example"
+    },
+    {
+      "value": "Online Self-Scheduling",
+      "confidence": 0.14,
+      "evidence": "Patients book, reschedule, or cancel through a user-friendly web portal or text message interface",
+      "source_url": "https://www.proplansolutions.io/blog/healthcare-practice-management",
+      "confidence_reason": "clearly stated in content; only found in blog content",
+      "aliases": [],
+      "source_pages": [
+        "https://www.proplansolutions.io/blog/healthcare-practice-management"
+      ],
+      "provenance": "blog_example"
+    },
+    {
+      "value": "Automated SMS Reminders",
+      "confidence": 0.14,
+      "evidence": "Multi-touch reminder system sends confirmations, 48-hour reminders, and 24-hour final alerts",
+      "source_url": "https://www.proplansolutions.io/blog/healthcare-practice-management",
+      "confidence_reason": "clearly stated in content; only found in blog content",
+      "aliases": [],
+      "source_pages": [
+        "https://www.proplansolutions.io/blog/healthcare-practice-management"
+      ],
+      "provenance": "blog_example"
+    },
+    {
+      "value": "Intelligent Waitlist Management",
+      "confidence": 0.14,
+      "evidence": "When cancellations occur, the system automatically offers the slot to waitlisted patients via text",
+      "source_url": "https://www.proplansolutions.io/blog/healthcare-practice-management",
+      "confidence_reason": "clearly stated in content; only found in blog content",
+      "aliases": [],
+      "source_pages": [
+        "https://www.proplansolutions.io/blog/healthcare-practice-management"
+      ],
+      "provenance": "blog_example"
+    },
+    {
+      "value": "Smart Scheduling Logic",
+      "confidence": 0.14,
+      "evidence": "AI-powered system optimizes appointment distribution across providers and locations",
+      "source_url": "https://www.proplansolutions.io/blog/healthcare-practice-management",
+      "confidence_reason": "clearly stated in content; only found in blog content",
+      "aliases": [],
+      "source_pages": [
+        "https://www.proplansolutions.io/blog/healthcare-practice-management"
+      ],
+      "provenance": "blog_example"
+    },
+    {
+      "value": "Follow-Up Automation",
+      "confidence": 0.14,
+      "evidence": "Post-visit surveys and follow-up appointments triggered automatically based on visit type",
+      "source_url": "https://www.proplansolutions.io/blog/healthcare-practice-management",
+      "confidence_reason": "clearly stated in content; only found in blog content",
+      "aliases": [],
+      "source_pages": [
+        "https://www.proplansolutions.io/blog/healthcare-practice-management"
+      ],
+      "provenance": "blog_example"
+    },
+    {
+      "value": "Real-Time Analytics",
+      "confidence": 0.14,
+      "evidence": "Dashboard tracking no-show rates, booking sources, peak times, and provider utilization across all locations",
+      "source_url": "https://www.proplansolutions.io/blog/healthcare-practice-management",
+      "confidence_reason": "clearly stated in content; only found in blog content",
+      "aliases": [],
+      "source_pages": [
+        "https://www.proplansolutions.io/blog/healthcare-practice-management"
+      ],
+      "provenance": "blog_example"
+    },
+    {
+      "value": "AI automation for remodeling businesses",
+      "confidence": 0.14,
+      "evidence": "ProPlan's AI automation stack makes the difference.",
+      "source_url": "https://www.proplansolutions.io/blog/ai-in-remodeling",
+      "confidence_reason": "clearly stated in content; only found in blog content",
+      "aliases": [],
+      "source_pages": [
+        "https://www.proplansolutions.io/blog/ai-in-remodeling"
+      ],
+      "provenance": "blog_example"
+    },
+    {
+      "value": "AI-Powered Chatbot",
+      "confidence": 0.14,
+      "evidence": "AI-Powered Chatbot: Integrated with their e-commerce platform",
+      "source_url": "https://www.proplansolutions.io/blog/ecommerce-automation",
+      "confidence_reason": "clearly stated in content; only found in blog content",
+      "aliases": [],
+      "source_pages": [
+        "https://www.proplansolutions.io/blog/ecommerce-automation"
+      ],
+      "provenance": "blog_example"
+    },
+    {
+      "value": "Smart Email Automation",
+      "confidence": 0.14,
+      "evidence": "Smart Email Automation: Natural language processing identifies inquiry type",
+      "source_url": "https://www.proplansolutions.io/blog/ecommerce-automation",
+      "confidence_reason": "clearly stated in content; only found in blog content",
+      "aliases": [],
+      "source_pages": [
+        "https://www.proplansolutions.io/blog/ecommerce-automation"
+      ],
+      "provenance": "blog_example"
+    },
+    {
+      "value": "Returns Processing Automation",
+      "confidence": 0.14,
+      "evidence": "Returns Processing Automation: Customers initiate returns through an automated flow",
+      "source_url": "https://www.proplansolutions.io/blog/ecommerce-automation",
+      "confidence_reason": "clearly stated in content; only found in blog content",
+      "aliases": [],
+      "source_pages": [
+        "https://www.proplansolutions.io/blog/ecommerce-automation"
+      ],
+      "provenance": "blog_example"
+    },
+    {
+      "value": "Intelligent Escalation",
+      "confidence": 0.14,
+      "evidence": "Intelligent Escalation: Complex issues are automatically routed to the right specialist",
+      "source_url": "https://www.proplansolutions.io/blog/ecommerce-automation",
+      "confidence_reason": "clearly stated in content; only found in blog content",
+      "aliases": [],
+      "source_pages": [
+        "https://www.proplansolutions.io/blog/ecommerce-automation"
+      ],
+      "provenance": "blog_example"
+    },
+    {
+      "value": "Analytics Dashboard",
+      "confidence": 0.14,
+      "evidence": "Analytics Dashboard: Real-time insights on support volume, resolution times",
+      "source_url": "https://www.proplansolutions.io/blog/ecommerce-automation",
+      "confidence_reason": "clearly stated in content; only found in blog content",
+      "aliases": [],
+      "source_pages": [
+        "https://www.proplansolutions.io/blog/ecommerce-automation"
+      ],
+      "provenance": "blog_example"
+    },
+    {
+      "value": "Lead Management",
+      "confidence": 0.14,
+      "evidence": "We built an intelligent lead management and showing coordination system",
+      "source_url": "https://www.proplansolutions.io/blog/real-estate-lead-optimization",
+      "confidence_reason": "clearly stated in content; only found in blog content",
+      "aliases": [],
+      "source_pages": [
+        "https://www.proplansolutions.io/blog/real-estate-lead-optimization"
+      ],
+      "provenance": "blog_example"
+    },
+    {
+      "value": "Showing Coordination",
+      "confidence": 0.14,
+      "evidence": "intelligent lead management and showing coordination system",
+      "source_url": "https://www.proplansolutions.io/blog/real-estate-lead-optimization",
+      "confidence_reason": "clearly stated in content; only found in blog content",
+      "aliases": [],
+      "source_pages": [
+        "https://www.proplansolutions.io/blog/real-estate-lead-optimization"
+      ],
+      "provenance": "blog_example"
+    },
+    {
+      "value": "Instant Response Automation",
+      "confidence": 0.14,
+      "evidence": "Instant Response Automation: Qualified leads receive personalized responses",
+      "source_url": "https://www.proplansolutions.io/blog/real-estate-lead-optimization",
+      "confidence_reason": "clearly stated in content; only found in blog content",
+      "aliases": [],
+      "source_pages": [
+        "https://www.proplansolutions.io/blog/real-estate-lead-optimization"
+      ],
+      "provenance": "blog_example"
+    },
+    {
+      "value": "Smart Property Matching",
+      "confidence": 0.14,
+      "evidence": "Smart Property Matching: Machine learning algorithm analyzes buyer preferences",
+      "source_url": "https://www.proplansolutions.io/blog/real-estate-lead-optimization",
+      "confidence_reason": "clearly stated in content; only found in blog content",
+      "aliases": [],
+      "source_pages": [
+        "https://www.proplansolutions.io/blog/real-estate-lead-optimization"
+      ],
+      "provenance": "blog_example"
+    },
+    {
+      "value": "Automated Showing Scheduler",
+      "confidence": 0.14,
+      "evidence": "Automated Showing Scheduler: Integrated calendar system allows buyers to book showing times",
+      "source_url": "https://www.proplansolutions.io/blog/real-estate-lead-optimization",
+      "confidence_reason": "clearly stated in content; only found in blog content",
+      "aliases": [],
+      "source_pages": [
+        "https://www.proplansolutions.io/blog/real-estate-lead-optimization"
+      ],
+      "provenance": "blog_example"
+    },
+    {
+      "value": "Nurture Campaigns",
+      "confidence": 0.14,
+      "evidence": "Nurture Campaigns: Automated email and SMS sequences keep leads engaged",
+      "source_url": "https://www.proplansolutions.io/blog/real-estate-lead-optimization",
+      "confidence_reason": "clearly stated in content; only found in blog content",
+      "aliases": [],
+      "source_pages": [
+        "https://www.proplansolutions.io/blog/real-estate-lead-optimization"
+      ],
+      "provenance": "blog_example"
+    },
+    {
+      "value": "Performance Analytics",
+      "confidence": 0.14,
+      "evidence": "Performance Analytics: Real-time dashboard tracking lead sources",
+      "source_url": "https://www.proplansolutions.io/blog/real-estate-lead-optimization",
+      "confidence_reason": "clearly stated in content; only found in blog content",
+      "aliases": [],
+      "source_pages": [
+        "https://www.proplansolutions.io/blog/real-estate-lead-optimization"
+      ],
+      "provenance": "blog_example"
+    },
+    {
+      "value": "Lead intake automation",
+      "confidence": 0.12,
+      "evidence": "Custom-built web forms capture user input and pass it through a scoring engine backed by FastAPI and Claude AI",
+      "source_url": "https://www.proplansolutions.io/blog/ai-in-remodeling",
+      "confidence_reason": "clearly stated in content; only found in blog content",
+      "aliases": [],
+      "source_pages": [
+        "https://www.proplansolutions.io/blog/ai-in-remodeling"
+      ],
+      "provenance": "blog_example"
+    },
+    {
+      "value": "Quote generation",
+      "confidence": 0.12,
+      "evidence": "Pre-trained models dynamically generate tailored quotes based on user data",
+      "source_url": "https://www.proplansolutions.io/blog/ai-in-remodeling",
+      "confidence_reason": "clearly stated in content; only found in blog content",
+      "aliases": [],
+      "source_pages": [
+        "https://www.proplansolutions.io/blog/ai-in-remodeling"
+      ],
+      "provenance": "blog_example"
+    },
+    {
+      "value": "Communication automation",
+      "confidence": 0.12,
+      "evidence": "Twilio integrations send branded confirmation texts, follow-ups, and next steps via SMS and email",
+      "source_url": "https://www.proplansolutions.io/blog/ai-in-remodeling",
+      "confidence_reason": "clearly stated in content; only found in blog content",
+      "aliases": [],
+      "source_pages": [
+        "https://www.proplansolutions.io/blog/ai-in-remodeling"
+      ],
+      "provenance": "blog_example"
+    },
+    {
+      "value": "Live dashboards for business insights",
+      "confidence": 0.12,
+      "evidence": "Supabase dashboards visualize conversions, close rates, average ticket size, and project timelines",
+      "source_url": "https://www.proplansolutions.io/blog/ai-in-remodeling",
+      "confidence_reason": "clearly stated in content; only found in blog content",
+      "aliases": [],
+      "source_pages": [
+        "https://www.proplansolutions.io/blog/ai-in-remodeling"
+      ],
+      "provenance": "blog_example"
+    }
+  ],
+  "case_studies": [
+    {
+      "value": "30% increase in scheduled consultations",
+      "confidence": 0.15,
+      "evidence": "30% increase in scheduled consultations within the first month",
+      "source_url": "https://www.proplansolutions.io/blog/proplan-case-study",
+      "confidence_reason": "clearly stated in content; only found in blog content",
+      "source_pages": [
+        "https://www.proplansolutions.io/blog/proplan-case-study"
+      ],
+      "provenance": "case_study"
+    },
+    {
+      "value": "Lead conversion jumped from 19% to 43%",
+      "confidence": 0.15,
+      "evidence": "Lead conversion jumped from 19% to 43% in just 3 weeks",
+      "source_url": "https://www.proplansolutions.io/blog/proplan-case-study",
+      "confidence_reason": "clearly stated in content; only found in blog content",
+      "source_pages": [
+        "https://www.proplansolutions.io/blog/proplan-case-study"
+      ],
+      "provenance": "case_study"
+    },
+    {
+      "value": "Quote prep time dropped by 72%",
+      "confidence": 0.15,
+      "evidence": "Quote prep time dropped by 72%",
+      "source_url": "https://www.proplansolutions.io/blog/proplan-case-study",
+      "confidence_reason": "clearly stated in content; only found in blog content",
+      "source_pages": [
+        "https://www.proplansolutions.io/blog/proplan-case-study"
+      ],
+      "provenance": "case_study"
+    },
+    {
+      "value": "60% decrease in customer support costs",
+      "confidence": 0.14,
+      "evidence": "60% decrease in customer support costs by automating routine inquiries",
+      "source_url": "https://www.proplansolutions.io/blog/ecommerce-automation",
+      "confidence_reason": "clearly stated in content; only found in blog content",
+      "source_pages": [
+        "https://www.proplansolutions.io/blog/ecommerce-automation"
+      ],
+      "provenance": "case_study"
+    },
+    {
+      "value": "85% reduction in average response time",
+      "confidence": 0.14,
+      "evidence": "85% reduction in average response time — from 18 hours to under 3 minutes",
+      "source_url": "https://www.proplansolutions.io/blog/ecommerce-automation",
+      "confidence_reason": "clearly stated in content; only found in blog content",
+      "source_pages": [
+        "https://www.proplansolutions.io/blog/ecommerce-automation"
+      ],
+      "provenance": "case_study"
+    },
+    {
+      "value": "50% increase in qualified property showings",
+      "confidence": 0.14,
+      "evidence": "50% increase in qualified property showings within 90 days",
+      "source_url": "https://www.proplansolutions.io/blog/real-estate-lead-optimization",
+      "confidence_reason": "clearly stated in content; only found in blog content",
+      "source_pages": [
+        "https://www.proplansolutions.io/blog/real-estate-lead-optimization"
+      ],
+      "provenance": "case_study"
+    },
+    {
+      "value": "Lead-to-showing conversion improved from 12% to 31%",
+      "confidence": 0.14,
+      "evidence": "Lead-to-showing conversion improved from 12% to 31%",
+      "source_url": "https://www.proplansolutions.io/blog/real-estate-lead-optimization",
+      "confidence_reason": "clearly stated in content; only found in blog content",
+      "source_pages": [
+        "https://www.proplansolutions.io/blog/real-estate-lead-optimization"
+      ],
+      "provenance": "case_study"
+    },
+    {
+      "value": "Average deal size increased by 18%",
+      "confidence": 0.14,
+      "evidence": "Average deal size increased by 18% due to better buyer qualification",
+      "source_url": "https://www.proplansolutions.io/blog/real-estate-lead-optimization",
+      "confidence_reason": "clearly stated in content; only found in blog content",
+      "source_pages": [
+        "https://www.proplansolutions.io/blog/real-estate-lead-optimization"
+      ],
+      "provenance": "case_study"
+    }
+  ],
+  "testimonials": [],
+  "pricing_tiers": [
+    {
+      "value": "Starter Package",
+      "confidence": 0.38,
+      "evidence": "Starting at $5K",
+      "source_url": "https://www.proplansolutions.io/",
+      "confidence_reason": "found on a relevant page; clearly stated in content",
+      "source_pages": [
+        "https://www.proplansolutions.io/"
+      ],
+      "details": "AI lead scoring + one automated workflow.",
+      "provenance": "pricing_tier"
+    },
+    {
+      "value": "Growth Package",
+      "confidence": 0.38,
+      "evidence": "$15K – $50K",
+      "source_url": "https://www.proplansolutions.io/",
+      "confidence_reason": "found on a relevant page; clearly stated in content",
+      "source_pages": [
+        "https://www.proplansolutions.io/"
+      ],
+      "details": "Full automation suite with analytics.",
+      "provenance": "pricing_tier"
+    },
+    {
+      "value": "Enterprise Package",
+      "confidence": 0.38,
+      "evidence": "Custom Scope",
+      "source_url": "https://www.proplansolutions.io/",
+      "confidence_reason": "found on a relevant page; clearly stated in content",
+      "source_pages": [
+        "https://www.proplansolutions.io/"
+      ],
+      "details": "End-to-end AI transformation.",
+      "provenance": "pricing_tier"
+    }
+  ],
+  "source_pages": [
+    {
+      "url": "https://www.proplansolutions.io/",
+      "category": "home"
+    },
+    {
+      "url": "https://www.proplansolutions.io/products/scopeai",
+      "category": "service_detail"
+    },
+    {
+      "url": "https://www.proplansolutions.io/contact",
+      "category": "contact"
+    },
+    {
+      "url": "https://www.proplansolutions.io/blog/proplan-case-study",
+      "category": "blog"
+    },
+    {
+      "url": "https://www.proplansolutions.io/about",
+      "category": "about"
+    },
+    {
+      "url": "https://www.proplansolutions.io/blog/healthcare-practice-management",
+      "category": "blog"
+    },
+    {
+      "url": "https://www.proplansolutions.io/blog",
+      "category": "blog"
+    },
+    {
+      "url": "https://www.proplansolutions.io/blog/ai-in-remodeling",
+      "category": "blog"
+    },
+    {
+      "url": "https://www.proplansolutions.io/blog/ecommerce-automation",
+      "category": "blog"
+    },
+    {
+      "url": "https://www.proplansolutions.io/blog/real-estate-lead-optimization",
+      "category": "blog"
+    }
+  ],
+  "actionability": {
+    "booking": {
+      "tier": "T3",
+      "mechanism": "calendly.com",
+      "evidence": "https://calendly.com/proplansolutions"
+    }
+  },
+  "abi_evidence": {
+    "understanding": [
+      "Business name identified: ProPlan Solutions.",
+      "Business category detected as AI Strategy & Automation Solutions.",
+      "14 distinct services identified (9 high/medium confidence).",
+      "Physical location/address information present."
+    ],
+    "retrieval": [
+      "No FAQ content detected - weak for answer-engine retrieval.",
+      "1 service areas specified.",
+      "Service pages use clear headings."
+    ],
+    "recommendation": [
+      "4 trust signals found (guarantees/certifications/awards/experience).",
+      "1 promotional offers present."
+    ],
+    "agent_readiness": [
+      "No phone number detected.",
+      "Direct online booking detected (calendly.com).",
+      "No contact email detected.",
+      "6 calls-to-action identified."
+    ],
+    "semantic_authority": [
+      "Service coverage: 14 services, 1 areas.",
+      "FAQ coverage: 0 entries.",
+      "No structured data (schema.org) detected."
+    ]
+  },
+  "abi_score": {
+    "overall": 39.0,
+    "grade": "F",
+    "grade_label": "Invisible to AI",
+    "dimensions": {
+      "ai_understanding": {
+        "label": "AI Understanding",
+        "score": 74.7,
+        "weight": 0.25,
+        "grade": "C",
+        "criteria": [
+          {
+            "name": "Business identity",
+            "earned": 15,
+            "max": 15,
+            "ratio": 1.0,
+            "rationale": "Business name identified: ProPlan Solutions.",
+            "evidence": [
+              "business_name: ProPlan Solutions"
+            ],
+            "recommendation": null
+          },
+          {
+            "name": "Industry clarity",
+            "earned": 15,
+            "max": 15,
+            "ratio": 1.0,
+            "rationale": "Business category detected as AI Strategy & Automation Solutions.",
+            "evidence": [
+              "industry: AI Strategy & Automation Solutions"
+            ],
+            "recommendation": null
+          },
+          {
+            "name": "Service coverage",
+            "earned": 30.0,
+            "max": 30,
+            "ratio": 1.0,
+            "rationale": "14 distinct services identified.",
+            "evidence": [
+              "AI Lead Scoring",
+              "Live Analytics",
+              "Custom AI Workflows"
+            ],
+            "recommendation": null
+          },
+          {
+            "name": "Service clarity",
+            "earned": 10.4,
+            "max": 20,
+            "ratio": 0.52,
+            "rationale": "Average confidence of identified services is 0.52.",
+            "evidence": [
+              "AI Lead Scoring (0.8)",
+              "Live Analytics (0.57)",
+              "Custom AI Workflows (0.57)"
+            ],
+            "recommendation": "Reinforce services with clear page headings and dedicated service pages so they read unambiguously."
+          },
+          {
+            "name": "Location presence",
+            "earned": 4.3,
+            "max": 20,
+            "ratio": 0.21,
+            "rationale": "Physical location/address information present (confidence-weighted 0.21).",
+            "evidence": [
+              "Austin, TX"
+            ],
+            "recommendation": "Reinforce your location with a consistent NAP and LocalBusiness schema so it reads as verified, not incidental."
+          }
+        ]
+      },
+      "ai_retrieval": {
+        "label": "AI Retrieval",
+        "score": 25.9,
+        "weight": 0.25,
+        "grade": "F",
+        "criteria": [
+          {
+            "name": "FAQ coverage",
+            "earned": 0.0,
+            "max": 35,
+            "ratio": 0.0,
+            "rationale": "No FAQ content detected — weak for answer-engine retrieval.",
+            "evidence": [],
+            "recommendation": "Add an FAQ section with real question-and-answer pairs; this is the highest-leverage change for answer-engine visibility."
+          },
+          {
+            "name": "FAQ answer quality",
+            "earned": 0.0,
+            "max": 10,
+            "ratio": 0.0,
+            "rationale": "No answers to assess (no FAQ content).",
+            "evidence": [],
+            "recommendation": "Ensure every FAQ question is paired with a clear, self-contained answer agents can quote."
+          },
+          {
+            "name": "Heading structure",
+            "earned": 12.9,
+            "max": 20,
+            "ratio": 0.64,
+            "rationale": "9/14 services are reinforced by page headings.",
+            "evidence": [],
+            "recommendation": null
+          },
+          {
+            "name": "Geographic specificity",
+            "earned": 1.0,
+            "max": 20,
+            "ratio": 0.05,
+            "rationale": "1 service areas specified.",
+            "evidence": [
+              "Denver"
+            ],
+            "recommendation": "Name the cities/regions you serve so location-based queries can retrieve you."
+          },
+          {
+            "name": "Content breadth",
+            "earned": 12.0,
+            "max": 15,
+            "ratio": 0.8,
+            "rationale": "4 relevant content pages available to retrieve.",
+            "evidence": [
+              "home",
+              "service_detail",
+              "contact",
+              "about"
+            ],
+            "recommendation": "Publish dedicated pages (services, about, contact, areas) so there is more high-signal content to retrieve."
+          }
+        ]
+      },
+      "ai_recommendation": {
+        "label": "AI Recommendation",
+        "score": 27.3,
+        "weight": 0.2,
+        "grade": "F",
+        "criteria": [
+          {
+            "name": "Trust signals",
+            "earned": 14.9,
+            "max": 40,
+            "ratio": 0.37,
+            "rationale": "4 trust signals found.",
+            "evidence": [
+              "No monthly subscriptions or hidden fees",
+              "15+ businesses served",
+              "HIPAA-compliant systems"
+            ],
+            "recommendation": "Surface guarantees, certifications, awards, and years in business — agents weigh these when recommending."
+          },
+          {
+            "name": "Reputation diversity",
+            "earned": 6.0,
+            "max": 30,
+            "ratio": 0.2,
+            "rationale": "Reputation evidence spans 1/5 categories: guarantee.",
+            "evidence": [
+              "guarantee"
+            ],
+            "recommendation": "Add the missing kinds of proof: certification, awards, experience, reviews."
+          },
+          {
+            "name": "Offers & incentives",
+            "earned": 3.9,
+            "max": 20,
+            "ratio": 0.19,
+            "rationale": "1 promotional offers present.",
+            "evidence": [
+              "Free Strategy Call"
+            ],
+            "recommendation": "Publish current offers/financing/specials; these give agents a concrete reason to surface you."
+          },
+          {
+            "name": "Trust signal strength",
+            "earned": 2.6,
+            "max": 10,
+            "ratio": 0.26,
+            "rationale": "Average confidence of trust signals is 0.26.",
+            "evidence": [],
+            "recommendation": "Place trust claims in prominent, structured locations (headings, badges) so they read as credible, not incidental."
+          }
+        ]
+      },
+      "agent_readiness": {
+        "label": "Agent Readiness",
+        "score": 34.1,
+        "weight": 0.15,
+        "grade": "F",
+        "criteria": [
+          {
+            "name": "Phone number",
+            "earned": 0,
+            "max": 20,
+            "ratio": 0.0,
+            "rationale": "No phone number detected.",
+            "evidence": [],
+            "recommendation": "Publish a clickable phone number (tel: link) in a consistent place."
+          },
+          {
+            "name": "Contact email",
+            "earned": 0,
+            "max": 15,
+            "ratio": 0.0,
+            "rationale": "No contact email detected.",
+            "evidence": [],
+            "recommendation": "Publish a contact email so agents have a non-voice channel."
+          },
+          {
+            "name": "Address",
+            "earned": 0,
+            "max": 15,
+            "ratio": 0.0,
+            "rationale": "No address detected.",
+            "evidence": [],
+            "recommendation": "Publish a full postal address (ideally in schema.org PostalAddress)."
+          },
+          {
+            "name": "Business hours",
+            "earned": 0,
+            "max": 15,
+            "ratio": 0.0,
+            "rationale": "No business hours detected.",
+            "evidence": [],
+            "recommendation": "Publish business hours so agents can tell when you're reachable."
+          },
+          {
+            "name": "Online booking",
+            "earned": 20,
+            "max": 20,
+            "ratio": 1.0,
+            "rationale": "Direct online booking detected (deep-linkable scheduler / potentialAction) — an agent can act immediately.",
+            "evidence": [
+              "https://calendly.com/proplansolutions"
+            ],
+            "recommendation": null
+          },
+          {
+            "name": "Calls to action",
+            "earned": 14.1,
+            "max": 15,
+            "ratio": 0.94,
+            "rationale": "6 clear calls-to-action identified.",
+            "evidence": [
+              "Book a 15-minute intro call",
+              "Let's build automation that actually moves the needle",
+              "Book a free strategy call"
+            ],
+            "recommendation": "Provide explicit next-step CTAs (Book, Call, Get a Quote) so agents know the intended action."
+          }
+        ]
+      },
+      "semantic_authority": {
+        "label": "Semantic Authority",
+        "score": 21.5,
+        "weight": 0.15,
+        "grade": "F",
+        "criteria": [
+          {
+            "name": "Structured data (schema.org)",
+            "earned": 0,
+            "max": 35,
+            "ratio": 0.0,
+            "rationale": "No schema.org structured data detected.",
+            "evidence": [],
+            "recommendation": "Add JSON-LD schema.org markup (LocalBusiness/Organization, FAQPage) — the highest-impact authority signal."
+          },
+          {
+            "name": "Service depth",
+            "earned": 20.0,
+            "max": 20,
+            "ratio": 1.0,
+            "rationale": "14 services documented (authority target 8).",
+            "evidence": [
+              "AI Lead Scoring",
+              "Live Analytics",
+              "Custom AI Workflows"
+            ],
+            "recommendation": null
+          },
+          {
+            "name": "Geographic authority",
+            "earned": 0.6,
+            "max": 15,
+            "ratio": 0.04,
+            "rationale": "1 service areas documented.",
+            "evidence": [
+              "Denver"
+            ],
+            "recommendation": "Document each service area, ideally with a location-specific page."
+          },
+          {
+            "name": "Knowledge depth (FAQ)",
+            "earned": 0.0,
+            "max": 15,
+            "ratio": 0.0,
+            "rationale": "0 FAQ entries contribute to knowledge depth.",
+            "evidence": [],
+            "recommendation": "Grow your FAQ/knowledge content to demonstrate subject-matter depth."
+          },
+          {
+            "name": "Cross-page corroboration",
+            "earned": 0.9,
+            "max": 15,
+            "ratio": 0.06,
+            "rationale": "1/16 facts are corroborated across multiple pages.",
+            "evidence": [],
+            "recommendation": "Reinforce key facts consistently across pages so they corroborate each other."
+          }
+        ]
+      }
+    },
+    "top_recommendations": [
+      {
+        "dimension": "ai_retrieval",
+        "dimension_label": "AI Retrieval",
+        "criterion": "FAQ coverage",
+        "recommendation": "Add an FAQ section with real question-and-answer pairs; this is the highest-leverage change for answer-engine visibility.",
+        "impact": 8.75,
+        "priority": 1
+      },
+      {
+        "dimension": "semantic_authority",
+        "dimension_label": "Semantic Authority",
+        "criterion": "Structured data (schema.org)",
+        "recommendation": "Add JSON-LD schema.org markup (LocalBusiness/Organization, FAQPage) — the highest-impact authority signal.",
+        "impact": 5.25,
+        "priority": 2
+      },
+      {
+        "dimension": "ai_recommendation",
+        "dimension_label": "AI Recommendation",
+        "criterion": "Trust signals",
+        "recommendation": "Surface guarantees, certifications, awards, and years in business — agents weigh these when recommending.",
+        "impact": 5.03,
+        "priority": 3
+      },
+      {
+        "dimension": "ai_recommendation",
+        "dimension_label": "AI Recommendation",
+        "criterion": "Reputation diversity",
+        "recommendation": "Add the missing kinds of proof: certification, awards, experience, reviews.",
+        "impact": 4.8,
+        "priority": 4
+      },
+      {
+        "dimension": "ai_retrieval",
+        "dimension_label": "AI Retrieval",
+        "criterion": "Geographic specificity",
+        "recommendation": "Name the cities/regions you serve so location-based queries can retrieve you.",
+        "impact": 4.75,
+        "priority": 5
+      }
+    ],
+    "summary": "ABI 39.0 (F — Invisible to AI). Strongest: AI Understanding (74.7). Weakest: Semantic Authority (21.5). Top fix: Add an FAQ section with real question-and-answer pairs; this is the highest-leverage change for answer-engine visibility.",
+    "weights": {
+      "ai_understanding": 0.25,
+      "ai_retrieval": 0.25,
+      "ai_recommendation": 0.2,
+      "agent_readiness": 0.15,
+      "semantic_authority": 0.15
+    }
+  }
+}

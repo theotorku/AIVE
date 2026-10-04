@@ -83,11 +83,11 @@ curl https://aive-backend.up.railway.app/api/health      # {"status":"ok"}
 curl https://aive-backend.up.railway.app/api/benchmark    # benchmark JSON (if output seeded)
 ```
 
-> **Seed the benchmark/gallery (optional but recommended):** the 54 cached audits
-> live under `backend/output/` (gitignored) and `backend/validation/`. To show a
-> populated dashboard on day one, either commit a curated subset, copy them onto
-> the volume, or run a few audits in production. The landing page's "Field data"
-> falls back to the real benchmark numbers even with an empty backend.
+> **Sample and gallery:** the public ProPlan sample profile is bundled under
+> `backend/sample_data/`, so `?report=sample` works on a fresh volume. The 54
+> cached audits under `backend/output/` remain gitignored; the internal gallery
+> fills as production audits complete. The landing page's "Field data" uses the
+> bundled benchmark summary when the gallery is empty.
 
 ---
 
@@ -169,6 +169,8 @@ recommended launch posture and the three cost controls are detailed in
 
 **💳 Payments.** Checkout is gated on `STRIPE_SECRET_KEY`; without it,
 `POST /api/checkout` returns a clean 503 and the rest of the API runs normally.
+The frontend hides checkout unless `VITE_ENABLE_CHECKOUT=true` is set at build
+time. Leave that variable unset for the initial no-checkout launch.
 For production set the Stripe keys, `PUBLIC_BASE_URL`, and a webhook to
 `POST /api/stripe/webhook` for `checkout.session.completed`. **`STRIPE_WEBHOOK_SECRET`
 is required for the webhook** — the signature is always verified and there is no

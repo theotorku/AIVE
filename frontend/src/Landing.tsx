@@ -16,6 +16,7 @@ const STAGE_PCT: Record<string, number> = {
 
 const PILOT_PRICE = "$399";
 const STANDARD_PRICE = "$749";
+const CHECKOUT_ENABLED = import.meta.env.VITE_ENABLE_CHECKOUT === "true";
 
 type Phase = "idle" | "running" | "teaser" | "error";
 
@@ -79,7 +80,7 @@ export function Landing({ onSample }: { onSample: () => void }) {
   const heroInputRef = useRef<HTMLInputElement>(null);
   const finalInputRef = useRef<HTMLInputElement>(null);
 
-  // Live-audit flow (URL → grade teaser → checkout).
+  // Live-audit flow (URL → grade teaser; checkout is enabled separately).
   const [phase, setPhase] = useState<Phase>("idle");
   const [stage, setStage] = useState("queued");
   const [teaser, setTeaser] = useState<Teaser | null>(null);
@@ -225,7 +226,7 @@ export function Landing({ onSample }: { onSample: () => void }) {
             assistants can understand what you do, trust your business, and find the next
             action a customer should take.
           </p>
-          <div className="url-capture" aria-label="Get your AI visibility report">
+          <div className="url-capture" aria-label="Get your free AI visibility grade">
             <span>https://</span>
             <input
               ref={heroInputRef}
@@ -381,10 +382,10 @@ export function Landing({ onSample }: { onSample: () => void }) {
       <section className="final-cta">
         <h2>Know how visible your business is to AI.</h2>
         <p>
-          Get a clear report showing what assistants can understand from your website
-          today and what to improve first.
+          Get a free grade and see the biggest gap in how assistants understand
+          your website today.
         </p>
-        <div className="url-capture final-capture" aria-label="Get your AI visibility report">
+        <div className="url-capture final-capture" aria-label="Get your free AI visibility grade">
           <span>https://</span>
           <input
             ref={finalInputRef}
@@ -395,7 +396,7 @@ export function Landing({ onSample }: { onSample: () => void }) {
             spellCheck={false}
           />
           <button type="button" onClick={() => submit(finalInputRef)}>
-            Get my report
+            Get my free grade
           </button>
         </div>
       </section>
@@ -448,29 +449,35 @@ export function Landing({ onSample }: { onSample: () => void }) {
                 )}
 
                 <div className="audit-buy">
-                  <p className="audit-buy-head">
-                    Get the full audit — {PILOT_PRICE}
-                  </p>
-                  <p className="audit-buy-note">
-                    Founding price for the first 10 businesses (normally {STANDARD_PRICE}).
-                  </p>
-                  <ul className="audit-buy-list">
-                    {DELIVERABLES.map((d) => (
-                      <li key={d}>{d}</li>
-                    ))}
-                  </ul>
-                  <button
-                    className="audit-buy-btn"
-                    type="button"
-                    onClick={buyFullAudit}
-                    disabled={checkoutLoading}
-                  >
-                    {checkoutLoading ? "Opening checkout…" : `Get the full audit — ${PILOT_PRICE}`}
-                  </button>
-                  {auditError && <p className="audit-err">{auditError}</p>}
-                  <button className="audit-secondary" type="button" onClick={onSample}>
-                    See a sample report first
-                  </button>
+                  {CHECKOUT_ENABLED ? (
+                    <>
+                      <p className="audit-buy-head">Get the full audit — {PILOT_PRICE}</p>
+                      <p className="audit-buy-note">
+                        Founding price for the first 10 businesses (normally {STANDARD_PRICE}).
+                      </p>
+                      <ul className="audit-buy-list">
+                        {DELIVERABLES.map((d) => <li key={d}>{d}</li>)}
+                      </ul>
+                      <button className="audit-buy-btn" type="button"
+                        onClick={buyFullAudit} disabled={checkoutLoading}>
+                        {checkoutLoading ? "Opening checkout…" : `Get the full audit — ${PILOT_PRICE}`}
+                      </button>
+                      {auditError && <p className="audit-err">{auditError}</p>}
+                      <button className="audit-secondary" type="button" onClick={onSample}>
+                        See a sample report first
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <p className="audit-buy-head">See what the full report includes</p>
+                      <p className="audit-buy-note">
+                        Your grade and biggest gap are ready above. Explore a sample of the full report.
+                      </p>
+                      <button className="audit-buy-btn" type="button" onClick={onSample}>
+                        See a sample report
+                      </button>
+                    </>
+                  )}
                 </div>
               </div>
             )}

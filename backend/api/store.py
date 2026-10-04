@@ -7,11 +7,13 @@ pipeline wrote. Nothing is synthesized.
 from __future__ import annotations
 
 import json
+import os
 import re
 from pathlib import Path
 
 BACKEND_DIR = Path(__file__).resolve().parent.parent
 OUTPUT_DIR = BACKEND_DIR / "output"
+SAMPLE_DATA_DIR = BACKEND_DIR / "sample_data"
 VALIDATION_DIR = BACKEND_DIR / "validation"
 
 # A domain slug is exactly what the crawler writes (see crawl._domain_slug):
@@ -55,6 +57,8 @@ def load_site(domain: str) -> dict | None:
     if not _valid_domain(domain):
         return None
     profile = _read_json(site_dir(domain) / "profile.json")
+    if profile is None and domain == os.getenv("SAMPLE_DOMAIN", "proplansolutions.io"):
+        profile = _read_json(SAMPLE_DATA_DIR / domain / "profile.json")
     if not isinstance(profile, dict):
         return None
     abi_score = profile.get("abi_score") or _read_json(site_dir(domain) / "abi_score.json")

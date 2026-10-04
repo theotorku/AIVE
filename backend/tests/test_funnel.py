@@ -80,6 +80,16 @@ def test_sample_report_serves_configured_domain(monkeypatch):
     assert r.json()["domain"] == domain
 
 
+def test_sample_report_works_on_fresh_backend_volume(monkeypatch):
+    empty_output = Path(__file__).resolve().parent / "_tmp_empty_output"
+    shutil.rmtree(empty_output, ignore_errors=True)
+    monkeypatch.setattr(store, "OUTPUT_DIR", empty_output)
+    monkeypatch.setattr(main, "SAMPLE_DOMAIN", "proplansolutions.io")
+    r = client.get("/api/reports/sample")
+    assert r.status_code == 200
+    assert r.json()["profile"]["business_name"] == "ProPlan Solutions"
+
+
 def test_checkout_unconfigured_returns_503(monkeypatch):
     domain = _a_scored_domain()
     monkeypatch.delenv("STRIPE_SECRET_KEY", raising=False)
