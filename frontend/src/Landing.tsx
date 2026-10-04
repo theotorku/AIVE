@@ -292,11 +292,11 @@ export function Landing({ onSample }: { onSample: () => void }) {
 
       <section className="report" id="report">
         <div className="report-copy">
-          <p className="eyebrow">What you get</p>
+          <p className="eyebrow">Inside the full audit</p>
           <h2>Evidence, fixes, and a review call.</h2>
           <p>
-            The report shows what assistants can read today, where interpretation breaks,
-            and which fixes should happen first.
+            The sample report shows what assistants can read, where interpretation breaks,
+            and which fixes could come first. Your free grade highlights one priority gap.
           </p>
         </div>
         <ul className="deliverables">
@@ -334,7 +334,7 @@ export function Landing({ onSample }: { onSample: () => void }) {
           <p className="eyebrow">Field data</p>
           <h2>We've already scored {bench.sites} real businesses.</h2>
           <p>
-            Every audit uses the same scoring your report gets. Here is how the average
+            Every audit uses the same scoring method. Here is how the average
             business lands today — and how much room most have to improve.
           </p>
         </div>

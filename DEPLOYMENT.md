@@ -3,6 +3,24 @@
 How to take the **AI Visibility Audit** (FastAPI backend + crawler + React
 dashboard/landing) from local to production.
 
+## Current production deployment (2026-10-04)
+
+- Frontend: https://aive-inky.vercel.app (Vercel project `aive`, root `frontend`).
+- Backend: https://aive-backend-production-faab.up.railway.app (Railway project
+  `welcoming-reprieve`, service `aive-backend`, production environment).
+- `/api/health` and `?report=sample` have been verified through the public
+  frontend. The Railway service has a volume at `/app/backend/output` and a
+  `/api/health` health check.
+- Checkout is disabled: `VITE_ENABLE_CHECKOUT` and `STRIPE_SECRET_KEY` are unset.
+- Live audit submission is temporarily disabled with `ALLOW_PUBLIC_RUNS=false`
+  until a dedicated `OPENAI_API_KEY` is installed in Railway. Initial launch
+  limit is `RUNS_GLOBAL_DAY=5`. After setting the key, change
+  `ALLOW_PUBLIC_RUNS=true` and verify one real audit.
+- The Railway service was deployed with `railway up` from the pushed Git
+  revision. Its GitHub source is not connected, so future pushes do **not**
+  automatically redeploy Railway. Redeploy it with the CLI or explicitly
+  connect the repo later.
+
 **Recommended topology (matches the stack in CLAUDE.md):**
 
 ```
@@ -37,7 +55,7 @@ The crawler needs Chromium + system deps. The cleanest, most reproducible path i
 a **Dockerfile built on Microsoft's Playwright image** (browsers preinstalled and
 version-matched to `playwright==1.49.1`).
 
-**Create `Dockerfile` at the repo root:**
+The repo-root `Dockerfile` is:
 
 ```dockerfile
 FROM mcr.microsoft.com/playwright/python:v1.49.1-noble
@@ -55,7 +73,7 @@ ENV PYTHONUNBUFFERED=1
 CMD ["sh", "-c", "uvicorn backend.api.main:app --host 0.0.0.0 --port ${PORT:-8000}"]
 ```
 
-**Add `.dockerignore`:**
+The repo-root `.dockerignore` is:
 
 ```
 **/__pycache__/
@@ -67,20 +85,22 @@ frontend/
 
 **Deploy:**
 
-1. Railway → **New Project → Deploy from GitHub repo** → select `AIVE`.
-2. It detects the `Dockerfile`. Set **Variables**:
+1. Link the existing Railway project and `aive-backend` service, then deploy
+   from the repository root with `railway up`. The service uses the `Dockerfile`
+   builder. GitHub source integration is not currently connected.
+2. Set **Variables**:
    - `OPENAI_API_KEY` = your key (required).
    - *(optional)* `ALLOW_PUBLIC_RUNS` = `false` — see §4 (recommended for a public demo).
-3. **Add a Volume** mounted at `/app/backend/output` so completed audits survive
+3. Keep the Volume mounted at `/app/backend/output` so completed audits survive
    redeploys. (Without it, artifacts are ephemeral — re-runnable, but the gallery
    resets on each deploy.)
-4. Deploy. Note the public URL, e.g. `https://aive-backend.up.railway.app`.
+4. The public URL is `https://aive-backend-production-faab.up.railway.app`.
 
 **Verify:**
 
 ```bash
-curl https://aive-backend.up.railway.app/api/health      # {"status":"ok"}
-curl https://aive-backend.up.railway.app/api/benchmark    # benchmark JSON (if output seeded)
+curl https://aive-backend-production-faab.up.railway.app/api/health
+curl https://aive-backend-production-faab.up.railway.app/api/benchmark
 ```
 
 > **Sample and gallery:** the public ProPlan sample profile is bundled under
@@ -98,33 +118,33 @@ Vite proxy handles it; in prod a **Vercel rewrite** proxies `/api` to Railway
 **server-side**, so the browser sees one origin and there is **no CORS** to
 configure.
 
-**Create `frontend/vercel.json`:**
+`frontend/vercel.json` contains the production rewrite:
 
 ```json
 {
   "rewrites": [
-    { "source": "/api/:path*", "destination": "https://aive-backend.up.railway.app/api/:path*" }
+    { "source": "/api/:path*", "destination": "https://aive-backend-production-faab.up.railway.app/api/:path*" }
   ]
 }
 ```
 
-(Replace the destination with your Railway URL.)
-
 **Deploy:**
 
-1. Vercel → **Add New Project → Import** the repo.
+1. Use the existing Vercel project `aive`, linked to `frontend`.
 2. **Root Directory:** `frontend`. Framework preset: **Vite**.
    Build: `npm run build` · Output: `dist` (defaults are correct).
-3. Deploy. You get `https://aive.vercel.app` (or your custom domain).
+3. Run `vercel deploy --prod --yes` from `frontend`. The production alias is
+   `https://aive-inky.vercel.app`.
 
 **Verify the full path:**
 
 ```bash
-curl https://aive.vercel.app/api/health      # proxied → {"status":"ok"}
+curl https://aive-inky.vercel.app/api/health  # proxied → {"status":"ok","billing":false}
 ```
 
-Open the site: the landing page renders, **"See a real audit"** loads a cached
-audit, and **"Run free audit"** submits to the backend.
+Open the site: the landing page renders and **"View sample"** loads the bundled
+audit. **"Get my free grade"** can submit live audits once the dedicated OpenAI
+key is installed and `ALLOW_PUBLIC_RUNS=true`.
 
 ---
 
