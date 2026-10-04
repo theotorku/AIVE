@@ -7,7 +7,7 @@ dashboard/landing) from local to production.
 
 - Frontend: https://aive-inky.vercel.app (Vercel project `aive`, root `frontend`).
 - Backend: https://aive-backend-production-faab.up.railway.app (Railway project
-  `welcoming-reprieve`, service `aive-backend`, production environment).
+  `aive`, service `aive-backend`, production environment).
 - `/api/health` and `?report=sample` have been verified through the public
   frontend. The Railway service has a volume at `/app/backend/output` and a
   `/api/health` health check.
