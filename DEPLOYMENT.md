@@ -3,15 +3,18 @@
 How to take the **AI Visibility Audit** (FastAPI backend + crawler + React
 dashboard/landing) from local to production.
 
-## Current production deployment (2026-10-04)
+## Current production deployment (2026-10-05)
 
-- Frontend: https://aive-inky.vercel.app (Vercel project `aive`, root `frontend`).
+- Frontend: https://myaive.com (Vercel project `aive`, root `frontend`).
+  `https://www.myaive.com` is also attached. The previous
+  `https://aive-inky.vercel.app` alias remains available.
 - Backend: https://aive-backend-production-faab.up.railway.app (Railway project
   `aive`, service `aive-backend`, production environment).
 - `/api/health` and `?report=sample` have been verified through the public
   frontend. The Railway service has a volume at `/app/backend/output` and a
   `/api/health` health check.
 - Checkout is disabled: `VITE_ENABLE_CHECKOUT` and `STRIPE_SECRET_KEY` are unset.
+- `PUBLIC_BASE_URL=https://myaive.com` is set on Railway for future links.
 - A dedicated `OPENAI_API_KEY` is installed in Railway. Live audit submission
   is enabled with `ALLOW_PUBLIC_RUNS=true` and an initial limit of
   `RUNS_GLOBAL_DAY=5`. A production audit of `proplansolutions.io` completed
@@ -133,13 +136,13 @@ configure.
 1. Use the existing Vercel project `aive`, linked to `frontend`.
 2. **Root Directory:** `frontend`. Framework preset: **Vite**.
    Build: `npm run build` · Output: `dist` (defaults are correct).
-3. Run `vercel deploy --prod --yes` from `frontend`. The production alias is
-   `https://aive-inky.vercel.app`.
+3. Run `vercel deploy --prod --yes` from `frontend`. The primary public domain
+   is `https://myaive.com`.
 
 **Verify the full path:**
 
 ```bash
-curl https://aive-inky.vercel.app/api/health  # proxied → {"status":"ok","billing":false}
+curl https://myaive.com/api/health  # proxied → {"status":"ok","billing":false}
 ```
 
 Open the site: the landing page renders, **"View sample"** loads the bundled
