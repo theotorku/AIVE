@@ -7,6 +7,7 @@ straight from the pipeline's progress hook — no faked progress.
 
 from __future__ import annotations
 
+import logging
 import threading
 import uuid
 from concurrent.futures import ThreadPoolExecutor
@@ -16,8 +17,15 @@ from backend.crawler.crawl import _domain_slug, _normalize_url
 from backend.app.pipeline import run_pipeline
 from backend.api import store
 
+logger = logging.getLogger(__name__)
+
 # queued -> crawling -> extracting -> scoring -> done | error
 STAGES = ["queued", "crawling", "extracting", "scoring", "done"]
+
+# Shown to the client when an unexpected exception aborts a run. The real
+# traceback is logged server-side; internals (paths, module names, stack) must
+# never reach the UI.
+_GENERIC_ERROR = "The audit failed unexpectedly. Please try again later."
 
 
 @dataclass
@@ -75,10 +83,12 @@ class JobManager:
             job.domain = result.domain
             job.domain_ready = store.has_profile(result.domain)
             job.status, job.stage = "done", "done"
-        except Exception as exc:  # noqa: BLE001
+        except Exception:  # noqa: BLE001
+            # Log the full detail for operators; surface only a generic message.
+            logger.exception("Pipeline run %s failed for %s", job.run_id, job.url)
             job.status = "error"
             job.stage = "error"
-            job.error = f"{type(exc).__name__}: {exc}"
+            job.error = _GENERIC_ERROR
 
 
 manager = JobManager()

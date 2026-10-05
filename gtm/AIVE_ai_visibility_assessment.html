@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Visibility Self-Assessment for HVAC Companies | Agent Business Index</title>
+<meta name="description" content="12 questions, 2 minutes. Find out if AI assistants like ChatGPT can understand, trust, and recommend your HVAC business — before your competitors do.">
+<style>
+  :root{
+    --navy:#0e1b2c; --navy2:#152a44; --ink:#1c2b3a; --paper:#f7f9fc;
+    --card:#ffffff; --line:#e3e9f1; --muted:#5b6b7d;
+    --flame:#ff6b2c; --flame-d:#e5551a; --teal:#0e8f8b;
+    --gA:#1e9e5a; --gB:#5aa832; --gC:#e0a418; --gD:#e5551a; --gF:#c92a2a;
+    --shadow:0 10px 30px rgba(14,27,44,.10);
+    --radius:14px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Segoe UI',system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;background:var(--paper);color:var(--ink);line-height:1.55;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:760px;margin:0 auto;padding:0 20px}
+  .screen{display:none;animation:fadeUp .45s ease both}
+  .screen.active{display:block}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.03)}}
+
+  /* ---------- top bar ---------- */
+  .topbar{background:var(--navy);color:#fff;padding:13px 0}
+  .topbar .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .brand{font-weight:700;letter-spacing:.4px;font-size:15px}
+  .brand span{color:var(--flame)}
+  .cred-chip{font-size:12px;color:#bcd0e6;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);padding:5px 12px;border-radius:99px;white-space:nowrap}
+
+  /* ---------- intro ---------- */
+  .hero{padding:56px 0 30px;text-align:center}
+  .eyebrow{display:inline-block;font-size:12.5px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--teal);background:rgba(14,143,139,.09);border:1px solid rgba(14,143,139,.25);padding:6px 14px;border-radius:99px;margin-bottom:20px}
+  h1{font-size:clamp(28px,4.6vw,42px);line-height:1.14;color:var(--navy);font-weight:800;margin-bottom:16px}
+  h1 em{font-style:normal;color:var(--flame)}
+  .sub{font-size:17.5px;color:var(--muted);max-width:600px;margin:0 auto 8px}
+  .pain-strip{margin:26px auto 6px;max-width:640px;display:grid;gap:10px;text-align:left}
+  .pain{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--flame);border-radius:10px;padding:12px 16px;font-size:15px;color:var(--ink);box-shadow:0 2px 8px rgba(14,27,44,.04)}
+  .pain b{color:var(--navy)}
+  .cta{display:inline-block;background:var(--flame);color:#fff;border:none;cursor:pointer;font-size:18px;font-weight:700;padding:16px 38px;border-radius:12px;box-shadow:0 8px 22px rgba(255,107,44,.35);transition:transform .15s,box-shadow .15s;margin-top:26px}
+  .cta:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(255,107,44,.42);background:var(--flame-d)}
+  .cta:active{transform:none}
+  .micro{font-size:13px;color:var(--muted);margin-top:12px}
+  .bench{margin:34px auto 0;max-width:640px;background:var(--navy);color:#fff;border-radius:var(--radius);padding:22px 24px;text-align:left;box-shadow:var(--shadow)}
+  .bench h3{font-size:13px;letter-spacing:1px;text-transform:uppercase;color:#8fb3d9;margin-bottom:12px}
+  .bench-row{display:flex;gap:18px;flex-wrap:wrap}
+  .bench-stat{flex:1;min-width:150px}
+  .bench-stat .n{font-size:26px;font-weight:800;color:var(--flame)}
+  .bench-stat .l{font-size:13px;color:#c6d6e8}
+
+  /* ---------- quiz ---------- */
+  .quiz{padding:40px 0 60px}
+  .progress-shell{margin-bottom:26px}
+  .progress-meta{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);margin-bottom:8px;font-weight:600}
+  .dim-tag{color:var(--teal);text-transform:uppercase;letter-spacing:.8px;font-size:11.5px}
+  .bar{height:8px;background:#e6ecf4;border-radius:99px;overflow:hidden}
+  .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--teal),var(--flame));border-radius:99px;transition:width .4s ease}
+  .qcard{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:30px 28px}
+  .qtext{font-size:21px;font-weight:750;color:var(--navy);margin-bottom:6px;line-height:1.3}
+  .qwhy{font-size:14px;color:var(--muted);margin-bottom:20px}
+  .opts{display:grid;gap:10px}
+  .opt{display:flex;align-items:center;gap:12px;background:#fbfcfe;border:1.5px solid var(--line);border-radius:11px;padding:14px 16px;font-size:15.5px;cursor:pointer;text-align:left;transition:border-color .12s,background .12s,transform .12s;width:100%;color:var(--ink);font-family:inherit}
+  .opt:hover{border-color:var(--flame);background:#fff7f2;transform:translateX(3px)}
+  .opt .key{flex:0 0 26px;height:26px;border-radius:7px;background:#eef2f8;color:var(--muted);font-size:12.5px;font-weight:700;display:flex;align-items:center;justify-content:center}
+  .opt:hover .key{background:var(--flame);color:#fff}
+  .hookline{margin-top:18px;font-size:13.5px;color:var(--flame-d);background:#fff3ec;border:1px dashed #ffc9a8;border-radius:9px;padding:10px 14px;display:flex;gap:8px;align-items:flex-start}
+  .hookline b{font-weight:700}
+  .backlink{margin-top:16px;background:none;border:none;color:var(--muted);font-size:13.5px;cursor:pointer;text-decoration:underline;font-family:inherit}
+
+  /* ---------- result ---------- */
+  .result{padding:44px 0 70px}
+  .r-head{text-align:center;margin-bottom:26px}
+  .r-eyebrow{font-size:12.5px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted)}
+  .grade-wheel{width:168px;height:168px;margin:18px auto 6px;position:relative}
+  .grade-wheel svg{transform:rotate(-90deg)}
+  .grade-wheel .g-letter{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .g-letter .big{font-size:58px;font-weight:850;line-height:1}
+  .g-letter .num{font-size:14px;color:var(--muted);font-weight:600;margin-top:2px}
+  .g-label{font-size:20px;font-weight:800;color:var(--navy)}
+  .r-hook{max-width:620px;margin:14px auto 0;font-size:16.5px;color:var(--ink)}
+  .r-bench{max-width:620px;margin:18px auto 0;font-size:14px;color:var(--muted);background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 18px}
+  .r-bench b{color:var(--navy)}
+
+  /* gated block */
+  .gatewrap{position:relative;max-width:680px;margin:34px auto 0}
+  .gated{filter:blur(7px);pointer-events:none;user-select:none;transition:filter .7s ease}
+  .gatewrap.open .gated{filter:none;pointer-events:auto;user-select:auto}
+  .dimcard{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 26px 18px;margin-bottom:16px}
+  .dimcard h3{font-size:15px;color:var(--navy);letter-spacing:.6px;text-transform:uppercase;margin-bottom:16px}
+  .dimrow{margin-bottom:14px}
+  .dimrow .t{display:flex;justify-content:space-between;font-size:14px;font-weight:650;margin-bottom:5px}
+  .dimrow .t .pct{color:var(--muted);font-weight:600}
+  .dimrow .track{height:9px;background:#e9eef5;border-radius:99px;overflow:hidden}
+  .dimrow .track i{display:block;height:100%;width:0;border-radius:99px;transition:width .9s cubic-bezier(.2,.7,.3,1)}
+  .gapcard{background:#fff7f2;border:1px solid #ffd2b5;border-radius:var(--radius);padding:22px 24px;margin-bottom:16px}
+  .gapcard h4{font-size:13px;letter-spacing:1px;text-transform:uppercase;color:var(--flame-d);margin-bottom:8px}
+  .gapcard p{font-size:15.5px}
+  .wincard{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px 24px}
+  .wincard h4{font-size:13px;letter-spacing:1px;text-transform:uppercase;color:var(--teal);margin-bottom:10px}
+  .wincard ol{padding-left:20px;font-size:15px;display:grid;gap:8px}
+
+  /* email gate overlay */
+  .gate{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:5;transition:opacity .4s,visibility .4s}
+  .gatewrap.open .gate{opacity:0;visibility:hidden}
+  .gatebox{background:var(--navy);color:#fff;border-radius:var(--radius);box-shadow:0 18px 50px rgba(14,27,44,.45);padding:30px 28px;max-width:430px;width:92%;text-align:center}
+  .gatebox .lock{font-size:26px;margin-bottom:8px}
+  .gatebox h3{font-size:20px;margin-bottom:8px}
+  .gatebox p{font-size:14px;color:#bcd0e6;margin-bottom:18px}
+  .gatebox input{width:100%;padding:13px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.07);color:#fff;font-size:15px;margin-bottom:10px;font-family:inherit}
+  .gatebox input::placeholder{color:#8aa3bd}
+  .gatebox input:focus{outline:2px solid var(--flame);border-color:transparent}
+  .gatebox .cta{width:100%;margin-top:4px;font-size:16px;padding:14px}
+  .gatebox .tiny{font-size:11.5px;color:#8aa3bd;margin-top:10px;margin-bottom:0}
+  .gate-err{display:none;color:#ffb3a0;font-size:13px;margin:2px 0 8px}
+
+  /* next-step / credential */
+  .nextstep{max-width:680px;margin:36px auto 0;background:var(--navy);color:#fff;border-radius:var(--radius);padding:30px 28px;box-shadow:var(--shadow)}
+  .nextstep h3{font-size:22px;margin-bottom:10px}
+  .nextstep h3 span{color:var(--flame)}
+  .nextstep p{font-size:15px;color:#c6d6e8;margin-bottom:14px}
+  .nextstep .row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+  .cta.ghost{background:transparent;border:1.5px solid rgba(255,255,255,.35);box-shadow:none;font-size:15px;padding:13px 24px}
+  .cta.ghost:hover{background:rgba(255,255,255,.08)}
+  .guarantee{margin-top:14px;font-size:13px;color:#9fe0d2;display:flex;gap:8px;align-items:flex-start}
+  .credfoot{max-width:680px;margin:30px auto 0;font-size:13px;color:var(--muted);text-align:center;padding:0 10px}
+  .credfoot b{color:var(--navy)}
+  .credgrid{max-width:680px;margin:26px auto 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
+  .credbox{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;text-align:center}
+  .credbox .n{font-size:22px;font-weight:800;color:var(--navy)}
+  .credbox .l{font-size:12.5px;color:var(--muted)}
+  footer{padding:34px 0 44px;text-align:center;font-size:12px;color:#93a3b4}
+  footer .wrap{max-width:680px}
+  @media(max-width:560px){
+    .qcard{padding:24px 18px}
+    .qtext{font-size:18.5px}
+    .cred-chip{display:none}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap">
+    <div class="brand">PROPLAN <span>AI VISIBILITY</span></div>
+    <div class="cred-chip">Built on the Agent Business Index · 50+ HVAC sites benchmarked</div>
+  </div>
+</div>
+
+<!-- ============ SCREEN 1: INTRO ============ -->
+<section class="screen active" id="s-intro">
+  <div class="wrap hero">
+    <span class="eyebrow">Free 2-minute self-assessment · HVAC edition</span>
+    <h1>When a homeowner asks ChatGPT for an HVAC company, <em>does it recommend you?</em></h1>
+    <p class="sub">Answer 12 questions about your website and get your estimated <b>AI&nbsp;Visibility Grade</b> — the same 5 dimensions AI assistants like ChatGPT, Claude, Gemini, and Perplexity effectively judge you on.</p>
+
+    <div class="pain-strip">
+      <div class="pain">💸 <b>Leads keep getting more expensive</b> — HVAC cost-per-lead now runs $70–$250, and you're bidding against everyone.</div>
+      <div class="pain">🤖 <b>Your customers stopped Googling.</b> They ask AI one question and get one answer. If AI can't read your site, that answer is your competitor.</div>
+      <div class="pain">🕵️ <b>You pay for SEO but can't tell what you're getting.</b> This grade is deterministic — same site, same score, evidence included.</div>
+    </div>
+
+    <button class="cta" onclick="startQuiz()">Get My Estimated AI Visibility Grade →</button>
+    <p class="micro">No signup to start · Instant grade · 12 questions, ~2 minutes</p>
+
+    <div class="bench">
+      <h3>The uncomfortable benchmark</h3>
+      <div class="bench-row">
+        <div class="bench-stat"><div class="n">C</div><div class="l">Average grade across 50+ real HVAC websites we audited</div></div>
+        <div class="bench-stat"><div class="n">~1 in 3</div><div class="l">Scored a D or F — effectively invisible to AI assistants</div></div>
+        <div class="bench-stat"><div class="n">39 → 53</div><div class="l">Verified score lift from one 30-day fix engagement</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SCREEN 2: QUIZ ============ -->
+<section class="screen" id="s-quiz">
+  <div class="wrap quiz">
+    <div class="progress-shell">
+      <div class="progress-meta">
+        <span id="p-count">Question 1 of 12</span>
+        <span class="dim-tag" id="p-dim">AI Understanding</span>
+      </div>
+      <div class="bar"><i id="p-fill"></i></div>
+    </div>
+    <div class="qcard">
+      <div class="qtext" id="q-text"></div>
+      <div class="qwhy" id="q-why"></div>
+      <div class="opts" id="q-opts"></div>
+      <div class="hookline" id="q-hook" style="display:none"></div>
+      <button class="backlink" id="q-back" onclick="goBack()" style="display:none">← Previous question</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SCREEN 3: RESULT ============ -->
+<section class="screen" id="s-result">
+  <div class="wrap result">
+    <div class="r-head">
+      <div class="r-eyebrow">Your estimated AI visibility grade</div>
+      <div class="grade-wheel">
+        <svg width="168" height="168" viewBox="0 0 168 168">
+          <circle cx="84" cy="84" r="74" fill="none" stroke="#e6ecf4" stroke-width="12"/>
+          <circle id="g-ring" cx="84" cy="84" r="74" fill="none" stroke="#e0a418" stroke-width="12" stroke-linecap="round" stroke-dasharray="465" stroke-dashoffset="465" style="transition:stroke-dashoffset 1.4s cubic-bezier(.2,.7,.3,1)"/>
+        </svg>
+        <div class="g-letter"><div class="big" id="g-big">–</div><div class="num" id="g-num"></div></div>
+      </div>
+      <div class="g-label" id="g-label"></div>
+      <p class="r-hook" id="g-hook"></p>
+      <div class="r-bench" id="g-bench"></div>
+    </div>
+
+    <div class="gatewrap" id="gatewrap">
+      <div class="gated">
+        <div class="dimcard">
+          <h3>Your 5-dimension breakdown</h3>
+          <div id="dims"></div>
+        </div>
+        <div class="gapcard">
+          <h4>⚠ Your #1 likely gap</h4>
+          <p id="gap-text"></p>
+        </div>
+        <div class="wincard">
+          <h4>✓ Your three fastest wins</h4>
+          <ol id="wins"></ol>
+        </div>
+      </div>
+
+      <div class="gate" id="gate">
+        <div class="gatebox">
+          <div class="lock">🔒</div>
+          <h3>Your full breakdown is ready</h3>
+          <p>See your 5 dimension scores, your #1 gap, and the three fixes that move your grade fastest.</p>
+          <input type="text" id="f-name" placeholder="First name" autocomplete="given-name">
+          <input type="email" id="f-email" placeholder="Email (required)" autocomplete="email">
+          <input type="url" id="f-site" placeholder="Website — optional, but include it and we'll run your real crawled grade free" autocomplete="url">
+          <div class="gate-err" id="gate-err">Please enter a valid email address.</div>
+          <button class="cta" onclick="unlock()">Unlock My Full Breakdown →</button>
+          <p class="tiny">No spam, ever. One follow-up with your results. Unsubscribe anytime.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="nextstep">
+      <h3>This grade is an estimate. <span>The real one is free.</span></h3>
+      <p>Self-assessments run about a letter grade optimistic — owners answer for the site they <i>meant</i> to build. Our crawler reads your website exactly the way AI systems do and scores it deterministically: run it twice, same number, every finding backed by a quote from your own pages.</p>
+      <div class="row">
+        <a class="cta" id="cta-free" href="#" onclick="trackCta('free_grade')">Get My Real AI Visibility Grade — Free</a>
+        <a class="cta ghost" id="cta-audit" href="#" onclick="trackCta('founding_audit')">Founding Audit — $399 <s style="opacity:.6">$749</s> (first 10 HVAC companies)</a>
+      </div>
+      <div class="guarantee">🛡️ <span><b>The 5-Finding Guarantee:</b> if your paid audit doesn't surface at least 5 actionable findings, it's free.</span></div>
+    </div>
+
+    <div class="credgrid">
+      <div class="credbox"><div class="n">5</div><div class="l">Scored dimensions: Understanding, Retrieval, Recommendation, Agent Readiness, Semantic Authority</div></div>
+      <div class="credbox"><div class="n">50+</div><div class="l">Real HVAC websites in the ABI benchmark — average grade C</div></div>
+      <div class="credbox"><div class="n">100%</div><div class="l">Deterministic scoring — no black box, every finding cites your own site</div></div>
+    </div>
+
+    <div class="credfoot">
+      <p><b>About the methodology:</b> the AI Visibility Grade is powered by the <b>Agent Business Index (ABI)</b>, a 0–100 scoring model calibrated on local-service businesses. It measures whether AI assistants can understand what you do, retrieve answers from your site, find enough proof to recommend you, and help a customer book — plus the structured-data authority signals machines trust.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    This self-assessment produces an <b>estimate</b> based on your answers; the full AI Visibility Audit crawls and scores your actual website. Neither guarantees rankings or recommendations inside any specific AI system — we measure the clarity, retrievability, recommendability, and actionability of your website content.<br><br>
+    © 2026 ProPlan Solutions · <a href="#" style="color:inherit">Privacy</a> · <a href="#" style="color:inherit">Unsubscribe</a>
+  </div>
+</footer>
+
+<script>
+/* ================= CONFIGURATION =================
+   FORM_ENDPOINT: where the lead JSON is POSTed.
+   Swap for your Formspree endpoint (https://formspree.io/f/XXXX),
+   ConvertKit form, or your own API. Leave as "" to test locally
+   (leads log to console and the gate still unlocks).      */
+const FORM_ENDPOINT = "";                       // e.g. "https://formspree.io/f/yourid"
+const FREE_GRADE_URL = "#";                     // link to your free-grade page
+const FOUNDING_AUDIT_URL = "#";                 // link to $399 checkout / booking
+/* ================================================= */
+</script>
+<script>
+/* ---------------- Question bank ----------------
+   dim: U=Understanding(25%) R=Retrieval(25%) REC=Recommendation(20%)
+        AGT=Agent Readiness(15%) SEM=Semantic Authority(15%)
+        null = segmentation only (not scored)                     */
+const DIMS = {
+  U:   {name:"AI Understanding",     w:.25, tag:"Can AI tell what you do and where?"},
+  R:   {name:"AI Retrieval",         w:.25, tag:"Can AI pull real answers from your site?"},
+  REC: {name:"AI Recommendation",    w:.20, tag:"Does AI have proof enough to recommend you?"},
+  AGT: {name:"Agent Readiness",      w:.15, tag:"Can AI help a customer book you?"},
+  SEM: {name:"Semantic Authority",   w:.15, tag:"Do machines trust your site's data?"}
+};
+
+const QUESTIONS = [
+  { dim:"U",
+    text:"Does each service you offer — AC repair, furnace install, duct cleaning — have its own dedicated page?",
+    why:"AI recommends specific services, not vague companies.",
+    hook:"<b>Why it stings:</b> AI can't recommend a service it can't find. One crowded \"Services\" page reads like mumbling to a machine.",
+    opts:[["Yes — every major service",1],["Most of them",.6],["One combined services page",.25],["Honestly, not sure",.15]] },
+  { dim:"U",
+    text:"Where does your website state — in plain text — the cities and counties you actually serve?",
+    why:"\"Near me\" answers are built from stated service areas, not guesses.",
+    hook:"<b>The #1 gap we find:</b> most HVAC sites list 9 services and never say where they offer them. A human infers it. AI skips you.",
+    opts:[["On every service page",1],["A dedicated service-area page",.6],["Only in the footer or contact page",.3],["Nowhere — it's implied",0]] },
+  { dim:"R",
+    text:"Does your site answer real customer questions — pricing, emergency service, brands, financing — as FAQs?",
+    why:"AI assistants retrieve answers; they don't invent them for you.",
+    hook:"<b>Reality check:</b> when a homeowner asks AI a question your site never answers, the answer comes from a competitor's site that does.",
+    opts:[["Yes — FAQs on multiple pages",1],["One FAQ page",.6],["A few scattered answers",.3],["No FAQs",0]] },
+  { dim:"R",
+    text:"A homeowner asks: \"Do you offer 24/7 emergency AC repair in my town?\" Is that answer written, word for word, anywhere on your site?",
+    why:"This is the exact shape of question AI gets asked every night.",
+    hook:"<b>How machines read:</b> AI doesn't piece things together. If it isn't written, it isn't true — as far as the machine knows.",
+    opts:[["Yes — exactly that specific",1],["Sort of — you'd have to piece it together",.4],["Not sure",.2],["No",0]] },
+  { dim:"REC",
+    text:"Are customer reviews visible on your own website — not just on Google or Yelp?",
+    why:"Recommendation engines look for proof they can quote.",
+    hook:"<b>The trust gap:</b> your 200 Google reviews are Google's asset. If your own site shows no proof, AI reading your site sees an unproven business.",
+    opts:[["Yes — with names and job details",1],["A few generic testimonials",.5],["No — only on Google/Yelp",.15]] },
+  { dim:"REC",
+    text:"Do you display licenses, certifications (NATE, EPA), guarantees, or awards on your site?",
+    why:"Credentials are recommendation fuel — if they're findable.",
+    hook:"<b>Buried = invisible:</b> a NATE certification on a PDF nobody links to might as well not exist. Machines reward stated, prominent proof.",
+    opts:[["Yes — prominently",1],["They're on there somewhere",.5],["No",0]] },
+  { dim:"REC",
+    text:"Are current offers, financing options, or seasonal specials published on your site?",
+    why:"\"Who has financing?\" is a real AI query in your service area.",
+    hook:"<b>Worse than nothing:</b> a \"2023 Spring Special\" still live on your site tells AI your information can't be trusted — on every page.",
+    opts:[["Yes — and they're up to date",1],["Yes — but probably outdated",.4],["No",0]] },
+  { dim:"AGT",
+    text:"How does a customer actually book service on your website?",
+    why:"AI agents increasingly try to complete the booking, not just find you.",
+    hook:"<b>The last mile:</b> even when AI finds and trusts you, a \"call us\" dead-end sends the action — and the job — to whoever has a bookable path.",
+    opts:[["Real online scheduler — pick a time slot",1],["A request / quote form",.6],["Phone number only",.3],["They'd have to hunt for contact info",0]] },
+  { dim:"AGT",
+    text:"Are your phone number, physical address, and business hours all on the site — and current?",
+    why:"The three facts every AI answer about you is built on.",
+    hook:"<b>Small facts, big weight:</b> wrong hours or a missing address quietly caps how confidently any AI can hand you a customer.",
+    opts:[["All three, current",1],["Phone yes — hours/address spotty",.5],["Some of it is outdated",.2]] },
+  { dim:"SEM",
+    text:"Does your website use schema.org structured data — LocalBusiness markup?",
+    why:"The machine-readable layer AI trusts most.",
+    hook:"<b>If you answered \"what's that?\"</b> — so did most of the 50+ owners we benchmarked. It's the difference between AI reading your site and guessing at it.",
+    opts:[["Yes — I know it's there",1],["My web person may have added it",.4],["What's schema.org?",.1]] },
+  { dim:null, key:"askedAi",
+    text:"Have you ever asked ChatGPT for the \"best HVAC company in your city\" — and looked for your business?",
+    why:"Your customers already run this search. Have you?",
+    hook:"<b>Try it tonight.</b> Whatever it answers is what thousands of homeowners in your service area are being told right now.",
+    opts:[["Yes — I showed up",0],["Yes — I didn't show up",0],["Never tried it",0]] },
+  { dim:null, key:"spend",
+    text:"What do you spend monthly on marketing and lead generation?",
+    why:"Context for how much invisibility is costing you.",
+    hook:"<b>The math:</b> at $70–$250 per HVAC lead, AI invisibility isn't a tech problem — it's a line item. Free recommendations are going to somebody.",
+    opts:[["Under $1,000",0],["$1,000 – $3,000",0],["$3,000 – $8,000",0],["Over $8,000",0]] }
+];
+
+const GRADES = [
+  {min:90, g:"A", label:"AI-Optimized",      color:"var(--gA)", hex:"#1e9e5a"},
+  {min:75, g:"B", label:"AI-Ready",          color:"var(--gB)", hex:"#5aa832"},
+  {min:60, g:"C", label:"Partially Visible", color:"var(--gC)", hex:"#e0a418"},
+  {min:40, g:"D", label:"Low Visibility",    color:"var(--gD)", hex:"#e5551a"},
+  {min:0,  g:"F", label:"Invisible to AI",   color:"var(--gF)", hex:"#c92a2a"}
+];
+
+const RESULT_HOOKS = {
+  A:"Impressive — and rare. Fewer than 1 in 10 HVAC sites earn an A when actually crawled. One caveat: self-assessments run about a letter grade optimistic. Verify it before you bank on it.",
+  B:"You're AI-Ready — on paper. That's the catch: self-reported grades typically run a full letter higher than crawled grades, because owners answer for the site they <i>meant</i> to build. A real crawl tells you if AI agrees.",
+  C:"Partially visible: AI knows you exist but can't confidently recommend you. When a homeowner asks for \"the best HVAC company near me,\" confident answers win — and right now, that confidence likely belongs to a competitor.",
+  D:"Low visibility. AI assistants are likely skipping you for competitors they can actually read — every day, in searches you never see happening. Most of this gap is specific, fixable issues, not a website rebuild.",
+  F:"Effectively invisible. When AI answers HVAC questions in your service area, your business likely isn't in the conversation at all. The good news: gaps this size usually come down to a short list of concrete fixes — and you'd have the most to gain from making them."
+};
+
+const BENCH_LINES = {
+  A:"<b>vs. the benchmark:</b> well above the C average across 50+ audited HVAC sites — if a crawl confirms it, you're in rare company.",
+  B:"<b>vs. the benchmark:</b> above the C average across 50+ audited HVAC sites. But AI doesn't recommend \"above average\" — it recommends the most legible option.",
+  C:"<b>vs. the benchmark:</b> right around the average of 50+ audited HVAC sites. Average sounds safe until you remember AI usually recommends one business, not ten.",
+  D:"<b>vs. the benchmark:</b> you'd land in the bottom third — with the roughly 1 in 3 HVAC sites that grade D or F.",
+  F:"<b>vs. the benchmark:</b> bottom of the field — but so were roughly 1 in 3 of the 50+ HVAC sites we audited. You're not alone; you're just early to finding out."
+};
+
+const GAP_TEXT = {
+  U:"AI likely can't tell exactly <b>what you do and where you do it</b>. Services buried on combined pages and unstated service areas are the #1 reason AI describes your competitors more confidently than you.",
+  R:"Your site likely doesn't <b>answer questions the way customers ask them</b>. AI doesn't piece answers together — it quotes what's written or skips you. No word-for-word answers means nothing to retrieve.",
+  REC:"AI likely can't find <b>enough proof to recommend you</b>. Reviews living only on Google, buried credentials, and no visible guarantees leave recommendation engines with nothing quotable to trust.",
+  AGT:"An AI assistant likely <b>can't help a customer actually book you</b>. Without a clear booking path, even when you're found and trusted, the action — and the job — goes to whoever is bookable.",
+  SEM:"Your site likely lacks the <b>structured data (schema.org) machines trust most</b>. Without it, AI is guessing at facts your competitors state in machine-readable form."
+};
+
+const WINS = {
+  U:["Add a plain-text service-area statement — cities and counties — to every service page. It's the single most common gap we find, and usually a one-afternoon fix.",
+     "Give each major service its own dedicated page, with the service name in the page heading."],
+  R:["Add an FAQ block to your top three service pages that answers real customer questions word for word — \"Do you offer 24/7 emergency AC repair in [town]?\""],
+  REC:["Publish 5–10 real customer reviews — names, towns, job details — on your own website, not just Google. Give AI proof it can quote."],
+  AGT:["Put phone, address, and hours in the footer of every page, and add at least a fillable service-request form if you don't have online booking."],
+  SEM:["Ask your web person for schema.org LocalBusiness markup — name, address, phone, hours, service area. Machine-readable facts AI doesn't have to guess."]
+};
+
+/* ---------------- State & flow ---------------- */
+let idx = 0;
+const answers = new Array(QUESTIONS.length).fill(null);
+const meta = {};
+let scores = null;
+
+const $ = id => document.getElementById(id);
+function show(id){document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));$(id).classList.add("active");window.scrollTo({top:0,behavior:"smooth"});}
+
+function startQuiz(){ idx = 0; show("s-quiz"); renderQ(); }
+
+function renderQ(){
+  const q = QUESTIONS[idx];
+  $("p-count").textContent = `Question ${idx+1} of ${QUESTIONS.length}`;
+  $("p-dim").textContent = q.dim ? DIMS[q.dim].name + " — " + DIMS[q.dim].tag : "About your business";
+  $("p-fill").style.width = ((idx)/QUESTIONS.length*100) + "%";
+  $("q-text").textContent = q.text;
+  $("q-why").textContent = q.why;
+  const box = $("q-opts"); box.innerHTML = "";
+  q.opts.forEach((o,i)=>{
+    const b = document.createElement("button");
+    b.className = "opt";
+    b.innerHTML = `<span class="key">${String.fromCharCode(65+i)}</span><span>${o[0]}</span>`;
+    if(answers[idx]===i) b.style.borderColor = "var(--flame)";
+    b.onclick = ()=>pick(i);
+    box.appendChild(b);
+  });
+  $("q-hook").innerHTML = "💡 " + q.hook;
+  $("q-hook").style.display = "flex";
+  $("q-back").style.display = idx>0 ? "inline" : "none";
+}
+
+function pick(i){
+  answers[idx] = i;
+  const q = QUESTIONS[idx];
+  if(q.key){ meta[q.key] = q.opts[i][0]; }
+  setTimeout(()=>{
+    if(idx < QUESTIONS.length-1){ idx++; renderQ(); }
+    else finish();
+  }, 180);
+}
+
+function goBack(){ if(idx>0){ idx--; renderQ(); } }
+
+/* ---------------- Scoring ---------------- */
+function computeScores(){
+  const byDim = {};
+  Object.keys(DIMS).forEach(d=>byDim[d]=[]);
+  QUESTIONS.forEach((q,i)=>{
+    if(q.dim && answers[i]!==null) byDim[q.dim].push(q.opts[answers[i]][1]);
+  });
+  const dimScores = {};
+  let overall = 0;
+  Object.keys(DIMS).forEach(d=>{
+    const arr = byDim[d];
+    const s = arr.length ? arr.reduce((a,b)=>a+b,0)/arr.length*100 : 0;
+    dimScores[d] = Math.round(s);
+    overall += DIMS[d].w * s;
+  });
+  overall = Math.round(overall);
+  const grade = GRADES.find(g=>overall>=g.min);
+  // biggest weighted gap
+  let worst = null, worstGap = -1;
+  Object.keys(DIMS).forEach(d=>{
+    const gap = (100-dimScores[d]) * DIMS[d].w;
+    if(gap > worstGap){ worstGap = gap; worst = d; }
+  });
+  const ranked = Object.keys(DIMS).sort((a,b)=>((100-dimScores[b])*DIMS[b].w)-((100-dimScores[a])*DIMS[a].w));
+  return {overall, dimScores, grade, worst, ranked};
+}
+
+/* ---------------- Result ---------------- */
+function finish(){
+  scores = computeScores();
+  show("s-result");
+  const {overall, dimScores, grade, worst, ranked} = scores;
+
+  // grade ring + count-up
+  const ring = $("g-ring");
+  ring.style.stroke = grade.hex;
+  requestAnimationFrame(()=>{ ring.style.strokeDashoffset = 465 - (465*overall/100); });
+  $("g-big").style.color = grade.hex;
+  let n = 0; const t = setInterval(()=>{ n += Math.max(1, Math.round(overall/40));
+    if(n>=overall){ n=overall; clearInterval(t); }
+    $("g-big").textContent = grade.g; $("g-num").textContent = n + " / 100 (est.)";
+  }, 30);
+  $("g-label").textContent = grade.label;
+  $("g-hook").innerHTML = RESULT_HOOKS[grade.g];
+  $("g-bench").innerHTML = BENCH_LINES[grade.g];
+
+  // dimension bars
+  const dimsBox = $("dims"); dimsBox.innerHTML = "";
+  Object.keys(DIMS).forEach(d=>{
+    const s = dimScores[d];
+    const col = s>=75?"#1e9e5a":s>=60?"#e0a418":s>=40?"#e5551a":"#c92a2a";
+    dimsBox.insertAdjacentHTML("beforeend",
+      `<div class="dimrow"><div class="t"><span>${DIMS[d].name} <span class="pct">(${Math.round(DIMS[d].w*100)}% of grade)</span></span><span class="pct">${s}/100</span></div>
+       <div class="track"><i data-w="${s}" style="background:${col}"></i></div></div>`);
+  });
+
+  // gap + wins from the two weakest dimensions
+  $("gap-text").innerHTML = GAP_TEXT[worst];
+  const winPool = [];
+  ranked.forEach(d=>WINS[d].forEach(w=>winPool.push(w)));
+  $("wins").innerHTML = winPool.slice(0,3).map(w=>`<li>${w}</li>`).join("");
+
+  // CTAs
+  $("cta-free").href = FREE_GRADE_URL;
+  $("cta-audit").href = FOUNDING_AUDIT_URL;
+}
+
+/* ---------------- Email gate ---------------- */
+function unlock(){
+  const email = $("f-email").value.trim();
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)){ $("gate-err").style.display="block"; return; }
+  $("gate-err").style.display="none";
+
+  const payload = {
+    name: $("f-name").value.trim(),
+    email,
+    website: $("f-site").value.trim(),
+    grade: scores.grade.g,
+    score: scores.overall,
+    dimensions: scores.dimScores,
+    topGap: DIMS[scores.worst].name,
+    segmentation: meta,
+    answers: QUESTIONS.map((q,i)=>({q:q.text, a:answers[i]!==null?q.opts[answers[i]][0]:null})),
+    source: "ai-visibility-self-assessment",
+    submittedAt: new Date().toISOString()
+  };
+  if(FORM_ENDPOINT){
+    fetch(FORM_ENDPOINT,{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},body:JSON.stringify(payload)}).catch(()=>{});
+  } else {
+    console.log("LEAD (set FORM_ENDPOINT to capture):", payload);
+  }
+
+  $("gatewrap").classList.add("open");
+  // animate bars after unblur
+  setTimeout(()=>{document.querySelectorAll(".dimrow .track i").forEach(el=>{el.style.width = el.dataset.w + "%";});}, 350);
+}
+
+function trackCta(which){
+  if(FORM_ENDPOINT){
+    fetch(FORM_ENDPOINT,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({event:"cta_click",cta:which,grade:scores?scores.grade.g:null,source:"ai-visibility-self-assessment"})}).catch(()=>{});
+  }
+}
+</script>
+</body>
+</html>

@@ -13,6 +13,7 @@ from collections import Counter
 from backend.app.schema import EvidenceItem, PageDocument
 from backend.app.services import normalizer
 from backend.app.services.actionability import detect_actionability
+from backend.app.services.agent_profile import build_agent_profile
 from backend.app.services.confidence import RELEVANT_CATEGORIES, Signals, score
 from backend.app.services.faq_validator import validate_faq
 from backend.app.services.llm_extractor import PageExtraction
@@ -159,7 +160,7 @@ def _grouped_evidence(
         items.append(EvidenceItem(
             value=canonical, confidence=conf,
             evidence=(best["evidence"] if best else "")[:300],
-            source_url=source_urls[0] if source_urls else "",
+            source_url=best["source_url"] if best else "",
             confidence_reason=reason,
             extras={"aliases": aliases, "source_pages": source_urls},
         ))
@@ -205,7 +206,7 @@ def _simple_evidence(mentions: list[dict], *, heading_blob: str,
         items.append(EvidenceItem(
             value=group["value"], confidence=conf,
             evidence=(best["evidence"] or "")[:300],
-            source_url=source_urls[0] if source_urls else "",
+            source_url=best["source_url"],
             confidence_reason=reason, extras=extras,
         ))
     items.sort(key=lambda i: i.confidence, reverse=True)
@@ -372,4 +373,5 @@ def build_profile(
     # crawled link graph + schema potentialAction + CTAs. Kept out of the
     # extraction contract, like structured_data.
     profile["actionability"] = detect_actionability(docs, profile)
+    profile["agent_profile"] = build_agent_profile(docs, profile)
     return profile
